@@ -9,6 +9,7 @@ let switchButton,
     electronBeamButton,
     radiusButton,
     magneticFieldDirectionButton,
+    geomagnetismDirectionButton,
     voltageSlider,
     ampereSlider;
 
@@ -24,7 +25,9 @@ function buttonCreation() {
     //半径の値の表示を制御するボタン
     radiusButton = createButton("直径")
     //磁場方向の表示を制御するボタン
-    magneticFieldDirectionButton = createButton("磁場の方向")
+    magneticFieldDirectionButton = createButton("磁場の方向の表示")
+    //地磁気の方向を制御するボタン
+    geomagnetismDirectionButton = createButton("地磁気の方向切り替え")
     //電圧を制御するスライダー
     voltageSlider = createSlider(0.0, 400.0, 0.0, 0.1)
     //電流を制御するスライダー
@@ -34,9 +37,10 @@ function buttonCreation() {
 //制御する変数等
 let switchIs,
     scaleIs,
-    electronBeamIs;
-//magneticFieldDirections;
-//radiuIs; →これを入れるとバグる
+    electronBeamIs,
+    magneticFieldDirections,
+    geomagnetismDirections,
+    radiuIs;
 
 //それぞれのボタンで制御される手続き
 //電源を制御する手続き
@@ -99,13 +103,26 @@ function magneticFieldDirectionFunction() {
     }
 }
 
+//地磁気の方向を制御する手続き
+function geomagnetismDirectionFunction() {
+    if (geomagnetismDirections == true) {
+        geomagnetismDirections = false
+        geomagnetismDirectionButton.removeClass('btn btn-danger').addClass('btn btn-primary')
+    }
+    else {
+        geomagnetismDirections = true
+        geomagnetismDirectionButton.removeClass('btn  btn-primary').addClass('btn btn-danger')
+    }
+}
+
 //ボタン等の設定をする手続き
 function buttonSettings() {
     switchButton.mousePressed(switchFunction).position(0, 4 * height / 16).size(width / 5, height / 10).addClass('btn btn-danger').show().style("font-size", "3vw");
     scaleButton.mousePressed(scaleFunction).position(0, 6 * height / 16).size(width / 5, height / 10).addClass('btn btn-primary').show().style("font-size", "3vw");
     electronBeamButton.mousePressed(electronBeamFunction).position(0, 8 * height / 16).size(width / 5, height / 10).addClass('btn btn-primary').show().style("font-size", "2vw");
     radiusButton.mousePressed(radiusFunction).position(0, 10 * height / 16).size(width / 5, height / 10).addClass('btn btn-primary').show().style("font-size", "3vw");
-    magneticFieldDirectionButton.mousePressed(magneticFieldDirectionFunction).position(0, 12 * height / 16).size(width / 5, height / 10).addClass('btn btn-primary').show().style("font-size", "3vw");
+    magneticFieldDirectionButton.mousePressed(magneticFieldDirectionFunction).position(0, 12 * height / 16).size(width / 5, height / 10).addClass('btn btn-primary').show().style("font-size", "2vw");
+    geomagnetismDirectionButton.mousePressed(geomagnetismDirectionFunction).position(0, 14 * height / 16).size(width / 5, height / 10).addClass('btn btn-primary').show().style("font-size", "1.8vw");
     voltageSlider.position(4 * width / 5, 4 * height / 16).size(width / 5)
     ampereSlider.position(4 * width / 5, 6 * height / 16).size(width / 5)
 }
@@ -157,7 +174,8 @@ function initSettings() {
     radiuIs = false
     //磁場方向の表示を制御する変数
     magneticFieldDirections = false
-
+    //地磁気の方向の変数
+    geomagnetismDirections = true
     textAlign(CENTER)
 }
 
@@ -185,18 +203,16 @@ function specificChargeDeviceDraw() {
 function calculateFunction() {
     v = voltageSlider.value()
     i = ampereSlider.value();
-    b = (7.8 * i / 10000.0 + 2.0 / 100000.0); //合っている
+    if (geomagnetismDirections == true) b = (7.8 * i / 10000.0 + 2.0 / 100000.0); //地磁気と磁場が同じ方向
+    else b = (7.8 * i / 10000.0 - 2.0 / 100000.0); //地磁気と磁場が異なる方向
     d = dist((width - 2 * deviceRadi) / 2, height / 2.0, 32 * width / 50 + width / 26, height / 2.0);
     mm = (d) / 100.0;//1mmを定義
-    //r = (sqrt(v * 2.0 / ( 1.823 * pow(10.0, 11.0))))/b *1000.0 ;
-    r = (sqrt((v - 21.021) * 2.0 / (1.823 * pow(10.0, 11.0)))) / b * 1000.0;
+    r = (sqrt((v * 2.0 / (1.75881962 * pow(10.0, 11.0))))) / b * 1000.0;
     RADI2 = 2.0 * r * mm;
 }
 
 //主な値の表示をする手続き
 function valueDisplay() {
-
-
     //電圧の値の表示
     noStroke()
     fill(255, 250, 205)
@@ -246,6 +262,18 @@ function valueDisplay() {
             text(" 0.0 mm", 9 * width / 10, 10 * height / 16 + height / 13)//問題点（０の時、NaNと出てしまう）
         }
     }
+
+    //地磁気の方向の表示
+    fill(255, 250, 205)
+    noStroke()
+    rect(4 * width / 5, 12 * height / 16 + height / 40, width / 5, height / 15)
+    stroke(0)
+    strokeWeight(1)
+    fill(0)
+    textSize(20)
+    textSize(width / 60)
+    if (geomagnetismDirections == true) text("コイル内の磁場と同じ", 9 * width / 10, 12 * height / 16 + height / 13)
+    else text("コイル内の磁場と逆", 9 * width / 10, 12 * height / 16 + height / 13)
 }
 
 //スケールを表示する手続き
@@ -288,8 +316,6 @@ function magneticFieldDirectionDraw() {
         fill(0, 0)
         ellipse(width / 2, height / 2, height * 1.5)
         if (height * 1.5 / 2 - height / 30 < (dist(mouseX, mouseY, width / 2, height / 2)) && (dist(mouseX, mouseY, width / 2, height / 2)) < height * 1.5 / 2 + height / 30) {
-            // stroke(255)
-            //line(width/2,0,width/2,height)
             stroke(255)
             strokeWeight(1)
             fill(255)
@@ -297,8 +323,6 @@ function magneticFieldDirectionDraw() {
             textAlign(CENTER)
             text("ヘルムホルツコイル", mouseX, mouseY)
         }
-
-
 
         if (i > 0) {
             stroke(255)//手前の場合
@@ -322,18 +346,8 @@ function magneticFieldDirectionDraw() {
             fill(255)
             textSize(width / 40)
             textAlign(CENTER)
-            //text(" 磁場の方向  ×",0,3*height / 16)
             text("     磁場の方向  ×", width / 2, height / 2 - height / 15)
         }
-
-        /*stroke(255)//奥の場合だけどこれなし
-       strokeWeight(2)
-       line(width/2-deviceRadi/15,height/2-deviceRadi/15,width/2+deviceRadi/15,height/2+deviceRadi/15)
-       line(width/2-deviceRadi/15,height/2+deviceRadi/15,width/2+deviceRadi/15,height/2-deviceRadi/15)
-        stroke(255)
-       strokeWeight(2)
-        fill(0,0)
-        ellipse(width/2,height/2,deviceRadi/5)*/
     }
 }
 
@@ -341,7 +355,6 @@ function magneticFieldDirectionDraw() {
 function main() {
     //switchのオン・オフ
     if (switchIs == true) {
-
 
         //加速電圧のみの場合
         if (i <= 0 && v > 0) {
@@ -358,7 +371,6 @@ function main() {
         } else {
             //最初の点をなくすため
             if (i > 0 && v > 0) {
-
 
                 //電子線がガラス管の中で収まるとき
                 if (RADI2 < 32 * width / 50 + width / 26 - (width - (2 * deviceRadi)) / 2) {
@@ -382,13 +394,11 @@ function main() {
                             stroke(0, 0, 255);
                             strokeWeight(1);
                             fill(0, 0);
-                            //ellipse(32 * width / 50 + width / 26 - RADI2 / 2.0 + posx, height / 2.0 + posy, deviceRadi / 100.0, deviceRadi / 100.0);
                             vertex(32 * width / 50 + width / 26 - RADI2 / 2.0 + posx, height / 2.0 + posy)
                         }
                         endShape();
                     }
                 }
-
 
                 //電子線がガラス管の中で収まらないとき
                 else {
@@ -402,7 +412,6 @@ function main() {
                             fill(0);
 
                             vertex(32 * width / 50 + width / 26 - RADI2 / 2.0 + posx, height / 2.0 + posy)
-                            // ellipse(32 * width / 50 + width / 26 - RADI2 / 2.0 + posx, height / 2.0 + posy, deviceRadi / 100.0, deviceRadi / 100.0);
                         }
                     }
                     endShape();
@@ -415,7 +424,6 @@ function main() {
                                 stroke(0, 0, 255);//電子線の中の線
                                 strokeWeight(1);
                                 fill(0, 0);
-                                //ellipse(32 * width / 50 + width / 26 - RADI2 / 2.0 + posx, height / 2.0 + posy, deviceRadi / 100.0, deviceRadi / 100.0);
                                 vertex(32 * width / 50 + width / 26 - RADI2 / 2.0 + posx, height / 2.0 + posy)
                             }
                         }
@@ -430,7 +438,6 @@ function main() {
         stroke(255, 215, 0, 200);
         rect(32 * width / 50 + width / 26 - width / 40 / 2, height / 2 + height / 40, width / 40, height / 40)
     } else {
-
         strokeWeight(1);
         fill(125, 200);
         stroke(125, 200);
@@ -441,21 +448,10 @@ function main() {
     fill(125, 200);
     rect(32 * width / 50, height / 2 + height / 20, width / 13, height / 30);
     rect(32 * width / 50 + width / 26 - width / 40 / 2, height / 2 - height / 40, width / 40, height / 20)
-    /*function createRect(){
-        stroke(125);
-        strokeWeight(1);
-        fill(125,125);
-        rect(32 * width / 50, height / 2 + height / 20, width / 13, height / 30);
-        rect(32 * width / 50 + width / 26 - width / 40 / 2, height / 2 - height / 40, width / 40, height / 20)
-    }*/
 }
 
 function textExplanation() {
-
-
-
     if (4 * width / 5 < mouseX && 4 * height / 16 + height / 40 < mouseY && mouseY < 4 * height / 16 + height / 40 + height / 15) {
-
         noStroke()
         fill(255)
         rect(7 * width / 10, 4 * height / 16 + height / 40, width / 10, height / 15)
@@ -467,7 +463,6 @@ function textExplanation() {
         text("加速電圧", 43 * width / 60, 4 * height / 16 + height / 13)
     }
     if (4 * width / 5 < mouseX && 6 * height / 16 + height / 40 < mouseY && mouseY < 6 * height / 16 + height / 40 + height / 15) {
-
         noStroke()
         fill(255)
         rect(3 * width / 5, 6 * height / 16 + height / 40, width / 5, height / 15)
@@ -478,9 +473,7 @@ function textExplanation() {
         textAlign(CENTER)
         text("コイルに流れる電流", 7 * width / 10, 6 * height / 16 + height / 13)
     }
-
     if (4 * width / 5 < mouseX && 8 * height / 16 + height / 40 < mouseY && mouseY < 8 * height / 16 + height / 40 + height / 15) {
-
         noStroke()
         fill(255)
         rect(3 * width / 5, 8 * height / 16 + height / 40, width / 5, height / 15)
@@ -491,10 +484,8 @@ function textExplanation() {
         textAlign(CENTER)
         text("コイルによる磁束密度", 7 * width / 10, 8 * height / 16 + height / 13)
     }
-
     if (radiuIs == true) {
         if (4 * width / 5 < mouseX && 10 * height / 16 + height / 40 < mouseY && mouseY < 10 * height / 16 + height / 40 + height / 15) {
-
             noStroke()
             fill(255)
             rect(3 * width / 5, 10 * height / 16 + height / 40, width / 5, height / 15)
@@ -506,25 +497,29 @@ function textExplanation() {
             text("電子線の直径", 7 * width / 10, 10 * height / 16 + height / 13)
         }
     }
-
-    if (32 * width / 50 < mouseX && mouseX < 32 * width / 50 + width / 13 && height / 2 - height / 40 < mouseY && mouseY < height / 2 + height / 20 + height / 30) {
-        /*noStroke()
+    if (4 * width / 5 < mouseX && 12 * height / 16 + height / 40 < mouseY && mouseY < 12 * height / 16 + height / 40 + height / 15) {
+        noStroke()
         fill(255)
-        rect(32* width / 50+width / 13,height / 2 - height / 40,width / 50,width / 50)*/
+        rect(3 * width / 5, 12 * height / 16 + height / 40, width / 5, height / 15)
+        stroke(0)
+        strokeWeight(1)
+        fill(0)
+        textSize(width / 50)
+        textAlign(CENTER)
+        text("地磁気の方向", 7 * width / 10, 12 * height / 16 + height / 13)
+    }
+    if (32 * width / 50 < mouseX && mouseX < 32 * width / 50 + width / 13 && height / 2 - height / 40 < mouseY && mouseY < height / 2 + height / 20 + height / 30) {
         stroke(255)
         strokeWeight(1)
         fill(255)
         textSize(width / 50)
         text("電子銃", 32 * width / 50 + width / 13, height / 2 - height / 20)
-    } else {
-        if (dist(width / 2.0, height / 2.0, mouseX, mouseY) < deviceRadi) {
-            stroke(255)
-            strokeWeight(1)
-            fill(255)
-            textSize(width / 50)
-            text("希薄なヘリウムガスが入っている乾球", mouseX, mouseY)
-        }
-
+    } else if (dist(width / 2.0, height / 2.0, mouseX, mouseY) < deviceRadi) {
+        stroke(255)
+        strokeWeight(1)
+        fill(255)
+        textSize(width / 50)
+        text("希薄なヘリウムガスが入っている乾球", mouseX, mouseY)
     }
     stroke(0)
     strokeWeight(1)
@@ -536,8 +531,6 @@ function textExplanation() {
 
 //draw関数
 function draw() {
-
-
     specificChargeDeviceDraw()
     magneticFieldDirectionDraw()
     calculateFunction()
@@ -545,7 +538,6 @@ function draw() {
     main()
     scaleDraw()
     textExplanation()
-    // createRect()
 }
 
 //windowがリサイズされた時の関数
@@ -555,6 +547,3 @@ function windowResized() {
     initSettings()
     scaleDraw()
 }
-
-
-
