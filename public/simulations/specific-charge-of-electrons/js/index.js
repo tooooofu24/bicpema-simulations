@@ -480,9 +480,9 @@ function textExplanation() {
         stroke(0)
         strokeWeight(1)
         fill(0)
-        textSize(width / 50)
+        textSize(width / 75)
         textAlign(CENTER)
-        text("コイルによる磁束密度", 7 * width / 10, 8 * height / 16 + height / 13)
+        text("コイルと地磁気による磁束密度", 7 * width / 10, 8 * height / 16 + height / 13)
     }
     if (radiuIs == true) {
         if (4 * width / 5 < mouseX && 10 * height / 16 + height / 40 < mouseY && mouseY < 10 * height / 16 + height / 40 + height / 15) {
