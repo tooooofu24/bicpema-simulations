@@ -1,27 +1,27 @@
-//画像のインスタンス
-let head,
-    convexLens,
-    concaveLens,
-    candle,
-    F,
-    LED;
+//画像のオブジェクト
+let headImg,
+    convexLensImg,
+    concaveLensImg,
+    candleImg,
+    fImg,
+    ledImg;
 
 //画像の読み込み
 function preload() {
-    head = loadImage("https://live.staticflickr.com/65535/52029525367_24dca468c9_o.png");
-    convexLens = loadImage("https://live.staticflickr.com/65535/51915402909_7ddccffdc8_o.png");
-    concaveLens = loadImage("https://live.staticflickr.com/65535/51915697630_1ab41135e4_o.png");
-    candle = loadImage("https://live.staticflickr.com/65535/52022417332_30ef1f0fd3_o.png");
-    F = loadImage("https://live.staticflickr.com/65535/52037725306_ff76e9fce0_o.png");
-    LED = loadImage("https://live.staticflickr.com/65535/52036686892_3362bbeea0_o.png");
+    headImg = loadImage("../../assets/img/headImg.png");
+    convexLensImg = loadImage("../../assets/img/convexLensImg.png");
+    concaveLensImg = loadImage("../../assets/img/concaveLensImg.png")
+    candleImg = loadImage("../../assets/img/candleImg.png");
+    fImg = loadImage("../../assets/img/fImg.png");
+    ledImg = loadImage("../../assets/img/ledImg.png");
 }
 
 //フルスクリーン
 function fullScreen() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(windowWidth, windowHeight,P2D);
 }
 
-//ボタンインスタンス
+//ボタン
 let objectXSlider,
     screenXSlider,
     focusLengthSlider,
@@ -34,14 +34,11 @@ function buttonCreation() {
     screenXSlider = createSlider(0, 4 * width / 10, 4 * width / 10)
     focusLengthSlider = createSlider(0, 4 * width / 10, 2 * width / 10)
     lensSelect = createSelect()
-    lensSelect.option("凸レンズ")
-    lensSelect.option("凹レンズ")
-    lensSelect.option("半分の凸レンズ")
-    lensSelect.option("縞々のスリットの凸レンズ")
+    lensOptionArr = ["凸レンズ","凹レンズ","半分の凸レンズ","縞々のスリットの凸レンズ"]
+    for (let i = 0;i < lensOptionArr.length;i++)lensSelect.option(lensOptionArr[i])
     objectSelect = createSelect()
-    objectSelect.option("F")
-    objectSelect.option("LED")
-    objectSelect.option("ろうそく")
+    objectOptionArr = ["F","LED","ろうそく"]
+    for(let i = 0; i< objectOptionArr.length;i++)objectSelect.option(objectOptionArr[i])
 }
 //ボタンの初期設定
 function buttonSettings() {
@@ -69,16 +66,16 @@ function initSettings() {
     lensHeight = 7 * lensWidth;
     screenWidth = lensWidth / 3;
     screenHeight = lensHeight;
-    head.resize(width / 10, 0);
-    convexLens.resize(lensWidth, lensHeight);
-    concaveLens.resize(lensWidth, lensHeight);
-    candle.resize(0, height / 8);
-    F.resize(0, height / 8);
-    LED.resize(0, height / 8);
-    objectY = height / 2 - candle.height;
+    headImg.resize(width / 10, 0);
+    convexLensImg.resize(lensWidth, lensHeight);
+    concaveLensImg.resize(lensWidth, lensHeight);
+    candleImg.resize(0, height / 8);
+    fImg.resize(0, height / 8);
+    ledImg.resize(0, height / 8);
+    objectY = height / 2 - candleImg.height;
     blurValue = 0;
-    imgWidth = F.width;
-    imgHeight = F.height;
+    imgWidth = fImg.width;
+    imgHeight = fImg.height;
     pg = createGraphics(screenHeight, screenHeight / 2); pg = createGraphics(screenHeight, screenHeight / 2);
     noFill();
     stroke(255);
@@ -146,16 +143,16 @@ function gridDraw() {
 //レンズの描画
 function lensDraw() {
     if (lensSelect.value() == "凸レンズ") {
-        image(convexLens, width / 2 - lensWidth / 2, height / 2 - lensHeight / 2);
+        image(convexLensImg, width / 2 - lensWidth / 2, height / 2 - lensHeight / 2);
     }
     else if (lensSelect.value() == "凹レンズ") {
-        image(concaveLens, width / 2 - lensWidth / 2, height / 2 - lensHeight / 2);
+        image(concaveLensImg, width / 2 - lensWidth / 2, height / 2 - lensHeight / 2);
     }
     else if (lensSelect.value() == "半分の凸レンズ") {
-        image(convexLens, width / 2 - lensWidth / 2, height / 2 - lensHeight / 2);
+        image(convexLensImg, width / 2 - lensWidth / 2, height / 2 - lensHeight / 2);
     }
     else if (lensSelect.value() == "縞々のスリットの凸レンズ") {
-        image(convexLens, width / 2 - lensWidth / 2, height / 2 - lensHeight / 2);
+        image(convexLensImg, width / 2 - lensWidth / 2, height / 2 - lensHeight / 2);
     }
 }
 
@@ -192,17 +189,17 @@ function opticalPathDisplay(img) {
             theta_1 = atan((img.height * m + img.height) / b);
             theta_2 = atan(img.height / a);
             line(objectXSlider.value() + width / 10, objectY, width / 2, objectY);
-            line(width / 2, objectY, width - head.width, objectY + (width / 2 - head.width) * tan(theta_1));
+            line(width / 2, objectY, width - headImg.width, objectY + (width / 2 - headImg.width) * tan(theta_1));
             let theta_3 = atan((img.height / 2 + img.height * m) / b);
             line(objectXSlider.value() + width / 10, objectY, width / 2, objectY + img.height / 2);
-            line(width / 2, objectY + img.height / 2, width - head.width, (width / 2 - head.width) * tan(theta_3) + objectY + img.height / 2);
-            line(objectXSlider.value() + width / 10, objectY, width - head.width, objectY + (a + width / 2 - head.width) * tan(theta_2));
+            line(width / 2, objectY + img.height / 2, width - headImg.width, (width / 2 - headImg.width) * tan(theta_3) + objectY + img.height / 2);
+            line(objectXSlider.value() + width / 10, objectY, width - headImg.width, objectY + (a + width / 2 - headImg.width) * tan(theta_2));
             let theta_4 = atan((img.height * m - img.height / 2) / b);
             line(objectXSlider.value() + width / 10, objectY, width / 2, height / 2 + img.height / 2);
-            line(width / 2, height / 2 + img.height / 2, width - head.width, (width / 2 - head.width) * tan(theta_4) + height / 2 + img.height / 2);
+            line(width / 2, height / 2 + img.height / 2, width - headImg.width, (width / 2 - headImg.width) * tan(theta_4) + height / 2 + img.height / 2);
             if (img.height * m < lensHeight / 2) {
                 line(objectXSlider.value() + width / 10, objectY, width / 2, height / 2 + img.height * m);
-                line(width / 2, height / 2 + img.height * m, width - head.width, height / 2 + img.height * m);
+                line(width / 2, height / 2 + img.height * m, width - headImg.width, height / 2 + img.height * m);
             }
         }
         if (a <= (4 * width / 10 - focusLengthSlider.value())) {
@@ -210,11 +207,11 @@ function opticalPathDisplay(img) {
             m = b / a;
             theta_1 = atan(img.height / (4 * width / 10 - focusLengthSlider.value()));
             theta_2 = atan(img.height / a);
-            dashedLine(head.width, height / 2 - (width / 2 - head.width) * tan(theta_1) - img.height, width / 2, objectY);
-            dashedLine(head.width, height / 2 - (width / 2 - head.width) * tan(theta_2), objectXSlider.value() + width / 10, objectY);
+            dashedLine(headImg.width, height / 2 - (width / 2 - headImg.width) * tan(theta_1) - img.height, width / 2, objectY);
+            dashedLine(headImg.width, height / 2 - (width / 2 - headImg.width) * tan(theta_2), objectXSlider.value() + width / 10, objectY);
             line(objectXSlider.value() + width / 10, objectY, width / 2, objectY);
-            line(width / 2, objectY, width - head.width, objectY + (width / 2 - head.width) * tan(theta_1));
-            line(objectXSlider.value() + width / 10, objectY, width - head.width, objectY + (a + width / 2 - head.width) * tan(theta_2));
+            line(width / 2, objectY, width - headImg.width, objectY + (width / 2 - headImg.width) * tan(theta_1));
+            line(objectXSlider.value() + width / 10, objectY, width - headImg.width, objectY + (a + width / 2 - headImg.width) * tan(theta_2));
         }
     }
 
@@ -226,13 +223,13 @@ function opticalPathDisplay(img) {
         theta_2 = atan(img.height * m / (4 * width / 10 - focusLengthSlider.value()));
         line(objectXSlider.value() + width / 10, objectY, width / 2, objectY);
         dashedLine(width / 2 - (4 * width / 10 - focusLengthSlider.value()), height / 2, width / 2, height / 2 - ((4 * width / 10 - focusLengthSlider.value())) * tan(theta_1));
-        line(width / 2, objectY, width - head.width, height / 2 - (width / 2 - head.width) * tan(theta_1) - img.height);
+        line(width / 2, objectY, width - headImg.width, height / 2 - (width / 2 - headImg.width) * tan(theta_1) - img.height);
         line(objectXSlider.value() + width / 10, objectY, width / 2, height / 2 - img.height * m);
-        line(width / 2, height / 2 - img.height * m, width - head.width, height / 2 - img.height * m);
+        line(width / 2, height / 2 - img.height * m, width - headImg.width, height / 2 - img.height * m);
         dashedLine(width / 2 - b, height / 2 - img.height * m, width / 2, height / 2 - img.height * m);
-        dashedLine(width / 2, height / 2 - img.height * m, width - head.width, height / 2 + (width / 2 - head.width) * tan(theta_2) - img.height * m);
+        dashedLine(width / 2, height / 2 - img.height * m, width - headImg.width, height / 2 + (width / 2 - headImg.width) * tan(theta_2) - img.height * m);
         let theta_3 = atan(img.height / a);
-        line(objectXSlider.value() + width / 10, objectY, width - head.width, height / 2 + (width / 2 - head.width) * tan(theta_3));
+        line(objectXSlider.value() + width / 10, objectY, width - headImg.width, height / 2 + (width / 2 - headImg.width) * tan(theta_3));
     }
 
     //半分の凸レンズの場合
@@ -243,11 +240,11 @@ function opticalPathDisplay(img) {
             theta_1 = atan((img.height * m + img.height) / b);
             theta_2 = atan(img.height / a);
             line(objectXSlider.value() + width / 10, objectY, width / 2, objectY);
-            line(width / 2, objectY, width - head.width, objectY + (width / 2 - head.width) * tan(theta_1));
+            line(width / 2, objectY, width - headImg.width, objectY + (width / 2 - headImg.width) * tan(theta_1));
             let theta_3 = atan((img.height / 2 + img.height * m) / b);
             line(objectXSlider.value() + width / 10, objectY, width / 2, objectY + img.height / 2);
-            line(width / 2, objectY + img.height / 2, width - head.width, (width / 2 - head.width) * tan(theta_3) + objectY + img.height / 2);
-            line(objectXSlider.value() + width / 10, objectY, width - head.width, objectY + (a + width / 2 - head.width) * tan(theta_2));
+            line(width / 2, objectY + img.height / 2, width - headImg.width, (width / 2 - headImg.width) * tan(theta_3) + objectY + img.height / 2);
+            line(objectXSlider.value() + width / 10, objectY, width - headImg.width, objectY + (a + width / 2 - headImg.width) * tan(theta_2));
             line(objectXSlider.value() + width / 10, objectY, width / 2, height / 2 + img.height / 2);
             if (img.height * m < lensHeight / 2) {
                 line(objectXSlider.value() + width / 10, objectY, width / 2, height / 2 + img.height * m);
@@ -258,11 +255,11 @@ function opticalPathDisplay(img) {
             m = b / a;
             theta_1 = atan(img.height / focusLengthSlider.value());
             theta_2 = atan(img.height / a);
-            dashedLine(head.width, height / 2 - (width / 2 - head.width) * tan(theta_1) - img.height, width / 2, objectY);
-            dashedLine(head.width, height / 2 - (width / 2 - head.width) * tan(theta_2), objectXSlider.value() + width / 10, objectY);
+            dashedLine(headImg.width, height / 2 - (width / 2 - headImg.width) * tan(theta_1) - img.height, width / 2, objectY);
+            dashedLine(headImg.width, height / 2 - (width / 2 - headImg.width) * tan(theta_2), objectXSlider.value() + width / 10, objectY);
             line(objectXSlider.value() + width / 10, objectY, width / 2, objectY);
-            line(width / 2, objectY, width - head.width, objectY + (width / 2 - head.width) * tan(theta_1));
-            line(objectXSlider.value() + width / 10, objectY, width - head.width, objectY + (a + width / 2 - head.width) * tan(theta_2));
+            line(width / 2, objectY, width - headImg.width, objectY + (width / 2 - headImg.width) * tan(theta_1));
+            line(objectXSlider.value() + width / 10, objectY, width - headImg.width, objectY + (a + width / 2 - headImg.width) * tan(theta_2));
         }
         fill(100);
         stroke(100);
@@ -280,15 +277,15 @@ function opticalPathDisplay(img) {
             line(objectXSlider.value() + width / 10, objectY, width / 2, objectY);
             let theta_3 = atan((img.height / 2 + img.height * m) / b);
             line(objectXSlider.value() + width / 10, objectY, width / 2, objectY + img.height / 2);
-            line(width / 2, objectY + img.height / 2, width - head.width, (width / 2 - head.width) * tan(theta_3) + objectY + img.height / 2);
+            line(width / 2, objectY + img.height / 2, width - headImg.width, (width / 2 - headImg.width) * tan(theta_3) + objectY + img.height / 2);
             line(objectXSlider.value() + width / 10, objectY, width / 2, height / 2);
             let theta_4 = atan((img.height * m - img.height / 2) / b);
             line(objectXSlider.value() + width / 10, objectY, width / 2, height / 2 + img.height / 2);
-            line(width / 2, height / 2 + img.height / 2, width - head.width, (width / 2 - head.width) * tan(theta_4) + height / 2 + img.height / 2);
+            line(width / 2, height / 2 + img.height / 2, width - headImg.width, (width / 2 - headImg.width) * tan(theta_4) + height / 2 + img.height / 2);
             if (img.height * m < lensHeight / 2) {
                 line(objectXSlider.value() + width / 10, objectY, width / 2, height / 2 + img.height * m);
-                if (height / 2 + img.height * m < height / 2 + candle.height - lensHeight / 12 || height / 2 + img.height * m > height / 2 + candle.height + lensHeight / 12) {
-                    line(width / 2, height / 2 + img.height * m, width - head.width, height / 2 + img.height * m);
+                if (height / 2 + img.height * m < height / 2 + candleImg.height - lensHeight / 12 || height / 2 + img.height * m > height / 2 + candleImg.height + lensHeight / 12) {
+                    line(width / 2, height / 2 + img.height * m, width - headImg.width, height / 2 + img.height * m);
                 }
             }
         }
@@ -297,17 +294,17 @@ function opticalPathDisplay(img) {
             m = b / a;
             theta_1 = atan(img.height / (4 * width / 10 - focusLengthSlider.value()));
             theta_2 = atan(img.height / a);
-            dashedLine(head.width, height / 2 - (width / 2 - head.width) * tan(theta_1) - img.height, width / 2, objectY);
-            dashedLine(head.width, height / 2 - (width / 2 - head.width) * tan(theta_2), objectXSlider.value() + width / 10, objectY);
+            dashedLine(headImg.width, height / 2 - (width / 2 - headImg.width) * tan(theta_1) - img.height, width / 2, objectY);
+            dashedLine(headImg.width, height / 2 - (width / 2 - headImg.width) * tan(theta_2), objectXSlider.value() + width / 10, objectY);
             line(objectXSlider.value() + width / 10, objectY, width / 2, objectY);
-            line(width / 2, objectY, width - head.width, objectY + (width / 2 - head.width) * tan(theta_1));
-            line(objectXSlider.value() + width / 10, objectY, width - head.width, objectY + (a + width / 2 - head.width) * tan(theta_2));
+            line(width / 2, objectY, width - headImg.width, objectY + (width / 2 - headImg.width) * tan(theta_1));
+            line(objectXSlider.value() + width / 10, objectY, width - headImg.width, objectY + (a + width / 2 - headImg.width) * tan(theta_2));
         }
         fill(100);
         stroke(100);
         rect(width / 2 - lensWidth / 2, height / 2 - lensHeight / 12, lensWidth / 2, lensHeight / 6);
-        rect(width / 2 - lensWidth / 2, height / 2 - candle.height - lensHeight / 12, lensWidth / 2, lensHeight / 6);
-        rect(width / 2 - lensWidth / 2, height / 2 + candle.height - lensHeight / 12, lensWidth / 2, lensHeight / 6);
+        rect(width / 2 - lensWidth / 2, height / 2 - candleImg.height - lensHeight / 12, lensWidth / 2, lensHeight / 6);
+        rect(width / 2 - lensWidth / 2, height / 2 + candleImg.height - lensHeight / 12, lensWidth / 2, lensHeight / 6);
         stroke(255);
     }
 }
@@ -325,6 +322,9 @@ function objectAndVirtualImageDisplay(img) {
     image(img, objectXSlider.value() - img.width / 2 + width / 10, objectY);
     stroke(255, 0, 0);
     rect(objectXSlider.value() - img.width / 2 + width / 10, objectY, img.width, img.height);
+    stroke(255)
+    fill(255)
+    text("レンズからの距離:"+str((15*(1-objectXSlider.value()/(4 * width / 10))).toFixed(1)),objectXSlider.value() + width / 10, 3*height/4+25)
     stroke(255);
     noFill();
 
@@ -339,9 +339,9 @@ function objectAndVirtualImageDisplay(img) {
             stroke(0, 0, 255);
             stroke(255);
             push();
-            translate(width - head.width, height / 2 - img.height + (width / 2 - head.width) * tan(atan(img.height / (4 * width / 10 - focusLengthSlider.value()))));
+            translate(width - headImg.width, height / 2 - img.height + (width / 2 - headImg.width) * tan(atan(img.height / (4 * width / 10 - focusLengthSlider.value()))));
             rotate(PI / 10);
-            image(head, 0, 0);
+            image(headImg, 0, 0);
             pop();
         }
     }
@@ -355,9 +355,9 @@ function objectAndVirtualImageDisplay(img) {
         rect(width / 2 - b - img.width * m / 2, height / 2 - img.height * m, img.width * m, img.height * m);
         stroke(255);
         push();
-        translate(width - head.width, height / 2 - (width / 2 - head.width) * tan(atan(img.height / (4 * width / 10 - focusLengthSlider.value()))) - img.height);
+        translate(width - headImg.width, height / 2 - (width / 2 - headImg.width) * tan(atan(img.height / (4 * width / 10 - focusLengthSlider.value()))) - img.height);
         rotate(-PI / 10);
-        image(head, 0, 0);
+        image(headImg, 0, 0);
         pop();
     }
 
@@ -371,9 +371,9 @@ function objectAndVirtualImageDisplay(img) {
             rect(width / 2 - b - img.width * m / 2, height / 2 - img.height * m, img.width * m, img.height * m);
             stroke(255);
             push();
-            translate(width - head.width, height / 2 - img.height + (width / 2 - head.width) * tan(atan(img.height / (4 * width / 10 - focusLengthSlider.value()))));
+            translate(width - headImg.width, height / 2 - img.height + (width / 2 - headImg.width) * tan(atan(img.height / (4 * width / 10 - focusLengthSlider.value()))));
             rotate(PI / 10);
-            image(head, 0, 0);
+            image(headImg, 0, 0);
             pop();
         }
     }
@@ -388,9 +388,9 @@ function objectAndVirtualImageDisplay(img) {
             rect(width / 2 - b - img.width * m / 2, height / 2 - img.height * m, img.width * m, img.height * m);
             stroke(255);
             push();
-            translate(width - head.width, height / 2 - img.height + (width / 2 - head.width) * tan(atan(img.height / (4 * width / 10 - focusLengthSlider.value()))));
+            translate(width - headImg.width, height / 2 - img.height + (width / 2 - headImg.width) * tan(atan(img.height / (4 * width / 10 - focusLengthSlider.value()))));
             rotate(PI / 10);
-            image(head, 0, 0);
+            image(headImg, 0, 0);
             pop();
         }
     }
@@ -401,11 +401,14 @@ function screenDisplay(img) {
     let a = 4 * width / 10 - objectXSlider.value();
     let b = a * (4 * width / 10 - focusLengthSlider.value()) / (a - (4 * width / 10 - focusLengthSlider.value()));
     let m = b / a;
+    fill(255)
+    stroke(255)
+    text("レンズからの距離:"+str((15*(screenXSlider.value()/(4 * width / 10))).toFixed(1)),screenXSlider.value() + 5*width / 10, 3*height/4+25)
     if (lensSelect.value() != "凹レンズ") {
         if (a > (4 * width / 10 - focusLengthSlider.value())) {
-            blurValue = map(abs(b - screenXSlider.value()), screenXSlider.value(), 0, 38, 0);
-            if (abs(blurValue) > 38) {
-                blurValue = 38;
+            blurValue = map(abs(b - screenXSlider.value()), screenXSlider.value(), 0, 10, 0);
+            if (abs(blurValue) > 10) {
+                blurValue = 10;
             }
             // beginDraw() and endDraw() is not supportet in p5.js, and or often not needed;
             pg.background(0);
@@ -417,16 +420,14 @@ function screenDisplay(img) {
             }
             if (lensSelect.value() == "縞々のスリットの凸レンズ") {
                 pg.tint(255, 75);
-                if (height / 2 + img.height * m < height / 2 + candle.height - lensHeight / 12 || height / 2 + img.height * m > height / 2 + candle.height + lensHeight / 12) {
+                if (height / 2 + img.height * m < height / 2 + candleImg.height - lensHeight / 12 || height / 2 + img.height * m > height / 2 + candleImg.height + lensHeight / 12) {
                     pg.tint(255, 100);
                 }
             }
             pg.image(img, -img.width * m, -img.height * m, img.width * m, img.height * m);
             pg.tint(255, 255);
             pg.pop();
-            for (let i = 0; i < 5; i++) {
-                pg.filter(BLUR, abs(blurValue / 5));
-            }
+            pg.filter(BLUR, abs(blurValue));
             // beginDraw() and endDraw() is not supportet in p5.js, and or often not needed;
             image(pg, screenXSlider.value() + width / 2 - screenHeight / 2 + screenWidth / 2, height / 2 - screenHeight - 10);
             noFill();
@@ -470,6 +471,7 @@ function focusDraw(img) {
     fill(255, 255);
     noStroke();
     text("focus", width / 2 - (4 * width / 10 - focusLengthSlider.value()), height / 2 + width / 50 + 25 + 10);
+    text("焦点距離:"+str(map(4*width/10-focusLengthSlider.value(),4*width/10,0,15,0).toFixed(1)),width / 2 - (4 * width / 10 - focusLengthSlider.value()), height / 2 + width / 50 + 25 + 10+75);
     stroke(255);
 }
 
@@ -479,28 +481,28 @@ function draw() {
     lensDraw()
     baseDraw()
     if (objectSelect.value() == "F") {
-        opticalPathDisplay(F);
-        objectAndVirtualImageDisplay(F);
-        screenDisplay(F);
-        focusDraw(F);
-        imgWidth = F.width;
-        imgHeight = F.height;
+        opticalPathDisplay(fImg);
+        objectAndVirtualImageDisplay(fImg);
+        screenDisplay(fImg);
+        focusDraw(fImg);
+        imgWidth = fImg.width;
+        imgHeight = fImg.height;
     }
     else if (objectSelect.value() == "LED") {
-        opticalPathDisplay(LED);
-        objectAndVirtualImageDisplay(LED);
-        screenDisplay(LED);
-        focusDraw(LED);
-        imgWidth = LED.width;
-        imgHeight = LED.height;
+        opticalPathDisplay(ledImg);
+        objectAndVirtualImageDisplay(ledImg);
+        screenDisplay(ledImg);
+        focusDraw(ledImg);
+        imgWidth = ledImg.width;
+        imgHeight = ledImg.height;
     }
     else if (objectSelect.value() == "ろうそく") {
-        opticalPathDisplay(candle);
-        objectAndVirtualImageDisplay(candle);
-        screenDisplay(candle);
-        focusDraw(candle);
-        imgWidth = candle.width;
-        imgHeight = candle.height;
+        opticalPathDisplay(candleImg);
+        objectAndVirtualImageDisplay(candleImg);
+        screenDisplay(candleImg);
+        focusDraw(candleImg);
+        imgWidth = candleImg.width;
+        imgHeight = candleImg.height;
     }
 }
 
