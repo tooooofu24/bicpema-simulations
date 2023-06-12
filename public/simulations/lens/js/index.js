@@ -18,7 +18,7 @@ function preload() {
 
 //フルスクリーン
 function fullScreen() {
-    createCanvas(windowWidth, windowHeight,P2D);
+    createCanvas(windowWidth, windowHeight, P2D);
 }
 
 //ボタン
@@ -34,11 +34,11 @@ function buttonCreation() {
     screenXSlider = createSlider(0, 4 * width / 10, 4 * width / 10)
     focusLengthSlider = createSlider(0, 4 * width / 10, 2 * width / 10)
     lensSelect = createSelect()
-    lensOptionArr = ["凸レンズ","凹レンズ","半分の凸レンズ","縞々のスリットの凸レンズ"]
-    for (let i = 0;i < lensOptionArr.length;i++)lensSelect.option(lensOptionArr[i])
+    lensOptionArr = ["凸レンズ", "凹レンズ", "半分の凸レンズ", "縞々のスリットの凸レンズ"]
+    for (let i = 0; i < lensOptionArr.length; i++)lensSelect.option(lensOptionArr[i])
     objectSelect = createSelect()
-    objectOptionArr = ["F","LED","ろうそく"]
-    for(let i = 0; i< objectOptionArr.length;i++)objectSelect.option(objectOptionArr[i])
+    objectOptionArr = ["F", "LED", "ろうそく"]
+    for (let i = 0; i < objectOptionArr.length; i++)objectSelect.option(objectOptionArr[i])
 }
 //ボタンの初期設定
 function buttonSettings() {
@@ -117,7 +117,7 @@ function gridDraw() {
             noStroke()
             text(15 - i / 5, (width / 2 - width / 10) * i / 75 + width / 10, height / 2 + width / 75)
             text(i / 5, (width / 2 - width / 10) * i / 75 + width / 2, height / 2 + width / 75)
-            stroke(255)
+            stroke(255, 100)
             strokeWeight(1);
         } else {
             strokeWeight(0.5)
@@ -131,13 +131,14 @@ function gridDraw() {
         if (i % 5 == 0) {
             noStroke()
             text(i / 5, width / 10 - width / 75, height / 2 - height / 4 * i / 20)
-            stroke(255)
+            stroke(255, 100)
             strokeWeight(1)
         } else {
             strokeWeight(0.5)
         }
         line(width / 10, height / 2 - height / 4 * i / 20, 9 * width / 10, height / 2 - height / 4 * i / 20)
     }
+    stroke(255, 255)
 }
 
 //レンズの描画
@@ -322,9 +323,9 @@ function objectAndVirtualImageDisplay(img) {
     image(img, objectXSlider.value() - img.width / 2 + width / 10, objectY);
     stroke(255, 0, 0);
     rect(objectXSlider.value() - img.width / 2 + width / 10, objectY, img.width, img.height);
-    stroke(255)
+    noStroke()
     fill(255)
-    text("レンズからの距離:"+str((15*(1-objectXSlider.value()/(4 * width / 10))).toFixed(1)),objectXSlider.value() + width / 10, 3*height/4+25)
+    text("レンズからの距離:" + str((15 * (1 - objectXSlider.value() / (4 * width / 10))).toFixed(1)) + " cm", objectXSlider.value() + width / 10, 3 * height / 4 + 25)
     stroke(255);
     noFill();
 
@@ -402,8 +403,9 @@ function screenDisplay(img) {
     let b = a * (4 * width / 10 - focusLengthSlider.value()) / (a - (4 * width / 10 - focusLengthSlider.value()));
     let m = b / a;
     fill(255)
+    noStroke()
+    text("レンズからの距離:" + str((15 * (screenXSlider.value() / (4 * width / 10))).toFixed(1)) + " cm", screenXSlider.value() + 5 * width / 10, 3 * height / 4 + 25)
     stroke(255)
-    text("レンズからの距離:"+str((15*(screenXSlider.value()/(4 * width / 10))).toFixed(1)),screenXSlider.value() + 5*width / 10, 3*height/4+25)
     if (lensSelect.value() != "凹レンズ") {
         if (a > (4 * width / 10 - focusLengthSlider.value())) {
             blurValue = map(abs(b - screenXSlider.value()), screenXSlider.value(), 0, 10, 0);
@@ -471,7 +473,7 @@ function focusDraw(img) {
     fill(255, 255);
     noStroke();
     text("focus", width / 2 - (4 * width / 10 - focusLengthSlider.value()), height / 2 + width / 50 + 25 + 10);
-    text("焦点距離:"+str(map(4*width/10-focusLengthSlider.value(),4*width/10,0,15,0).toFixed(1)),width / 2 - (4 * width / 10 - focusLengthSlider.value()), height / 2 + width / 50 + 25 + 10+75);
+    text("焦点距離:" + str(map(4 * width / 10 - focusLengthSlider.value(), 4 * width / 10, 0, 15, 0).toFixed(1)) + " cm", width / 2 - (4 * width / 10 - focusLengthSlider.value()), height / 2 + width / 50 + 25 + 10 + 75);
     stroke(255);
 }
 
