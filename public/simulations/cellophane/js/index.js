@@ -1,6 +1,7 @@
+
 //windowSizeを規定する手続き
 function fullScreen() {
-    createCanvas(2 * windowWidth / 3, 9 * windowHeight / 10, WEBGL);
+    createCanvas(2 * windowWidth / 3, 8 * windowHeight / 10, WEBGL);
 }
 
 //csvファイルを読み込むインスタンス
@@ -82,6 +83,12 @@ let backgroundDiv,
 
 //ボタン、スライダー、グラフを生成する手続き
 function buttonCreation() {
+    incidentColor = createDiv("入射光");
+    transmittedColor = createDiv("出射光");
+    graph = createDiv();
+    graphCanvas = createElement("canvas");
+    cmfGraph = createDiv();
+    cmfGraphCanvas = createElement("canvas");
     backgroundDiv = createDiv();
     waveRepresentationButton = createButton("波動表現の切り替え");
     cellophaneCountSlider = createSlider(1, 10, 1);
@@ -90,12 +97,6 @@ function buttonCreation() {
     gButton = createButton("緑(550 nm)");
     bButton = createButton("青(450 nm)");
     switchButton = createButton("ストップ");
-    graph = createDiv();
-    graphCanvas = createElement("canvas");
-    cmfGraph = createDiv();
-    cmfGraphCanvas = createElement("canvas");
-    incidentColor = createDiv("入射光");
-    transmittedColor = createDiv("出射光");
 }
 
 
@@ -171,7 +172,7 @@ function bButtonFunction() {
 
 //ボタン等の設定を規定する手続き
 function buttonSettings() {
-    backgroundDiv.size(windowWidth, windowHeight / 10).position(0, height);
+    backgroundDiv.size(windowWidth, windowHeight / 10).position(0, 9 * windowHeight / 10);
     waveRepresentationButton.mousePressed(waveRepresentationFunctioon).size(windowWidth / 4, windowHeight / 10).position(0, 0).parent(backgroundDiv).addClass('btn btn-primary').style("font-size", "3vh");;
     cellophaneCountSlider.size(windowWidth / 4, 2 * windowHeight / 30).position(windowWidth / 4, windowHeight / 30).parent(backgroundDiv).input(cellophaneCountSliderFunction);
     cellophaneCountSliderValue.size(windowWidth / 4, windowHeight / 20).position(windowWidth / 4, 0).parent(backgroundDiv).style("font-size", "3vh");
@@ -179,14 +180,14 @@ function buttonSettings() {
     gButton.mousePressed(gButtonFunction).size(windowWidth / 12, windowHeight / 10).position(2 * windowWidth / 4 + 1 * windowWidth / 12, 0).parent(backgroundDiv).addClass('btn btn-success');
     bButton.mousePressed(bButtonFunction).size(windowWidth / 12, windowHeight / 10).position(2 * windowWidth / 4 + 2 * windowWidth / 12, 0).parent(backgroundDiv).addClass('btn btn-primary');
     switchButton.mousePressed(switchFunction).size(windowWidth / 4, windowHeight / 10).position(3 * windowWidth / 4, 0).parent(backgroundDiv).addClass('btn btn-danger').style("font-size", "3vh");
-    graph.size(windowWidth / 3, 4 * windowHeight / 10).position(2 * windowWidth / 3, windowHeight / 10).style("background-color", "white");
+    graph.size(windowWidth / 3, 4.5 * height / 10).position(2 * windowWidth / 3, windowHeight / 10 + height / 10).style("background-color", "white");
     graphCanvas.size(0, 0).position(0, 0).id("graphChart").parent(graph);
-    cmfGraph.size(windowWidth / 3, 4 * windowHeight / 10).position(2 * windowWidth / 3, 5 * windowHeight / 10).style("background-color", "white");
+    cmfGraph.size(windowWidth / 3, 4.5 * height / 10).position(2 * windowWidth / 3, windowHeight / 10 + 5.5 * height / 10).style("background-color", "white");
     cmfGraphCanvas.size(0, 0).position(0, 0).id("cmfGraphChart").parent(cmfGraph);
-    let lh = windowHeight / 10;
-    incidentColor.size(windowWidth / 6, windowHeight / 10).position(2 * windowWidth / 3, 0).style('background', 'white').style('text-align', 'center')
+    let lh = height / 10;
+    incidentColor.size(windowWidth / 6, height / 10).position(2 * windowWidth / 3, windowHeight / 10).style('background', 'white').style('text-align', 'center')
         .style("font-size", "3vh").style('line-height', lh + 'px').addClass("fw-bold");
-    transmittedColor.size(windowWidth / 6, windowHeight / 10).position(2 * windowWidth / 3 + windowWidth / 6, 0).style('background', 'white')
+    transmittedColor.size(windowWidth / 6, height / 10).position(2 * windowWidth / 3 + windowWidth / 6, windowHeight / 10).style('background', 'white')
         .style('text-align', 'center').style("font-size", "3vh").style('line-height', lh + 'px').addClass("fw-bold");
 }
 
@@ -421,7 +422,7 @@ function draw() {
     }
     main();
     graphDraw();
-    console.log(frameRate())
+    // console.log(frameRate())
 }
 
 //光線のクラス
