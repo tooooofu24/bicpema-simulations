@@ -1,7 +1,5 @@
-
-//windowSizeを規定する手続き
 function fullScreen() {
-    createCanvas(2 * windowWidth / 3, 8 * windowHeight / 10, WEBGL);
+    createCanvas(2 * windowWidth / 3, 8 * windowHeight / 10, WEBGL)
 }
 
 //csvファイルを読み込むインスタンス
@@ -21,48 +19,6 @@ function preload() {
     lightSourceSpectrumSheet = loadTable("https://dl.dropboxusercontent.com/s/bsoxh313yvv6wuv/lightSourceSpectrumSheet.csv");
 }
 
-
-//初期値に関する変数
-let rays_number,
-    r_rays,
-    g_rays,
-    b_rays,
-    waveRepresentation,
-    switchIs,
-    rIs,
-    gIs,
-    bIs,
-    //波長600 nmのセロハン一枚当たりの位相差
-    opdr,
-    //波長550 nmのセロは一枚当たりの位相差
-    opdg,
-    //波長450 nmのセロハン一枚当たりの位相差
-    opdb;
-
-//初期値を規定する手続き
-function initSettings() {
-    rays_number = 300;
-    r_rays = new Array(rays_number);
-    g_rays = new Array(rays_number);
-    b_rays = new Array(rays_number);
-    for (let i = 0; i < rays_number; i < i++) {
-        r_rays[i] = new Ray(150 + i * (300 / rays_number), 'r');
-        g_rays[i] = new Ray(150 + i * (300 / rays_number), 'g');
-        b_rays[i] = new Ray(150 + i * (300 / rays_number), 'b');
-    }
-    camera(300, 0, 0, 0, 0, 0, 0, 1, 0);
-    waveRepresentation = 'sphere';
-    switchIs = true;
-    rIs = true;
-    gIs = true;
-    bIs = true;
-    opdr = 212.596704;
-    opdg = 213.5303046;
-    opdb = 215.5841246;
-    frameRate(30);
-}
-
-
 //ボタン、スライダー、グラフのインスタンス
 let backgroundDiv,
     waveRepresentationButton,
@@ -80,9 +36,7 @@ let backgroundDiv,
     cmfGraphChart,
     incidentColor,
     transmittedColor;
-
-//ボタン、スライダー、グラフを生成する手続き
-function buttonCreation() {
+function elCreate() {
     incidentColor = createDiv("入射光");
     transmittedColor = createDiv("出射光");
     graph = createDiv();
@@ -98,7 +52,6 @@ function buttonCreation() {
     bButton = createButton("青(450 nm)");
     switchButton = createButton("ストップ");
 }
-
 
 //視点を規定する手続き
 //viewPointButtonをクリックすると呼び出される
@@ -170,8 +123,7 @@ function bButtonFunction() {
     }
 }
 
-//ボタン等の設定を規定する手続き
-function buttonSettings() {
+function elInit() {
     backgroundDiv.size(windowWidth, windowHeight / 10).position(0, 9 * windowHeight / 10);
     waveRepresentationButton.mousePressed(waveRepresentationFunctioon).size(windowWidth / 4, windowHeight / 10).position(0, 0).parent(backgroundDiv).addClass('btn btn-primary').style("font-size", "3vh");;
     cellophaneCountSlider.size(windowWidth / 4, 2 * windowHeight / 30).position(windowWidth / 4, windowHeight / 30).parent(backgroundDiv).input(cellophaneCountSliderFunction);
@@ -190,6 +142,7 @@ function buttonSettings() {
     transmittedColor.size(windowWidth / 6, height / 10).position(2 * windowWidth / 3 + windowWidth / 6, windowHeight / 10).style('background', 'white')
         .style('text-align', 'center').style("font-size", "3vh").style('line-height', lh + 'px').addClass("fw-bold");
 }
+
 
 //csvファイル内のデータを格納する配列
 let waveLength = [],
@@ -222,23 +175,54 @@ function csvDataLoad() {
     }
 }
 
-//setup関数
+
+//初期値に関する変数
+let rays_number,
+    r_rays,
+    g_rays,
+    b_rays,
+    waveRepresentation,
+    switchIs,
+    rIs,
+    gIs,
+    bIs,
+    //波長600 nmのセロハン一枚当たりの位相差
+    opdr,
+    //波長550 nmのセロは一枚当たりの位相差
+    opdg,
+    //波長450 nmのセロハン一枚当たりの位相差
+    opdb;
+
+function initValue() {
+    rays_number = 300;
+    r_rays = new Array(rays_number);
+    g_rays = new Array(rays_number);
+    b_rays = new Array(rays_number);
+    for (let i = 0; i < rays_number; i < i++) {
+        r_rays[i] = new Ray(150 + i * (300 / rays_number), 'r');
+        g_rays[i] = new Ray(150 + i * (300 / rays_number), 'g');
+        b_rays[i] = new Ray(150 + i * (300 / rays_number), 'b');
+    }
+    camera(300, 0, 0, 0, 0, 0, 0, 1, 0);
+    waveRepresentation = 'sphere';
+    switchIs = true;
+    rIs = true;
+    gIs = true;
+    bIs = true;
+    opdr = 212.596704;
+    opdg = 213.5303046;
+    opdb = 215.5841246;
+    frameRate(30);
+}
+
 function setup() {
-    fullScreen();
-    initSettings();
-    buttonCreation();
-    buttonSettings();
+    fullScreen()
+    elCreate()
+    elInit()
+    initValue()
     csvDataLoad();
     incidentColor.style('background', 'rgb(144,181,130')
     transmittedColor.style('background', 'rgb(' + rgb[cellophaneCountSlider.value() - 1][0] + ',' + rgb[cellophaneCountSlider.value() - 1][1] + ',' + rgb[cellophaneCountSlider.value() - 1][2] + ')');
-}
-
-//マウス操作の有無や背景色を規定する手続き
-function base() {
-    orbitControl(10, 10, 10);
-    //背景色
-    background(100);
-
 }
 
 //偏光板を描画する関数
@@ -412,9 +396,10 @@ function graphDraw() {
     });
 }
 
-//draw関数
 function draw() {
-    base();
+    orbitControl(10, 10, 10);
+    //背景色
+    background(100);
     for (let i = 0; i < rays_number; i++) {
         r_rays[i]._draw();
         g_rays[i]._draw();
@@ -422,7 +407,14 @@ function draw() {
     }
     main();
     graphDraw();
-    // console.log(frameRate())
+}
+
+function windowResized() {
+    fullScreen()
+    elInit()
+    initValue()
+    incidentColor.style('background', 'rgb(144,181,130')
+    transmittedColor.style('background', 'rgb(' + rgb[cellophaneCountSlider.value() - 1][0] + ',' + rgb[cellophaneCountSlider.value() - 1][1] + ',' + rgb[cellophaneCountSlider.value() - 1][2] + ')');
 }
 
 //光線のクラス
@@ -595,13 +587,4 @@ class Ray {
             pop();
         }
     }
-}
-
-//windowがリサイズされた時の手続き
-function windowResized() {
-    fullScreen();
-    initSettings();
-    buttonSettings();
-    incidentColor.style('background', 'rgb(144,181,130')
-    transmittedColor.style('background', 'rgb(' + rgb[cellophaneCountSlider.value() - 1][0] + ',' + rgb[cellophaneCountSlider.value() - 1][1] + ',' + rgb[cellophaneCountSlider.value() - 1][2] + ')');
 }

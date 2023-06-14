@@ -1,35 +1,8 @@
 function fullScreen() {
-    createCanvas(2 * windowWidth / 3, windowHeight)
+    createCanvas(2*windowWidth/3, 9 * windowHeight / 10)
 }
 
-let count;
-let gravity;
-let fps;
-let freeBall,
-    viscosityBall,
-    inertiaBall;
-let fbtrajectry,
-    vbtrajectory,
-    ibtrajectory;
-let countArray;
-
-function initSettings() {
-    gravity = 9.8;
-    count = 0;
-    fps = 30;
-    freeBall = new freeBallClass(width / 6 - width / 100, 0, 0, fbWeightSlider.value(), width / 100);
-    viscosityBall = new viscosityBallClass(3 * width / 6 - width / 100, 0, 0, vbWeightSlider.value(), width / 100);
-    inertiaBall = new inertiaBallClass(5 * width / 6 - width / 100, 0, 0, ibWeightSlider.value(), width / 100);
-    fbtrajectry = [];
-    vbtrajectory = [];
-    ibtrajectory = [];
-    countArray = [];
-    frameRate(fps);
-    textAlign(CENTER, CENTER)
-    textSize(width / 50)
-}
-
-let backgroundDiv,
+let parentDiv,
     fbWeightSlider,
     fbWeightSliderLabel,
     vbWeightSlider,
@@ -39,9 +12,8 @@ let backgroundDiv,
     graph,
     graphCanvas,
     graphChart;
-
-function buttonCreation() {
-    backgroundDiv = createDiv()
+function elCreate() {
+    parentDiv = createDiv()
     fbWeightSlider = createSlider(1, 100, 50, 1)
     fbWeightSliderLabel = createElement("label", "抵抗なし玉の質量:" + fbWeightSlider.value())
     vbWeightSlider = createSlider(1, 100, 50, 1)
@@ -60,30 +32,59 @@ function htmlRewrite() {
 
 function sliderInputFunc() {
     htmlRewrite()
-    initSettings()
+    initValue()
 }
 
-function buttonSettings() {
-    backgroundDiv.size(windowWidth / 3, windowHeight / 2).position(2 * windowWidth / 3, 0)
-    fbWeightSlider.size(windowWidth / 6, windowHeight / 6).position(windowWidth / 6, 0).parent(backgroundDiv).input(sliderInputFunc)
-    fbWeightSliderLabel.size(windowWidth / 6, windowHeight / 6).position(0, 0).parent(backgroundDiv)
-    vbWeightSlider.size(windowWidth / 6, windowHeight / 6).position(windowWidth / 6, windowHeight / 6).parent(backgroundDiv).input(sliderInputFunc)
-    vbWeightSliderLabel.size(windowWidth / 6, windowHeight / 6).position(0, windowHeight / 6).parent(backgroundDiv)
-    ibWeightSlider.size(windowWidth / 6, windowHeight / 6).position(windowWidth / 6, 2 * windowHeight / 6).parent(backgroundDiv).input(sliderInputFunc)
-    ibWeightSliderLabel.size(windowWidth / 6, windowHeight / 6).position(0, 2 * windowHeight / 6).parent(backgroundDiv)
-    graph.size(windowWidth / 3, windowHeight / 2).position(2 * windowWidth / 3, windowHeight / 2).style("background-color", "white");
+function elInit() {
+    parentDiv.size(windowWidth / 3, height / 2).position(2 * windowWidth / 3, windowHeight/10)
+    elArr = [fbWeightSlider,fbWeightSliderLabel,vbWeightSlider,vbWeightSliderLabel,ibWeightSlider,ibWeightSliderLabel]
+    for(let i = 0; i< elArr.length;i++){
+        elArr[i].size(windowWidth / 6, height / 6).parent(parentDiv).style("line-height:33%; height:33%; display:block; text-align:center;")
+        if(i % 2 == 0){
+            elArr[i].position(windowWidth/6,i/2*height/6).input(sliderInputFunc)
+        }else{
+            elArr[i].position(0,(i-1)/2*height/6)
+        }
+    }
+    graph.size(windowWidth / 3, height / 2).position(2 * windowWidth / 3, windowHeight-height / 2).style("background-color", "white");
     graphCanvas.size(0, 0).position(0, 0).id("graphChart").parent(graph);
 }
 
+let count;
+let gravity;
+let fps;
+let freeBall,
+    viscosityBall,
+    inertiaBall;
+let fbtrajectry,
+    vbtrajectory,
+    ibtrajectory;
+let countArray;
+function initValue() {
+    gravity = 9.8;
+    count = 0;
+    fps = 30;
+    freeBall = new freeBallClass(width / 6 - width / 100, 0, 0, fbWeightSlider.value(), width / 100);
+    viscosityBall = new viscosityBallClass(3 * width / 6 - width / 100, 0, 0, vbWeightSlider.value(), width / 100);
+    inertiaBall = new inertiaBallClass(5 * width / 6 - width / 100, 0, 0, ibWeightSlider.value(), width / 100);
+    fbtrajectry = [];
+    vbtrajectory = [];
+    ibtrajectory = [];
+    countArray = [];
+    frameRate(fps);
+    textAlign(CENTER, CENTER)
+    textSize(width / 50)
+}
+
 function setup() {
-    fullScreen();
-    buttonCreation()
-    buttonSettings()
-    initSettings();
+    fullScreen()
+    elCreate()
+    elInit()
+    initValue()
 }
 
 function draw() {
-    count++;
+   count++;
     background(0);
     fill(255);
     freeBall._draw();
@@ -119,10 +120,10 @@ function draw() {
     graphDraw()
 }
 
-function tanh(x) {
-    let a = exp(x) - exp(-x);
-    let b = exp(x) + exp(-x);
-    return a / b;
+function windowResized() {
+    fullScreen()
+    elInit()
+    initValue()
 }
 
 class freeBallClass {
@@ -171,7 +172,11 @@ class inertiaBallClass {
         this.weight = w;
         this.radi = r;
     }
-
+    tanh(x) {
+        let a = exp(x) - exp(-x);
+        let b = exp(x) + exp(-x);
+        return a / b;
+    }
     _draw() {
         fill(255)
         text("慣性抵抗あり", 9 * width / 12, width / 50)
@@ -181,13 +186,6 @@ class inertiaBallClass {
         ellipse(this.posx, this.posy, this.radi * 2, this.radi * 2);
     }
 }
-
-function windowResized() {
-    fullScreen();
-    buttonSettings();
-    initSettings();
-}
-
 //グラフを描画する手続き
 function graphDraw() {
     if (typeof graphChart !== 'undefined' && graphChart) {
