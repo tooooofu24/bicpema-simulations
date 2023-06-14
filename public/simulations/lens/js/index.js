@@ -325,7 +325,7 @@ function objectAndVirtualImageDisplay(img) {
     rect(objectXSlider.value() - img.width / 2 + width / 10, objectY, img.width, img.height);
     noStroke()
     fill(255)
-    text("レンズからの距離:" + str((15 * (1 - objectXSlider.value() / (4 * width / 10))).toFixed(1)) + " cm", objectXSlider.value() + width / 10, 3 * height / 4 + 25)
+    text("レンズからの距離:" + str((15 * (1 - objectXSlider.value() / (4 * width / 10))).toFixed(1)) + " cm", objectXSlider.value() + width / 10, 3 * height / 4 + 1.5*width / 75)
     stroke(255);
     noFill();
 
@@ -404,7 +404,7 @@ function screenDisplay(img) {
     let m = b / a;
     fill(255)
     noStroke()
-    text("レンズからの距離:" + str((15 * (screenXSlider.value() / (4 * width / 10))).toFixed(1)) + " cm", screenXSlider.value() + 5 * width / 10, 3 * height / 4 + 25)
+    text("レンズからの距離:" + str((15 * (screenXSlider.value() / (4 * width / 10))).toFixed(1)) + " cm", screenXSlider.value() + 5 * width / 10, 3 * height / 4 + 1.5*width / 75)
     stroke(255)
     if (lensSelect.value() != "凹レンズ") {
         if (a > (4 * width / 10 - focusLengthSlider.value())) {
@@ -472,8 +472,8 @@ function focusDraw(img) {
     tint(255, 255);
     fill(255, 255);
     noStroke();
-    text("focus", width / 2 - (4 * width / 10 - focusLengthSlider.value()), height / 2 + width / 50 + 25 + 10);
-    text("焦点距離:" + str(map(4 * width / 10 - focusLengthSlider.value(), 4 * width / 10, 0, 15, 0).toFixed(1)) + " cm", width / 2 - (4 * width / 10 - focusLengthSlider.value()), height / 2 + width / 50 + 25 + 10 + 75);
+    text("focus", width / 2 - (4 * width / 10 - focusLengthSlider.value()), height / 2 + width / 50 + 1.5*width / 75);
+    text("焦点距離:" + str(map(4 * width / 10 - focusLengthSlider.value(), 4 * width / 10, 0, 15, 0).toFixed(1)) + " cm", width / 2 - (4 * width / 10 - focusLengthSlider.value()), 6*height/10 + 1.5*width / 75);
     stroke(255);
 }
 
