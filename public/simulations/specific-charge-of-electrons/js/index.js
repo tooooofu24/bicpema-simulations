@@ -519,7 +519,7 @@ function textExplanation() {
         strokeWeight(1)
         fill(255)
         textSize(width / 50)
-        text("希薄なヘリウムガスが入っている乾球", mouseX, mouseY)
+        text("希薄なヘリウムガスが入っている管球", mouseX, mouseY)
     }
     stroke(0)
     strokeWeight(1)
