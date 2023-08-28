@@ -18,7 +18,7 @@ function preload() {
 
 //フルスクリーン
 function fullScreen() {
-    createCanvas(windowWidth, windowHeight, P2D);
+    createCanvas(windowWidth, 9*windowHeight/10, P2D);
 }
 
 //ボタン
@@ -42,11 +42,11 @@ function buttonCreation() {
 }
 //ボタンの初期設定
 function buttonSettings() {
-    objectXSlider.size(4 * width / 10, 2).position(width / 10, 3 * height / 4).attribute("max", 4 * width / 10)
-    screenXSlider.size(4 * width / 10, 2).position(width / 2, 3 * height / 4).attribute("max", 4 * width / 10)
-    focusLengthSlider.size(4 * width / 10, 2).position(width / 10, 6 * height / 10).attribute("max", 4 * width / 10)
-    lensSelect.size(4 * width / 10, height / 16).position(width / 10, 8 * height / 10)
-    objectSelect.size(4 * width / 10, height / 16).position(width / 2, 8 * height / 10)
+    objectXSlider.size(4 * width / 10, 2).position(width / 10, windowHeight/10+3 * height / 4).attribute("max", 4 * width / 10)
+    screenXSlider.size(4 * width / 10, 2).position(width / 2, windowHeight/10+3 * height / 4).attribute("max", 4 * width / 10)
+    focusLengthSlider.size(4 * width / 10, 2).position(width / 10, windowHeight/10+6 * height / 10).attribute("max", 4 * width / 10)
+    lensSelect.size(4 * width / 10, height / 16).position(width / 10, windowHeight/10+8.5 * height / 10)
+    objectSelect.size(4 * width / 10, height / 16).position(width / 2, windowHeight/10+8.5 * height / 10)
 }
 
 //変数の設定
