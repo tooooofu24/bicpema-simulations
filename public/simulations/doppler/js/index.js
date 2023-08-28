@@ -16,7 +16,7 @@ let fps = 60;
 
 //フルスクリーンにする手続き
 function fullScreen() {
-  createCanvas(windowWidth, (9 * windowHeight) / 10);
+  createCanvas(windowWidth, (8 * windowHeight) / 10);
 }
 
 //初期化する手続き
@@ -38,25 +38,25 @@ function buttonSettings() {
   startButton
     .mousePressed(moveButtonAction)
     .size(windowWidth / 3, windowHeight / 10)
-    .position(0, height)
+    .position(0, height+windowHeight/10)
     .addClass("btn btn-outline-primary")
     .parent(backgroundDiv);
   stopButton
     .mousePressed(moveButtonAction)
     .size(windowWidth / 3, windowHeight / 10)
-    .position(0, height)
+    .position(0, height+windowHeight/10)
     .addClass("btn btn-outline-danger")
     .hide()
     .parent(backgroundDiv);
   resetButton
     .mousePressed(resetButtonAction)
     .size(windowWidth / 3, windowHeight / 10)
-    .position(windowWidth / 3, height)
+    .position(windowWidth / 3, height+windowHeight/10)
     .addClass("btn btn-outline-secondary")
     .parent(backgroundDiv);
   speedButton
     .size(windowWidth / 3, windowHeight / 10)
-    .position((2 * windowWidth) / 3, height)
+    .position((2 * windowWidth) / 3, height+windowHeight/10)
     .style("text-align", "center")
     .parent(backgroundDiv);
 }
