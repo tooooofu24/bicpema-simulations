@@ -41,18 +41,18 @@ function materialSet() {
 }
 function buttonSettings() {
     backgroundDiv.size(width, windowHeight / 10).style("background-color", "white")
-    startButton.mousePressed(moveButtonAction).size(windowWidth / 8, windowHeight / 10).position(0, height).addClass("btn btn-outline-primary").parent(backgroundDiv)
-    stopButton.mousePressed(moveButtonAction).size(windowWidth / 8, windowHeight / 10).position(0, height).addClass("btn btn-outline-danger").hide().parent(backgroundDiv)
-    resetButton.mousePressed(resetButtonAction).size(windowWidth / 8, windowHeight / 10).position(windowWidth / 8, height).addClass("btn btn-outline-secondary").parent(backgroundDiv)
-    slopeAngleButtonLabel.size(windowWidth / 8, windowHeight / 10).position(2 * windowWidth / 8, height).parent(backgroundDiv).addClass("btn btn-light")
-    slopeAngleButton.size(windowWidth / 8, windowHeight / 10).position(3 * windowWidth / 8, height).parent(backgroundDiv).addClass("btn btn-light").attribute("min", 0).attribute("max", 89.9).attribute("step", 0.1)
-    weightButtonLabel.size(windowWidth / 8, windowHeight / 10).position(4 * windowWidth / 8, height).parent(backgroundDiv).addClass("btn btn-light")
-    weightButton.size(windowWidth / 8, windowHeight / 10).position(5 * windowWidth / 8, height).parent(backgroundDiv).addClass("btn btn-light").attribute("min", 0).attribute("max", 20).attribute("step", 0.1)
-    gravityButtonLabel.size(windowWidth / 8, windowHeight / 10).position(6 * windowWidth / 8, height).parent(backgroundDiv).addClass("btn btn-light")
-    gravityButton.size(windowWidth / 8, windowHeight / 10).position(7 * windowWidth / 8, height).parent(backgroundDiv).addClass("btn btn-light").attribute("min", 0).attribute("max", 20).attribute("step", 0.1)
-    sortButton1.mousePressed(sortButtonAction1).size(windowWidth / 8, windowHeight / 10).position(width - 3 * windowWidth / 8, 0).addClass("btn btn-outline-secondary")
-    sortButton2.mousePressed(sortButtonAction2).size(windowWidth / 8, windowHeight / 10).position(width - 2 * windowWidth / 8, 0).addClass("btn btn-outline-secondary")
-    sortButton3.mousePressed(sortButtonAction3).size(windowWidth / 8, windowHeight / 10).position(width - windowWidth / 8, 0).addClass("btn btn-outline-secondary")
+    startButton.mousePressed(moveButtonAction).size(windowWidth / 8, windowHeight / 10).position(0, height+windowHeight/10).addClass("btn btn-outline-primary").parent(backgroundDiv)
+    stopButton.mousePressed(moveButtonAction).size(windowWidth / 8, windowHeight / 10).position(0, height+windowHeight/10).addClass("btn btn-outline-danger").hide().parent(backgroundDiv)
+    resetButton.mousePressed(resetButtonAction).size(windowWidth / 8, windowHeight / 10).position(windowWidth / 8, height+windowHeight/10).addClass("btn btn-outline-secondary").parent(backgroundDiv)
+    slopeAngleButtonLabel.size(windowWidth / 8, windowHeight / 10).position(2 * windowWidth / 8, height+windowHeight/10).parent(backgroundDiv).addClass("btn btn-light")
+    slopeAngleButton.size(windowWidth / 8, windowHeight / 10).position(3 * windowWidth / 8, height+windowHeight/10).parent(backgroundDiv).addClass("btn btn-light").attribute("min", 0).attribute("max", 89.9).attribute("step", 0.1)
+    weightButtonLabel.size(windowWidth / 8, windowHeight / 10).position(4 * windowWidth / 8, height+windowHeight/10).parent(backgroundDiv).addClass("btn btn-light")
+    weightButton.size(windowWidth / 8, windowHeight / 10).position(5 * windowWidth / 8, height+windowHeight/10).parent(backgroundDiv).addClass("btn btn-light").attribute("min", 0).attribute("max", 20).attribute("step", 0.1)
+    gravityButtonLabel.size(windowWidth / 8, windowHeight / 10).position(6 * windowWidth / 8, height+windowHeight/10).parent(backgroundDiv).addClass("btn btn-light")
+    gravityButton.size(windowWidth / 8, windowHeight / 10).position(7 * windowWidth / 8, height+windowHeight/10).parent(backgroundDiv).addClass("btn btn-light").attribute("min", 0).attribute("max", 20).attribute("step", 0.1)
+    sortButton1.mousePressed(sortButtonAction1).size(windowWidth / 8, windowHeight / 10).position(width - 3 * windowWidth / 8, windowHeight/10).addClass("btn btn-outline-secondary")
+    sortButton2.mousePressed(sortButtonAction2).size(windowWidth / 8, windowHeight / 10).position(width - 2 * windowWidth / 8, windowHeight/10).addClass("btn btn-outline-secondary")
+    sortButton3.mousePressed(sortButtonAction3).size(windowWidth / 8, windowHeight / 10).position(width - windowWidth / 8, windowHeight/10).addClass("btn btn-outline-secondary")
 }
 function sortButtonAction1() {
     material.sort = 1;
@@ -216,5 +216,5 @@ function windowResized() {
     stopButton.hide()
 }
 function fullScreen() {
-    createCanvas(windowWidth, 9 * windowHeight / 10);
+    createCanvas(windowWidth, 8 * windowHeight / 10);
 }
