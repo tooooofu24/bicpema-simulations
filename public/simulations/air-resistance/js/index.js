@@ -1,5 +1,5 @@
 function fullScreen() {
-    createCanvas(2*windowWidth/3, 9 * windowHeight / 10)
+    createCanvas(2 * windowWidth / 3, 9 * windowHeight / 10)
 }
 
 let parentDiv,
@@ -13,15 +13,15 @@ let parentDiv,
     graphCanvas,
     graphChart;
 function elCreate() {
-    parentDiv = createDiv()
-    fbWeightSlider = createSlider(1, 100, 50, 1)
+    parentDiv = createDiv().id("parentDiv")
+    fbWeightSlider = createSlider(1, 100, 50, 1).class("form-range")
     fbWeightSliderLabel = createElement("label", "抵抗なし玉の質量:" + fbWeightSlider.value())
-    vbWeightSlider = createSlider(1, 100, 50, 1)
+    vbWeightSlider = createSlider(1, 100, 50, 1).class("form-range")
     vbWeightSliderLabel = createElement("label", "粘性抵抗ありの玉の質量:" + vbWeightSlider.value())
-    ibWeightSlider = createSlider(1, 100, 50, 1)
+    ibWeightSlider = createSlider(1, 100, 50, 1).class("form-range")
     ibWeightSliderLabel = createElement("label", "慣性抵抗ありの玉の質量:" + ibWeightSlider.value())
-    graph = createDiv();
-    graphCanvas = createElement("canvas")
+    graph = createDiv().id("graph");
+    graphCanvas = createElement("canvas").id("graphChart")
 }
 
 function htmlRewrite() {
@@ -36,18 +36,14 @@ function sliderInputFunc() {
 }
 
 function elInit() {
-    parentDiv.size(windowWidth / 3, height / 2).position(2 * windowWidth / 3, windowHeight/10)
-    elArr = [fbWeightSlider,fbWeightSliderLabel,vbWeightSlider,vbWeightSliderLabel,ibWeightSlider,ibWeightSliderLabel]
-    for(let i = 0; i< elArr.length;i++){
-        elArr[i].size(windowWidth / 6, height / 6).parent(parentDiv).style("line-height:33%; height:33%; display:block; text-align:center;")
-        if(i % 2 == 0){
-            elArr[i].position(windowWidth/6,i/2*height/6).input(sliderInputFunc)
-        }else{
-            elArr[i].position(0,(i-1)/2*height/6)
-        }
+    parentDiv.size(windowWidth / 3, height / 4).position(2 * windowWidth / 3, windowHeight / 10)
+    elArr = [fbWeightSliderLabel, fbWeightSlider, vbWeightSliderLabel, vbWeightSlider, ibWeightSliderLabel, ibWeightSlider]
+    for (let i = 0; i < elArr.length; i++) {
+        elArr[i].size(windowWidth / 3, height / 24).parent(parentDiv)
+        if (i % 2 == 1) elArr[i].input(sliderInputFunc)
     }
-    graph.size(windowWidth / 3, height / 2).position(2 * windowWidth / 3, windowHeight-height / 2).style("background-color", "white");
-    graphCanvas.size(0, 0).position(0, 0).id("graphChart").parent(graph);
+    graph.size(windowWidth / 3, 3*height / 4).position(2 * windowWidth / 3, windowHeight - 3* height / 4);
+    graphCanvas.size(0, 0).position(0, 0).parent(graph);
 }
 
 let count;
@@ -84,7 +80,7 @@ function setup() {
 }
 
 function draw() {
-   count++;
+    count++;
     background(0);
     fill(255);
     freeBall._draw();
@@ -180,7 +176,7 @@ class inertiaBallClass {
     _draw() {
         fill(255)
         text("慣性抵抗あり", 9 * width / 12, width / 50)
-        this.speed = sqrt(this.weight * gravity) * tanh(sqrt(gravity / this.weight) * count);
+        this.speed = sqrt(this.weight * gravity) * Math.tanh(sqrt(gravity / this.weight) * count);
         this.posy += this.speed / fps;
         fill(0, 0, 255)
         ellipse(this.posx, this.posy, this.radi * 2, this.radi * 2);
