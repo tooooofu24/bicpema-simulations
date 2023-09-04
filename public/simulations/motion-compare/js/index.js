@@ -19,14 +19,14 @@ let distGraphChart;
 let velocityGraphChart;
 function elCreate() {
     timer = createDiv("経過時間:0[s]").id("timer")
-    b1VelocityIntro = createElement("label", "上のボールの初速[]")
-    b1Velocity = createInput(5, "number", 0.1);
-    b1AccelerationIntro = createElement("label", "上のボールの加速度[]")
-    b1Acceleration = createInput(10, "number", 0.1);
-    b2VelocityIntro = createElement("label", "下のボールの初速[]")
-    b2Velocity = createInput(10, "number", 0.1);
-    b2AccelerationIntro = createElement("label", "下のボールの加速度[]")
-    b2Acceleration = createInput(5, "number", 0.1);
+    b1VelocityIntro = createElement("label", "上のボールの初速[]").class('b1')
+    b1Velocity = createInput(5, "number", 0.1).class('b1')
+    b1AccelerationIntro = createElement("label", "上のボールの加速度[]").class('b1')
+    b1Acceleration = createInput(10, "number", 0.1).class('b1')
+    b2VelocityIntro = createElement("label", "下のボールの初速[]").class('b2')
+    b2Velocity = createInput(10, "number", 0.1).class('b2')
+    b2AccelerationIntro = createElement("label", "下のボールの加速度[]").class('b2')
+    b2Acceleration = createInput(5, "number", 0.1).class('b2')
     moveButton = createButton("スタート/ストップ").class("btn btn-primary").mousePressed(buttonAction)
     resetButton = createButton("リセット").class("btn btn-secondary").mousePressed(resetAction)
     distGraph = createDiv().id("distGraph");
@@ -78,7 +78,7 @@ function initValue() {
     count = 0
     countArr = []
     frameRate(fps)
-    textSize(10)
+    textSize(16)
     textAlign(CENTER)
 }
 
@@ -158,7 +158,7 @@ class Ball {
         ellipse(this.posx, this.posy, ballRadi * 2, ballRadi * 2)
         ellipse(this.posx, this.posy, 2, 2)
         fill(0)
-        for (let x = 0; x < width; x += 100)text(x, x + ballRadi, this.posy + 1.5 * ballRadi)
+        for (let x = 0; x < width; x += 100)text(x, x + ballRadi, this.posy + 2 * ballRadi)
         text(parseInt(this.posx - ballRadi), this.posx - ballRadi, this.posy - 3 * ballRadi + 2.5, ballRadi * 2, ballRadi)
     }
 }
@@ -174,12 +174,12 @@ function graphDraw() {
         datasets: [{
             label: "上のボール",
             data: b1.arr,
-            borderColor: 'rgba(255, 0, 0)',
+            borderColor: 'rgba(235,101,98)',
             lineTension: 0.3,
         }, {
             label: "下のボール",
             data: b2.arr,
-            borderColor: 'rgba(0, 255, 0)',
+            borderColor: 'rgba(5,180,185)',
             lineTension: 0.3,
         }
         ]
@@ -190,25 +190,44 @@ function graphDraw() {
                 display: true,
                 title: {
                     display: true,
-                    text: '経過時間[s]'
-                }
+                    text: '経過時間[s]',
+                    font: {
+                        size: 16
+                    }
+                },
+                min: 0,
+                max: 100
             },
             y: {
                 display: true,
                 title: {
                     display: true,
-                    text: '位置[px]'
+                    text: '位置[px]',
+                    font: {
+                        size: 16
+                    }
                 },
-                min: 0
-            }
+                min: 0,
+                max: 1000
+            },
         },
         plugins: {
             title: {
                 display: true,
-                text: 'x-tグラフ'
+                text: 'x-tグラフ',
+                font: {
+                    size: 16
+                }
             },
+            legend: {
+                labels: {
+                    font: {
+                        size: 16
+                    }
+                }
+            }
         },
-        animation: false
+        animation: false,
     }
     distGraphChart = new Chart(ctx1, {
         type: 'line',
@@ -225,12 +244,12 @@ function graphDraw() {
         datasets: [{
             label: "上のボール",
             data: b1.vArr,
-            borderColor: 'rgba(255, 0, 0)',
+            borderColor: 'rgba(235,101,98)',
             lineTension: 0.3,
         }, {
             label: "下のボール",
             data: b2.vArr,
-            borderColor: 'rgba(0, 255, 0)',
+            borderColor: 'rgba(5,180,185)',
             lineTension: 0.3,
         }
         ]
@@ -241,23 +260,42 @@ function graphDraw() {
                 display: true,
                 title: {
                     display: true,
-                    text: '経過時間[s]'
-                }
+                    text: '経過時間[s]',
+                    font: {
+                        size: 16
+                    }
+                },
+                min: 0,
+                max: 100
             },
             y: {
                 display: true,
                 title: {
                     display: true,
-                    text: '位置[px]'
+                    text: '位置[px]',
+                    font: {
+                        size: 16
+                    }
                 },
-                min: 0
+                min: 0,
+                max: 100
             }
         },
         plugins: {
             title: {
                 display: true,
-                text: 'v-tグラフ'
+                text: 'x-tグラフ',
+                font: {
+                    size: 16
+                }
             },
+            legend: {
+                labels: {
+                    font: {
+                        size: 16
+                    }
+                }
+            }
         },
         animation: false
     }

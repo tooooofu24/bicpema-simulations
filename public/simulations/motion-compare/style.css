@@ -4,3 +4,11 @@ label,
     text-align: center;
     align-items: center;
 }
+
+.b1 {
+    background-color: rgba(235, 100, 98, 0.1);
+}
+
+.b2 {
+    background-color: rgba(5, 180, 185, 0.1);
+}
