@@ -196,7 +196,6 @@ function graphDraw() {
                     }
                 },
                 min: 0,
-                max: 100
             },
             y: {
                 display: true,
@@ -208,7 +207,6 @@ function graphDraw() {
                     }
                 },
                 min: 0,
-                max: 1000
             },
         },
         plugins: {
@@ -266,7 +264,6 @@ function graphDraw() {
                     }
                 },
                 min: 0,
-                max: 100
             },
             y: {
                 display: true,
@@ -278,7 +275,6 @@ function graphDraw() {
                     }
                 },
                 min: 0,
-                max: 1000
             }
         },
         plugins: {
