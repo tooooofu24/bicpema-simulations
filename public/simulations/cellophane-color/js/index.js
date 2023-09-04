@@ -26,10 +26,10 @@ function elCreate() {
     opdInputIntro = createElement("label", "光路差")
     opdInput = createInput(216.15, "number")
     colabNumIntro = createElement("label", "セロハンの組み合わせの数")
-    colabNum = createInput(1, "number").attribute("min", 0).attribute("max", 10).input(createCelloColabInput)
+    colabNum = createSelect().input(createCelloColabInput)
+    for (let i = 0; i < 11; i++)colabNum.option(i)
     celloColabInputArr = []
     for (let i = 0; i < 10; i++)celloColabInputArr.push(createInput(1, "number").hide())
-    celloColabInputArr[0].show()
 }
 
 // DOM要素の設定
