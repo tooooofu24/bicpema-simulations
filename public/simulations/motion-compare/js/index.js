@@ -269,7 +269,7 @@ function graphDraw() {
                 display: true,
                 title: {
                     display: true,
-                    text: '位置[px]',
+                    text: '速度[px/s]',
                     font: {
                         size: 16
                     }
@@ -280,7 +280,7 @@ function graphDraw() {
         plugins: {
             title: {
                 display: true,
-                text: 'x-tグラフ',
+                text: 'v-tグラフ',
                 font: {
                     size: 16
                 }
