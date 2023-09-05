@@ -39,7 +39,7 @@ function elCreate() {
         celloColabInputArr.push(
             [
                 createElement("label", str(i + 1) + "組目：枚数").hide(),
-                createInput(1, "number").hide(),
+                createInput(1, "number").hide().attribute("min",0),
                 createElement("label", "　角度").hide(),
                 createInput(1, "number").hide()
             ]
@@ -96,13 +96,14 @@ function createPolarizer(size, x, y, z, pattern) {
 }
 
 function createCellophane(n, r, a) {
+    noStroke()
     push()
     rotateZ(r * PI / 180)
     fill(157, 204, 224, 50)
     for (let i = 0; i < n; i++) {
         push()
-        translate(-0, 0, -2 * (i+a) + 50)
-        box(100, 200, 2)
+        translate(-0, 0, -1 * (i+a) + 50)
+        box(100, 200, 1)
         pop()
     }
     pop()
@@ -115,8 +116,8 @@ function draw() {
     createPolarizer(200, 0, 0, 50, 0)
     celloNum = 0
     for (let i = 0; i < colabNum.value(); i++)celloNum += parseInt(celloColabInputArr[i][1].value())
-    if (polarizer.value() == "平行ニコル配置") createPolarizer(200, 0, 0, 50 - 2 * celloNum, 0)
-    if (polarizer.value() == "直交ニコル配置") createPolarizer(200, 0, 0, 50 - 2 * celloNum, 1)
+    if (polarizer.value() == "平行ニコル配置") createPolarizer(200, 0, 0, 50 - 1 * celloNum, 0)
+    if (polarizer.value() == "直交ニコル配置") createPolarizer(200, 0, 0, 50 - 1 * celloNum, 1)
     let z = 0
     for (let i = 0; i < colabNum.value(); i++) {
         createCellophane(parseInt(celloColabInputArr[i][1].value()), parseInt(celloColabInputArr[i][3].value()), z)
