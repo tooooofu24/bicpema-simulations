@@ -5,6 +5,7 @@ function fullScreen() {
 
 // 外部ファイルの読み込み
 function preload() {
+    sheet = loadTable("./data/data.csv")
 
 }
 
@@ -52,8 +53,8 @@ function elCreate() {
 
 //出射光の計算をする
 function calculate() {
-    beforeColor.style("background-color:rgb("+str(r1)+","+str(g1)+","+str(b1)+ ")")
-    afterColor.style("background-color:rgb("+str(r2)+","+str(g2)+","+str(b2)+ ")")
+    beforeColor.style("background-color:rgb(" + str(r1) + "," + str(g1) + "," + str(b1) + ")")
+    afterColor.style("background-color:rgb(" + str(r2) + "," + str(g2) + "," + str(b2) + ")")
 }
 
 // DOM要素の設定
@@ -76,8 +77,8 @@ function elInit() {
 }
 
 
-let r1,g1,b1;
-let r2,g2,b2;
+let r1, g1, b1;
+let r2, g2, b2;
 // 初期値やシミュレーションの設定
 function initValue() {
     r1 = 255
@@ -94,6 +95,12 @@ function setup() {
     elCreate()
     elInit()
     initValue()
+    sheetObj = sheet.getObject()
+    rowNum = Object.keys(sheetObj).length
+    for (let i = 0; i< rowNum; i++){
+        console.log(sheet.get(i,0))
+        console.log(sheet.get(i,1))
+    }
 }
 
 function createPolarizer(size, x, y, z, pattern) {
