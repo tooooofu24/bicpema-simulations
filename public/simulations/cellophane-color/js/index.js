@@ -31,7 +31,7 @@ function elCreate() {
     optionArr = ["平行ニコル配置", "直交ニコル配置"]
     for (let i = 0; i < optionArr.length; i++)polarizer.option(optionArr[i])
     opdInputIntro = createElement("label", "光路差").class("form-label")
-    opdInput = createInput(216.15, "number").class("form-control")
+    opdInput = createInput(213.4931888, "number").class("form-control")
     colabNumIntro = createElement("label", "セロハンの組み合わせの数").class("form-label")
     colabNum = createSelect().input(createCelloColabInput).class("form-select")
     for (let i = 0; i < 11; i++)colabNum.option(i)
@@ -97,9 +97,9 @@ function setup() {
     initValue()
     sheetObj = sheet.getObject()
     rowNum = Object.keys(sheetObj).length
-    for (let i = 0; i< rowNum; i++){
-        console.log(sheet.get(i,0))
-        console.log(sheet.get(i,1))
+    for (let i = 0; i < rowNum; i++) {
+        console.log(sheet.get(i, 0))
+        console.log(sheet.get(i, 1))
     }
 }
 
