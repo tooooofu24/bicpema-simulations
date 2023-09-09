@@ -95,6 +95,7 @@ function setup() {
     elCreate()
     elInit()
     initValue()
+    camera(0, 0, 250, 0, 0, 0, 0, 1, 0);
     sheetObj = sheet.getObject()
     rowNum = Object.keys(sheetObj).length
     for (let i = 0; i < rowNum; i++) {
@@ -123,7 +124,7 @@ function createPolarizer(size, x, y, z, pattern) {
 }
 
 function createCellophane(n, r, a) {
-    noStroke()
+    // noStroke()
     push()
     rotateZ(r * PI / 180)
     fill(157, 204, 224, 50)
@@ -138,7 +139,7 @@ function createCellophane(n, r, a) {
 
 // draw関数
 function draw() {
-    orbitControl(10)
+    // orbitControl(10)
     background(100)
     createPolarizer(200, 0, 0, 50, 0)
     celloNum = 0
