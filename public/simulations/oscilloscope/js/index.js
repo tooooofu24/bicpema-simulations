@@ -69,7 +69,8 @@ function draw() {
     stroke(0)
     strokeWeight(1.5)
     for (let i = -width / 2; i < width / 2; i += 50)line(width / 2 + i, 0, width / 2 + i, height)
-    for (let i = -height / 2; i < height / 2; i += 50)line(0, height / 2 + i, width, height / 2 + i)
+    for (let i = height / 2; i > 0; i -= 50)line(0, i, width, i)
+    for (let i = height / 2; i < height; i += 50)line(0, i, width, i)
     strokeWeight(3);
     noFill();
     stroke(163, 254, 245)
@@ -87,7 +88,7 @@ function draw() {
         beginShape();
         for (i = 0; i < spectrum.length; i++) {
             let x = map(i, 0, spectrum.length, 0, width);
-            let y = map(spectrum[i], 0, 255, height-5, 0)
+            let y = map(spectrum[i], 0, 255, height - 5, 0)
             vertex(x, y);
         }
         endShape();
