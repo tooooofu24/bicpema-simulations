@@ -18,9 +18,11 @@ function elInit() {
 
 }
 
+let sampleWave;
 // 初期値やシミュレーションの設定
 function initValue() {
-textAlign(CENTER)
+    textAlign(CENTER)
+    sampleWave = new Wave(100)
 }
 
 // setup関数
@@ -54,11 +56,12 @@ function backgroundSetting() {
     line(50, height / 2, max_time, height / 2)
     line(max_time, height / 2, max_time - 25, height / 2 - 25)
     line(max_time, height / 2, max_time - 25, height / 2 + 25)
-    for (let x = 50; x < max_time; x += 50)text(x, 50 + x, height/2+25)
+    for (let x = 50; x < max_time; x += 50)text(x, 50 + x, height / 2 + 25)
 }
 // draw関数
 function draw() {
     backgroundSetting()
+    sampleWave._draw()
 }
 
 // windowがリサイズされたときの処理
@@ -68,10 +71,17 @@ function windowResized() {
     initValue()
 }
 
-// class Wave{
-//     constructor(h){
-//         this.waveHeight = h
-//         this.waveArray = []
-//         for (let i = 0; i < 100; )
-//     }
-// }
+class Wave {
+    constructor(h) {
+        this.waveHeight = h
+        this.waveArray = []
+        for (let i = 0; i < 50; i++)this.waveArray.push(2 * i)
+        for (let i = 0; i < 50; i++)console.log(this.waveArray[i])
+    }
+    _draw() {
+        for(let i = 0; i < this.waveArray.length; i ++){
+            let y = 100*sin(7.2*i*PI/180)
+            ellipse(i*3,400+y,10,10)
+        }
+    }
+}
