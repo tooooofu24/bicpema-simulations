@@ -20,7 +20,7 @@ function elInit() {
 
 // 初期値やシミュレーションの設定
 function initValue() {
-
+textAlign(CENTER)
 }
 
 // setup関数
@@ -38,20 +38,23 @@ function backgroundSetting() {
     for (let x = 0; x < width; x += 50)line(x, 0, x, height)
     for (let y = height / 2; y > 0; y -= 50)line(0, y, width, y)
     for (let y = height / 2; y < height; y += 50)line(0, y, width, y)
-    
+
     strokeWeight(3)
-    
+
     // 縦軸（振幅）の描画
     let max_amp = 50 * ((Math.floor(height / 50)) / 2)
     line(50, height / 2 - max_amp, 50, height / 2 + max_amp)
     line(50, height / 2 - max_amp, 25, height / 2 - max_amp + 25)
     line(50, height / 2 - max_amp, 75, height / 2 - max_amp + 25)
+    for (let y = 0; y <= max_amp; y += 50)text(y, 25, height / 2 - y)
+    for (let y = 50; y <= max_amp; y += 50)text(-y, 25, height / 2 + y)
 
     // 横軸（時間）の描画
     let max_time = 50 * Math.floor(width / 50)
-    line(50,height/2,max_time,height/2)
-    line(max_time,height/2,max_time-25,height/2-25)
-    line(max_time,height/2,max_time-25,height/2+25)
+    line(50, height / 2, max_time, height / 2)
+    line(max_time, height / 2, max_time - 25, height / 2 - 25)
+    line(max_time, height / 2, max_time - 25, height / 2 + 25)
+    for (let x = 50; x < max_time; x += 50)text(x, 50 + x, height/2+25)
 }
 // draw関数
 function draw() {
@@ -65,6 +68,10 @@ function windowResized() {
     initValue()
 }
 
-// class Sample{
-
+// class Wave{
+//     constructor(h){
+//         this.waveHeight = h
+//         this.waveArray = []
+//         for (let i = 0; i < 100; )
+//     }
 // }
