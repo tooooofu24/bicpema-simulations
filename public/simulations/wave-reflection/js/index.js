@@ -63,7 +63,7 @@ function backgroundSetting() {
 // draw関数
 function draw() {
     backgroundSetting()
-    sampleWave1._draw()
+    // sampleWave1._draw()
     sampleWave2._draw()
     noFill()
     strokeWeight(5)
@@ -89,19 +89,35 @@ class Wave {
         this.waveArray = []
         this.posx = x
         this.waveIs = wIs
-        for (let i = 0; i < 360; i++)this.waveArray.push(i)
+        let max_time = 50 * Math.floor(width / 50)
+        if (this.waveIs) {
+            for (let i = 0; i < max_time - 50; i++) {
+                if (i < 360) {
+                    this.waveArray.push(this.waveHeight * sin(i * PI / 180))
+                } else {
+                    this.waveArray.push(0)
+                }
+            }
+        }else{
+            for (let i = 0; i < max_time - 50; i++) {
+                if (i < 360) {
+                    this.waveArray.push(this.waveHeight * sin(i * PI / 180))
+                } else {
+                    this.waveArray.push(0)
+                }
+            }
+        }
     }
     _draw() {
+        let max_time = 50 * Math.floor(width / 50)
         if (this.waveIs) {
             this.posx += 1
         } else {
             this.posx -= 1
         }
-        for (let i = 0; i < this.waveArray.length; i++) {
-            let x = this.posx + i - 360
-            let y = 50 * sin(i * PI / 180)
-            let max_time = 50 * Math.floor(width / 50) - 50
-            if (x < max_time) mediumWave[x] = y
+        for (let i = max_time-51; i > 0; i--) {
+            this.waveArray[i + 1] = this.waveArray[i]
+            ellipse(i + 50, this.waveArray[i] + height / 2, 10, 10)
         }
     }
 }
