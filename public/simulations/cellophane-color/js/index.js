@@ -5,8 +5,8 @@ function fullScreen() {
 
 // 外部ファイルの読み込み
 function preload() {
-    sheet = loadTable("./data/data.csv")
-
+    cmfTable = loadTable("./data/cmf.csv", "csv", "header")
+    osTable = loadTable("./data/os.csv", "csv", "header")
 }
 
 function createCelloColabInput() {
@@ -77,16 +77,20 @@ function elInit() {
 }
 
 
-let r1, g1, b1;
-let r2, g2, b2;
+let cmfRowNum;
+let osRowNum;
+let waveLengthArr;
+let xLambda, yLambda, zLambda;
+let osArr;
 // 初期値やシミュレーションの設定
 function initValue() {
-    r1 = 255
-    g1 = 255
-    b1 = 0
-    r2 = 255
-    g2 = 0
-    b2 = 255
+    cmfRowNum = cmfTable.getRowCount();
+    waveLengthArr = cmfTable.getColumn("wave-length")
+    xLambda = cmfTable.getColumn("x(lambda)")
+    yLambda = cmfTable.getColumn("y(lambda)")
+    zLambda = cmfTable.getColumn("z(lambda)")
+    osRowNum = osTable.getRowCount();
+    osArr = osTable.getColumn("optical-strength")
 }
 
 // setup関数
@@ -95,13 +99,7 @@ function setup() {
     elCreate()
     elInit()
     initValue()
-    camera(0, 0, 250, 0, 0, 0, 0, 1, 0);
-    sheetObj = sheet.getObject()
-    rowNum = Object.keys(sheetObj).length
-    for (let i = 0; i < rowNum; i++) {
-        console.log(sheet.get(i, 0))
-        console.log(sheet.get(i, 1))
-    }
+    camera(0, 0, 500, 0, 0, 0, 0, 1, 0);
 }
 
 function createPolarizer(size, x, y, z, pattern) {
@@ -150,6 +148,15 @@ function draw() {
     for (let i = 0; i < colabNum.value(); i++) {
         createCellophane(parseInt(celloColabInputArr[i][1].value()), parseInt(celloColabInputArr[i][3].value()), z)
         z += parseInt(celloColabInputArr[i][1].value())
+    }
+    // for (let i = 0; i < cmfRowNum; i++) {
+    //     ellipse(i, 100 - 100 * xLambda[i], 10, 10)
+    //     ellipse(i, 100 - 100 * yLambda[i], 10, 10)
+    //     ellipse(i, 100 - 100 * zLambda[i], 10, 10)
+    // }
+    for (let i = 0; i < osRowNum; i++) {
+        noStroke()
+        ellipse(i, 100 - 100 * osArr[i], 10, 10)
     }
 }
 
