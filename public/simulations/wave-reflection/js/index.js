@@ -19,13 +19,15 @@ function elInit() {
 }
 
 let mediumWave;
-
+let waveArr;
 // 初期値やシミュレーションの設定
 function initValue() {
     textAlign(CENTER)
     let max_time = 50 * Math.floor(width / 50)
     mediumWave = [];
-    
+    waveArr = []
+    for (let i = 50; i < max_time; i++)mediumWave.push(0);
+    for (let i = 0; i < 1; i++)waveArr.push(new incidenceWave(100))
 }
 
 // setup関数
@@ -61,6 +63,11 @@ function backgroundSetting() {
 // draw関数
 function draw() {
     backgroundSetting()
+    let max_time = 50 * Math.floor(width / 50)
+    for (let i = 0; i < max_time; i++)ellipse(i + 50, mediumWave[i] + height / 2, 10, 10)
+    for (let i = 0; i < waveArr.length; i++) {
+        waveArr[i]._draw()
+    }
 }
 
 // windowがリサイズされたときの処理
@@ -70,9 +77,24 @@ function windowResized() {
     initValue()
 }
 
-class incidenceWave{
-    constructor(){
+class incidenceWave {
+    constructor(h) {
+        this.arr = []
+        let max_time = 50 * Math.floor(width / 50)
+        for (let i = 50; i < max_time; i++)this.arr.push(0)
+        this.count = 0
+    this.height = h
     }
-    _draw(){
+    _draw() {
+        this.count+=1
+        if(this.count <= 360){
+            this.arr[0] = this.height*sin(2*PI*this.count/360)
+        }
+        for (let i = 1; i < this.arr.length; i++) {
+            this.arr[i] = this.arr[i-1]
+            let x = i + 50
+            let y = height / 2 + this.arr[i]
+            ellipse(x, y, 10, 10)
+        }
     }
 }
