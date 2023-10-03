@@ -18,16 +18,14 @@ function elInit() {
 
 }
 
-let sampleWave;
 let mediumWave;
+
 // 初期値やシミュレーションの設定
 function initValue() {
     textAlign(CENTER)
-    sampleWave1 = new Wave(100, true, 0)
-    sampleWave2 = new Wave(100, false, 1000)
-    mediumWave = new Array();
     let max_time = 50 * Math.floor(width / 50)
-    for (let i = 50; i < max_time; i++)mediumWave.push(0)
+    mediumWave = [];
+    
 }
 
 // setup関数
@@ -63,17 +61,6 @@ function backgroundSetting() {
 // draw関数
 function draw() {
     backgroundSetting()
-    // sampleWave1._draw()
-    sampleWave2._draw()
-    noFill()
-    strokeWeight(5)
-    beginShape()
-    for (let i = 0; i < mediumWave.length; i++) {
-        let x = 50 + i
-        let y = height / 2 + mediumWave[i]
-        vertex(x, y)
-    }
-    endShape()
 }
 
 // windowがリサイズされたときの処理
@@ -83,41 +70,9 @@ function windowResized() {
     initValue()
 }
 
-class Wave {
-    constructor(h, wIs, x) {
-        this.waveHeight = h
-        this.waveArray = []
-        this.posx = x
-        this.waveIs = wIs
-        let max_time = 50 * Math.floor(width / 50)
-        if (this.waveIs) {
-            for (let i = 0; i < max_time - 50; i++) {
-                if (i < 360) {
-                    this.waveArray.push(this.waveHeight * sin(i * PI / 180))
-                } else {
-                    this.waveArray.push(0)
-                }
-            }
-        }else{
-            for (let i = 0; i < max_time - 50; i++) {
-                if (i < 360) {
-                    this.waveArray.push(this.waveHeight * sin(i * PI / 180))
-                } else {
-                    this.waveArray.push(0)
-                }
-            }
-        }
+class incidenceWave{
+    constructor(){
     }
-    _draw() {
-        let max_time = 50 * Math.floor(width / 50)
-        if (this.waveIs) {
-            this.posx += 1
-        } else {
-            this.posx -= 1
-        }
-        for (let i = max_time-51; i > 0; i--) {
-            this.waveArray[i + 1] = this.waveArray[i]
-            ellipse(i + 50, this.waveArray[i] + height / 2, 10, 10)
-        }
+    _draw(){
     }
 }
