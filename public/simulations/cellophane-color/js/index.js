@@ -137,7 +137,7 @@ function createCellophane(n, r, a) {
 
 // draw関数
 function draw() {
-    // orbitControl(10)
+    orbitControl(10)
     background(100)
     createPolarizer(200, 0, 0, 50, 0)
     celloNum = 0
@@ -148,15 +148,6 @@ function draw() {
     for (let i = 0; i < colabNum.value(); i++) {
         createCellophane(parseInt(celloColabInputArr[i][1].value()), parseInt(celloColabInputArr[i][3].value()), z)
         z += parseInt(celloColabInputArr[i][1].value())
-    }
-    // for (let i = 0; i < cmfRowNum; i++) {
-    //     ellipse(i, 100 - 100 * xLambda[i], 10, 10)
-    //     ellipse(i, 100 - 100 * yLambda[i], 10, 10)
-    //     ellipse(i, 100 - 100 * zLambda[i], 10, 10)
-    // }
-    for (let i = 0; i < osRowNum; i++) {
-        noStroke()
-        ellipse(i, 100 - 100 * osArr[i], 10, 10)
     }
 }
 
