@@ -34,13 +34,13 @@ function elCreate() {
     opdInput = createInput(213.4931888, "number").class("form-control")
     colabNumIntro = createElement("label", "セロハンの組み合わせの数").class("form-label")
     colabNum = createSelect().input(createCelloColabInput).class("form-select")
-    for (let i = 0; i < 11; i++)colabNum.option(i)
+    for (let i = 1; i <= 10; i++)colabNum.option(i)
     celloColabInputArr = []
     for (let i = 0; i < 10; i++) {
         celloColabInputArr.push(
             [
                 createElement("label", str(i + 1) + "組目：枚数").hide().class("form-label"),
-                createInput(1, "number").hide().attribute("min", 0).attribute("max", 10).class("form-control"),
+                createInput(1, "number").hide().attribute("min", 1).attribute("max", 10).class("form-control"),
                 createElement("label", "　角度").hide().class("form-label"),
                 createInput(1, "number").hide().class("form-control")
             ]
@@ -55,6 +55,8 @@ function elCreate() {
 function calculate() {
     beforeColor.style("background-color:rgb(" + str(r1) + "," + str(g1) + "," + str(b1) + ")")
     afterColor.style("background-color:rgb(" + str(r2) + "," + str(g2) + "," + str(b2) + ")")
+
+
 }
 
 // DOM要素の設定
@@ -71,6 +73,10 @@ function elInit() {
         celloColabInputArr[i][2].position(width + windowWidth / 6 + windowWidth / 24, windowHeight / 10 + (6 + i) * windowHeight / 18).size(windowWidth / 12, windowHeight / 18)
         celloColabInputArr[i][3].position(width + windowWidth / 6 + windowWidth / 24 + windowWidth / 12, windowHeight / 10 + (6 + i) * windowHeight / 18).size(windowWidth / 24, windowHeight / 18)
     }
+    celloColabInputArr[0][0].show()
+    celloColabInputArr[0][1].show()
+    celloColabInputArr[0][2].show()
+    celloColabInputArr[0][3].show()
     beforeColor.position(0, 9 * windowHeight / 10).size(width / 3, windowHeight / 10)
     afterColor.position(width / 3, 9 * windowHeight / 10).size(width / 3, windowHeight / 10)
     calculationButton.position(2 * width / 3, 9 * windowHeight / 10).size(width / 3, windowHeight / 10)
@@ -135,6 +141,17 @@ function createCellophane(n, r, a) {
     pop()
 }
 
+
+function r_theta(theta) {
+    return [[cos(theta), -sin(theta)], [sin(theta), cos(theta)]]
+}
+function mai_r_theta(theta) {
+    return [[cos(theta), sin(theta)], [-sin(theta), cos(theta)]]
+}
+function jhons(theta) {
+    return [[sin(theta) ** 2, -sin(theta) * cos(theta)], [-sin(theta) * cos(theta), cos(theta) ** 2]]
+}
+
 // draw関数
 function draw() {
     orbitControl(10)
@@ -148,6 +165,25 @@ function draw() {
     for (let i = 0; i < colabNum.value(); i++) {
         createCellophane(parseInt(celloColabInputArr[i][1].value()), parseInt(celloColabInputArr[i][3].value()), z)
         z += parseInt(celloColabInputArr[i][1].value())
+    }
+    // 本シミュレーションにおいては一枚目のセロハンに対する相対角度で計算を行う
+    // aは一組目のセロハンに対する偏光板一枚目の相対的な回転角
+    let I = 0
+    let a = radians(celloColabInputArr[0][3].value())
+    E_1 = [[sin(a)], [cos(a)]]
+    // bはセロハン二枚目の回転角
+    let b = radians(celloColabInputArr[1][3].value() - celloColabInputArr[0][3].value())
+    // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
+    let c = radians(celloColabInputArr[0][3].value())
+    for (let i = 380; i < 780; i++) {
+        let l = i
+        delta = 2 * opdInput.value() * PI / l
+        cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
+        E_2 = math.multiply(cello, E_1)
+        console.log(E_2)
+        E_3 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)))
+        E_4 = math.multiply(jhons(c), E_3)
+        I += abs(abs(E_4[0] ** 2) + abs(E_4[1] ** 2))
     }
 }
 
