@@ -42,7 +42,7 @@ function elCreate() {
                 createElement("label", str(i + 1) + "組目：枚数").hide().class("form-label"),
                 createInput(1, "number").hide().attribute("min", 1).attribute("max", 10).class("form-control"),
                 createElement("label", "　角度").hide().class("form-label"),
-                createInput(1, "number").hide().class("form-control")
+                createInput(90, "number").hide().class("form-control")
             ]
         )
     }
@@ -175,16 +175,16 @@ function draw() {
     let b = radians(celloColabInputArr[1][3].value() - celloColabInputArr[0][3].value())
     // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
     let c = radians(celloColabInputArr[0][3].value())
-    for (let i = 380; i < 780; i++) {
+    for (let i = 380; i <= 750; i++) {
         let l = i
         delta = 2 * opdInput.value() * PI / l
         cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
         E_2 = math.multiply(cello, E_1)
-        console.log(E_2)
         E_3 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)))
         E_4 = math.multiply(jhons(c), E_3)
-        I += abs(abs(E_4[0] ** 2) + abs(E_4[1] ** 2))
+        I += math.abs(math.abs(math.multiply(E_4[0],E_4[0])) + math.abs(math.multiply(E_4[1],E_4[1])))
     }
+    console.log(I)
 }
 
 // windowがリサイズされたときの処理
