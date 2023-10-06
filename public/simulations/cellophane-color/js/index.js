@@ -87,7 +87,9 @@ let waveLengthArr;
 let xLambda, yLambda, zLambda;
 let osArr;
 let xArr = [], yArr = [], zArr = [];
+let xArr2 = [], yArr2 = [], zArr2 = [];
 let R, G, B;
+let lightArr;
 // 初期値やシミュレーションの設定
 function initValue() {
     cmfRowNum = cmfTable.getRowCount();
@@ -102,7 +104,11 @@ function initValue() {
         xArr.push(0);
         yArr.push(0);
         zArr.push(0);
+        xArr2.push(0);
+        yArr2.push(0);
+        zArr2.push(0);
     }
+    lightArr = osTable.getColumn("light")
 }
 
 // setup関数
@@ -199,6 +205,9 @@ function draw() {
         xArr[i - 380] = osArr[i - 380] * xLambda[i - 380]
         yArr[i - 380] = osArr[i - 380] * yLambda[i - 380]
         zArr[i - 380] = osArr[i - 380] * zLambda[i - 380]
+        xArr2[i - 380] = lightArr[i - 380] * xLambda[i - 380]
+        yArr2[i - 380] = lightArr[i - 380] * yLambda[i - 380]
+        zArr2[i - 380] = lightArr[i - 380] * zLambda[i - 380]
     }
     noStroke()
     for (let i = 0; i < osArr.length; i++) {
@@ -211,19 +220,28 @@ function draw() {
     x_sum = math.sum(xArr)
     y_sum = math.sum(yArr)
     z_sum = math.sum(zArr)
+    x_sum2 = math.sum(xArr2)
+    y_sum2 = math.sum(yArr2)
+    z_sum2 = math.sum(zArr2)
     x_num = map(x_sum, x_sum + y_sum + z_sum, 0, 1, 0)
     y_num = map(y_sum, x_sum + y_sum + z_sum, 0, 1, 0)
     z_num = map(z_sum, x_sum + y_sum + z_sum, 0, 1, 0)
+    x_num2 = map(x_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
+    y_num2 = map(y_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
+    z_num2 = map(z_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
     tosRGB =
         [[3.2406, -1.5372, -0.4986],
         [-0.9689, 1.8758, 0.0415],
         [0.0557, -0.2040, 1.0570]]
     sRGB = math.multiply(tosRGB, [x_num, y_num, z_num])
+    sRGB2 = math.multiply(tosRGB, [x_num2, y_num2, z_num2])
     R = toRGB(sRGB[0])
     G = toRGB(sRGB[1])
     B = toRGB(sRGB[2])
-    console.log(R, G, B)
-    beforeColor.style("background-color:rgb(" + str(255) + "," + str(255) + "," + str(255) + ")")
+    R2 = toRGB(sRGB2[0])
+    G2 = toRGB(sRGB2[1])
+    B2 = toRGB(sRGB2[2])
+    beforeColor.style("background-color:rgb(" + str(R2) + "," + str(G2) + "," + str(B2) + ")")
     afterColor.style("background-color:rgb(" + str(R) + "," + str(G) + "," + str(B) + ")")
 }
 
