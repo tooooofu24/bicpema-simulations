@@ -53,10 +53,8 @@ function elCreate() {
 
 //出射光の計算をする
 function calculate() {
-    beforeColor.style("background-color:rgb(" + str(r1) + "," + str(g1) + "," + str(b1) + ")")
-    afterColor.style("background-color:rgb(" + str(r2) + "," + str(g2) + "," + str(b2) + ")")
-
-
+    beforeColor.style("background-color:rgb(" + str(255) + "," + str(255) + "," + str(255) + ")")
+    afterColor.style("background-color:rgb(" + str(R) + "," + str(G) + "," + str(B) + ")")
 }
 
 // DOM要素の設定
@@ -88,6 +86,8 @@ let osRowNum;
 let waveLengthArr;
 let xLambda, yLambda, zLambda;
 let osArr;
+let xArr = [], yArr = [], zArr = [];
+let R, G, B;
 // 初期値やシミュレーションの設定
 function initValue() {
     cmfRowNum = cmfTable.getRowCount();
@@ -97,7 +97,12 @@ function initValue() {
     zLambda = cmfTable.getColumn("z(lambda)")
     osRowNum = osTable.getRowCount();
     osArr = osTable.getColumn("optical-strength")
-    osArrori = osTable.getColumn("optical-strength")
+    osArrOrigin = osTable.getColumn("optical-strength")
+    for (let i = 0; i < osRowNum; i++) {
+        xArr.push(0);
+        yArr.push(0);
+        zArr.push(0);
+    }
 }
 
 // setup関数
@@ -152,7 +157,13 @@ function mai_r_theta(theta) {
 function jhons(theta) {
     return [[sin(theta) ** 2, -sin(theta) * cos(theta)], [-sin(theta) * cos(theta), cos(theta) ** 2]]
 }
-
+function toRGB(a) {
+    if (a <= 0.031308) {
+        return 12.92 * a * 255
+    } else {
+        return (1.055 * a ** (1 / 2.4) - 0.055) * 255
+    }
+}
 // draw関数
 function draw() {
     orbitControl(10)
@@ -184,14 +195,36 @@ function draw() {
         E_3 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)))
         E_4 = math.multiply(jhons(c), E_3)
         let magni = math.abs(math.abs(math.multiply(E_4[0], E_4[0])) + math.abs(math.multiply(E_4[1], E_4[1])))
-        osArr[i - 380] = magni * osArrori[i - 380]
+        osArr[i - 380] = (magni * osArrOrigin[i - 380])
+        xArr[i - 380] = osArr[i - 380] * xLambda[i - 380]
+        yArr[i - 380] = osArr[i - 380] * yLambda[i - 380]
+        zArr[i - 380] = osArr[i - 380] * zLambda[i - 380]
     }
-    console.log("osArr：" + osArr[0] + ",osArrori：" + osArrori[0])
     noStroke()
     for (let i = 0; i < osArr.length; i++) {
         ellipse(0.5 * i, 100 - 100 * osArr[i], 1, 1)
-        ellipse(0.5 * i, 100 - 100 * osArrori[i], 1, 1)
+        ellipse(0.5 * i, 100 - 100 * osArrOrigin[i], 1, 1)
+        ellipse(0.5 * i, 100 - 100 * xArr[i], 1, 1)
+        ellipse(0.5 * i, 100 - 100 * yArr[i], 1, 1)
+        ellipse(0.5 * i, 100 - 100 * zArr[i], 1, 1)
     }
+    x_sum = math.sum(xArr)
+    y_sum = math.sum(yArr)
+    z_sum = math.sum(zArr)
+    x_num = map(x_sum, x_sum + y_sum + z_sum, 0, 1, 0)
+    y_num = map(y_sum, x_sum + y_sum + z_sum, 0, 1, 0)
+    z_num = map(z_sum, x_sum + y_sum + z_sum, 0, 1, 0)
+    tosRGB =
+        [[3.2406, -1.5372, -0.4986],
+        [-0.9689, 1.8758, 0.0415],
+        [0.0557, -0.2040, 1.0570]]
+    sRGB = math.multiply(tosRGB, [x_num, y_num, z_num])
+    R = toRGB(sRGB[0])
+    G = toRGB(sRGB[1])
+    B = toRGB(sRGB[2])
+    console.log(R, G, B)
+    beforeColor.style("background-color:rgb(" + str(255) + "," + str(255) + "," + str(255) + ")")
+    afterColor.style("background-color:rgb(" + str(R) + "," + str(G) + "," + str(B) + ")")
 }
 
 // windowがリサイズされたときの処理
