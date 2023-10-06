@@ -97,6 +97,7 @@ function initValue() {
     zLambda = cmfTable.getColumn("z(lambda)")
     osRowNum = osTable.getRowCount();
     osArr = osTable.getColumn("optical-strength")
+    osArrori = osTable.getColumn("optical-strength")
 }
 
 // setup関数
@@ -182,9 +183,15 @@ function draw() {
         E_2 = math.multiply(cello, E_1)
         E_3 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)))
         E_4 = math.multiply(jhons(c), E_3)
-        I += math.abs(math.abs(math.multiply(E_4[0],E_4[0])) + math.abs(math.multiply(E_4[1],E_4[1])))
+        let magni = math.abs(math.abs(math.multiply(E_4[0], E_4[0])) + math.abs(math.multiply(E_4[1], E_4[1])))
+        osArr[i - 380] = magni * osArrori[i - 380]
     }
-    console.log(I)
+    console.log("osArr：" + osArr[0] + ",osArrori：" + osArrori[0])
+    noStroke()
+    for (let i = 0; i < osArr.length; i++) {
+        ellipse(0.5 * i, 100 - 100 * osArr[i], 1, 1)
+        ellipse(0.5 * i, 100 - 100 * osArrori[i], 1, 1)
+    }
 }
 
 // windowがリサイズされたときの処理
