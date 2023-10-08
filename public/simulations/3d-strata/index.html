@@ -10,14 +10,13 @@
     <script language="javascript" src="../../assets/js/p5.min.js" type="text/javascript"></script>
     <!-- p5.dom.min.js -->
     <script language="javascript" src="../../assets/js/p5.dom.min.js" type="text/javascript"></script>
-    <!-- {simulation name}.js -->
-    <script language="javascript" src="js/index.js" type="text/javascript"></script>
     <!-- chart.js -->
     <script crossorigin="anonymous"
         integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
         referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <!-- Bootstrap CSS -->
     <link crossorigin="anonymous" href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./style.css" rel="stylesheet">
     <style>
         body {
             padding: 0;
@@ -40,6 +39,16 @@
             padding: 0;
         }
     </style>
+    <script type="text/javascript">
+
+
+        function disp(url) {
+
+            window.open(url, "window_name", "width=300,height=200,scrollbars=yes");
+
+        }
+
+    </script>
 </head>
 
 <body oncontextmenu="return false;">
@@ -70,6 +79,40 @@
             </div>
         </div>
     </div>
+    <button class="btn-lg btn-primary rounded-pill sp-button " type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+        データの登録 +
+    </button>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h1 class="offcanvas-title" id="offcanvasExampleLabel">データの登録</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body" id="offcanvas-body">
+            <p>観察したいデータを地点データ、地層データの順に登録してください。</p>
+            <h2>地点データの登録</h2>
+            <input>
+            <input>
+            <input>
+            <input>
+            <input>
+            <input>
+            <input>
+            <input>
+            <h2>地層データの登録</h2>
+            <p>※地層データ登録用ウィンドウが開きます。</p>
+            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ1</a></p>
+            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ2</a></p>
+            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ3</a></p>
+            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ4</a></p>
+            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ5</a></p>
+            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ6</a></p>
+        </div>
+    </div>
+    <div id="p5Canvas"></div>
+
+    <!-- {simulation name}.js -->
+    <script language="javascript" src="js/index.js" type="text/javascript"></script>
     <!-- jQuery -->
     <script language="javascript" src="../../assets/js/jquery-3.6.4.min.js" type="text/javascript"></script>
     <!-- Bootstrap JS -->

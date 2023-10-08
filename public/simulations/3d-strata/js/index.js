@@ -1,6 +1,8 @@
+let p5Canvas = document.getElementById('p5Canvas');
 ///全画面表示
 function fullScreen() {
-    createCanvas(windowWidth, 9 * windowHeight / 10, WEBGL)
+    let canvas = createCanvas(windowWidth, 9 * windowHeight / 10, WEBGL);
+    canvas.parent(p5Canvas);
 }
 
 // 外部ファイルの読み込み
@@ -12,12 +14,10 @@ function preload() {
 
 // DOM要素の生成
 function elCreate() {
-
 }
 
 // DOM要素の設定
 function elInit() {
-
 }
 
 
@@ -51,7 +51,7 @@ function setup() {
 }
 
 function backgroundSetting() {
-    background(255)
+    background(240)
     strokeWeight(3)
     // x軸
     stroke(255, 0, 0)
@@ -127,7 +127,7 @@ let rotateTime = 0;
 function draw() {
     orbitControl(2)
     backgroundSetting()
-    rotateTime+=5;
+    rotateTime += 5;
     for (let i = 0; i < placeArr.length; i++) {
         let x = xArr[i]
         let y = yArr[i]
