@@ -29,7 +29,7 @@ shallowArr = []
 deepArr = []
 kindsArr = []
 function initValue() {
-    camera(800, 500, 800, 0, 0, 0, 0, 1, 0)
+    camera(800, -500, 800, 0, 0, 0, 0, 1, 0)
     placeArr = dataTable.getColumn("place-name")
     xArr = dataTable.getColumn("x-point")
     yArr = dataTable.getColumn("y-point")
@@ -123,15 +123,27 @@ function createPlane2(x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) {
 }
 
 // draw関数
+let rotateTime = 0;
 function draw() {
     orbitControl(2)
     backgroundSetting()
+    rotateTime+=5;
     for (let i = 0; i < placeArr.length; i++) {
         let x = xArr[i]
         let y = yArr[i]
         let z = shallowArr[i]
         let zLength = deepArr[i] - shallowArr[i]
         let kind = kindsArr[i]
+        fill(0)
+        push()
+        translate(x,0,y)
+        rotateY(radians(rotateTime))
+        text(placeArr[i],0,-55)
+        fill(255,0,0)
+        noStroke()
+        translate(0,-25,0)
+        cone(10, 50, 10, 3, true);
+        pop()
         if (kind == "泥岩") fill(100, 150)
         if (kind == "砂岩") fill(116, 80, 48, 150)
         push()
