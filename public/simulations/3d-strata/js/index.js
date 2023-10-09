@@ -31,6 +31,8 @@ function placeNameInputFunction() {
         placeNameArr[i] = placeNameInputArr[i].value()
         placeDataInputArr[i]
             .html(str(placeNameArr[i]) + "のデータを編集")
+        document.getElementById("placeDataInput" + str(i+1))
+        .onclick = function () { window.open("child-window.html?" +placeNameArr[i], "window_name", "width=600,height=500"); };
     }
 }
 
