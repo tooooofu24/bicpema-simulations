@@ -1,6 +1,6 @@
-let p5Canvas = document.getElementById('p5Canvas');
-///全画面表示
+//全画面表示
 function fullScreen() {
+    let p5Canvas = document.getElementById('p5Canvas');
     let canvas = createCanvas(windowWidth, 9 * windowHeight / 10, WEBGL);
     canvas.parent(p5Canvas);
 }
@@ -8,56 +8,87 @@ function fullScreen() {
 // 外部ファイルの読み込み
 function preload() {
     dataTable = loadTable("./data/sample-data.csv", "csv", "header")
-    engFont = loadFont('js/OPTITimes-Roman.otf');
     jaFont = loadFont('js/ZenMaruGothic-Regular.ttf');
 }
 
 let placeAddButton;
+let placeRemoveButton;
 // DOM要素の生成
 function elCreate() {
     placeAddButton = select("#addButton")
     placeRemoveButton = select("#removeButton")
 }
 
-placeNameArr = []
-placeNameInputArr = []
-placeNameInputNum = 0
-placeDataInputArr = []
+// 地点データの配列、地点データインプットの配列、地点データの個数、地層データインプットの配列
+let placeNameArr = [],
+    placeNameInputArr = [],
+    placeNameInputNum = 0,
+    placeDataInputArr = [];
+
+// 地点データが入力された時に動く関数
 function placeNameInputFunction() {
     for (let i = 0; i < placeNameInputNum; i++) {
         placeNameArr[i] = placeNameInputArr[i].value()
-        placeDataInputArr[i].html(str(placeNameArr[i])+"のデータを編集")
+        placeDataInputArr[i]
+            .html(str(placeNameArr[i]) + "のデータを編集")
     }
 }
+
+// サブウィンドウを生成する関数
 function disp() {
-    window.open("test.html", "window_name", "width=300,height=200");
+    window
+        .open("test.html", "window_name", "width=300,height=200");
 }
+
+// 地点データの追加ボタンを押した時に動く関数
 function addButtonFunction() {
     placeNameInputNum += 1
-    placeNameArr.push("地点"+str(placeNameInputNum))
-    let parentDiv = createDiv().parent(placePointNameInput).class("mb-3").id("placeNameInput" + str(placeNameInputNum))
-    let inputGroup1 = createDiv().parent(parentDiv).class("input-group")
-    let inputGroup2 = createDiv().parent(parentDiv).class("input-group")
-
+    placeNameArr.push("地点" + str(placeNameInputNum))
+    let parentDiv = createDiv()
+        .parent(placePointNameInput)
+        .class("mb-3")
+        .id("placeNameInput" + str(placeNameInputNum))
+    let inputGroup1 = createDiv()
+        .parent(parentDiv)
+        .class("input-group")
+    let inputGroup2 = createDiv()
+        .parent(parentDiv)
+        .class("input-group")
     // input要素の上の部分
-    createElement("span", "地点" + str(placeNameInputNum) + "：").parent(inputGroup1).class("input-group-text")
-    let placeNameInput = createInput().parent(inputGroup1).class("form-control").input(placeNameInputFunction)
+    createElement("span", "地点" + str(placeNameInputNum) + "：")
+        .parent(inputGroup1)
+        .class("input-group-text")
+    let placeNameInput = createInput()
+        .parent(inputGroup1)
+        .class("form-control")
+        .input(placeNameInputFunction)
     placeNameInputArr.push(placeNameInput)
     // input要素の下の部分
-    createElement("span", "緯度").parent(inputGroup2).class("input-group-text")
-    createInput(0, "number").parent(inputGroup2).class("form-control")
-    createElement("span", "経度").parent(inputGroup2).class("input-group-text")
-    createInput(0, "number").parent(inputGroup2).class("form-control")
-    createDiv("地点" + str(placeNameInputNum) + "の名前、緯度、軽度を入力してください。").parent(parentDiv).class("form-text")
+    createElement("span", "緯度")
+        .parent(inputGroup2)
+        .class("input-group-text")
+    createInput(0, "number")
+        .parent(inputGroup2)
+        .class("form-control")
+    createElement("span", "経度")
+        .parent(inputGroup2)
+        .class("input-group-text")
+    createInput(0, "number")
+        .parent(inputGroup2)
+        .class("form-control")
+    createDiv("地点" + str(placeNameInputNum) + "の名前、緯度、軽度を入力してください。")
+        .parent(parentDiv)
+        .class("form-text")
     // サブウィンドウ生成用のDOM
-    let placeDataInput = 
-    createA("#", str(placeNameArr[placeNameInputNum-1])+"のデータを編集")
-    .class("btn btn-outline-primary m-2")
-    .parent("placePointDataInput")
-    .id("placeDataInput" + str(placeNameInputNum))
-    .mousePressed(disp)
+    let placeDataInput = createA("javascript:void(0)", str(placeNameArr[placeNameInputNum - 1]) + "のデータを編集")
+        .class("btn btn-outline-primary m-2")
+        .parent("placePointDataInput")
+        .id("placeDataInput" + str(placeNameInputNum))
+        .mousePressed(disp)
     placeDataInputArr.push(placeDataInput)
 }
+
+// 地点データの削除ボタンを押した時に動く関数
 function removeButtonFunction() {
     if (placeNameInputNum > 0) {
         select("#placeNameInput" + str(placeNameInputNum)).remove()
@@ -68,12 +99,12 @@ function removeButtonFunction() {
         placeNameInputNum -= 1
     }
 }
+
 // DOM要素の設定
 function elInit() {
     placeAddButton.mousePressed(addButtonFunction)
     placeRemoveButton.mousePressed(removeButtonFunction)
 }
-
 
 // 初期値やシミュレーションの設定
 placeArr = []
