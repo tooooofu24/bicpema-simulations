@@ -79,34 +79,42 @@
             </div>
         </div>
     </div>
-    <button class="btn-lg btn-primary rounded-pill sp-button " type="button" data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+    <button class="btn-lg btn-primary rounded-pill sp-button " type="button" data-bs-toggle="modal"
+        data-bs-target="#dataRegisterModal">
         データの登録 +
     </button>
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h1 class="offcanvas-title" id="offcanvasExampleLabel">データの登録</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body" id="offcanvas-body">
-            <p>観察したいデータを地点データ、地層データの順に登録してください。</p>
-            <h2>地点データの登録</h2>
-            <input>
-            <input>
-            <input>
-            <input>
-            <input>
-            <input>
-            <input>
-            <input>
-            <h2>地層データの登録</h2>
-            <p>※地層データ登録用ウィンドウが開きます。</p>
-            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ1</a></p>
-            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ2</a></p>
-            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ3</a></p>
-            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ4</a></p>
-            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ5</a></p>
-            <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ6</a></p>
+    <div class="modal fade" id="dataRegisterModal" tabindex="-1" aria-labelledby="dataRegisterModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="dataRegisterModalLabel">データの登録</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body container">
+                    <p>観察したい地点データ、地層データを登録してください。</p>
+                    <div class="container-fluid">
+                        <h2>地点データの登録</h2>
+                        <div class="row"id="placePointNameInput"></div>
+                        <button class="btn btn-outline-primary" id="addButton">地点データの追加</button>
+                        <button class="btn btn-outline-secondary" id="removeButton">地点データの削除</button>
+                    </div>
+                    <br>
+                    <div class="container-fluid">
+                        <h2>地層データの登録</h2>
+                        <p>※地層データ登録用のサブウィンドウが開きます。</p>
+                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ1</a></p>
+                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ2</a></p>
+                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ3</a></p>
+                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ4</a></p>
+                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ5</a></p>
+                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ6</a></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                </div>
+            </div>
         </div>
     </div>
     <div id="p5Canvas"></div>

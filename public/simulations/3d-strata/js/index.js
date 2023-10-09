@@ -12,12 +12,31 @@ function preload() {
     jaFont = loadFont('js/ZenMaruGothic-Regular.ttf');
 }
 
+let placeAddButton;
 // DOM要素の生成
 function elCreate() {
+    placeAddButton = select("#addButton")
+    placeRemoveButton = select("#removeButton")
 }
-
+placeNameInputArr = []
+placeNameInputNum = 0
+function addButtonFunction() {
+    placeNameInputNum += 1
+    let parentDiv = createDiv().parent(placePointNameInput).class("mb-3").id("placeNameInput" + str(placeNameInputNum))
+    createElement("label","地点"+str(placeNameInputNum)).parent(parentDiv).class("form-label")
+    createInput().parent(parentDiv).class("form-control")
+    createDiv("地点"+str(placeNameInputNum)+"の名前を入力してください。").parent(parentDiv).class("form-text")
+}
+function removeButtonFunction() {
+    if (placeNameInputNum > 0) {
+        select("#placeNameInput" + str(placeNameInputNum)).remove()
+        placeNameInputNum -= 1
+    }
+}
 // DOM要素の設定
 function elInit() {
+    placeAddButton.mousePressed(addButtonFunction)
+    placeRemoveButton.mousePressed(removeButtonFunction)
 }
 
 
@@ -125,7 +144,11 @@ function createPlane2(x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) {
 // draw関数
 let rotateTime = 0;
 function draw() {
-    orbitControl(2)
+    let modalIs = $("#dataRegisterModal").is(":hidden")
+    console.log(modalIs)
+    if (modalIs) {
+        orbitControl(2)
+    }
     backgroundSetting()
     rotateTime += 5;
     for (let i = 0; i < placeArr.length; i++) {
@@ -136,12 +159,12 @@ function draw() {
         let kind = kindsArr[i]
         fill(0)
         push()
-        translate(x,0,y)
+        translate(x, 0, y)
         rotateY(radians(rotateTime))
-        text(placeArr[i],0,-55)
-        fill(255,0,0)
+        text(placeArr[i], 0, -55)
+        fill(255, 0, 0)
         noStroke()
-        translate(0,-25,0)
+        translate(0, -25, 0)
         cone(10, 50, 10, 3, true);
         pop()
         if (kind == "泥岩") fill(100, 150)
@@ -166,7 +189,6 @@ function draw() {
     createPlane2(xArr[1], yArr[1], shallowArr[1], xArr[3], yArr[3], shallowArr[3], xArr[3], yArr[3], deepArr[3], xArr[1], yArr[1], deepArr[1])
     createPlane2(xArr[1], yArr[1], shallowArr[1], xArr[5], yArr[5], shallowArr[5], xArr[5], yArr[5], deepArr[5], xArr[1], yArr[1], deepArr[1])
     createPlane2(xArr[3], yArr[3], shallowArr[3], xArr[5], yArr[5], shallowArr[5], xArr[5], yArr[5], deepArr[5], xArr[3], yArr[3], deepArr[3])
-
 }
 
 // windowがリサイズされたときの処理
