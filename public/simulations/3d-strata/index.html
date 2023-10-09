@@ -39,16 +39,6 @@
             padding: 0;
         }
     </style>
-    <script type="text/javascript">
-
-
-        function disp(url) {
-
-            window.open(url, "window_name", "width=300,height=200,scrollbars=yes");
-
-        }
-
-    </script>
 </head>
 
 <body oncontextmenu="return false;">
@@ -92,22 +82,32 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body container">
-                    <div class="container-fluid">
-                        <h2>地点データの登録</h2>
-                        <div class="row"id="placePointNameInput"></div>
-                        <button class="btn btn-outline-primary" id="addButton">地点データの追加</button>
-                        <button class="btn btn-outline-secondary" id="removeButton">地点データの削除</button>
-                    </div>
-                    <br>
-                    <div class="container-fluid">
-                        <h2>地層データの登録</h2>
-                        <p>※地層データ登録用のサブウィンドウが開きます。</p>
-                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ1</a></p>
-                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ2</a></p>
-                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ3</a></p>
-                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ4</a></p>
-                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ5</a></p>
-                        <p><a href="test.html" target="window_name" onClick="disp('test.html')">サブウィンドウ6</a></p>
+                    <p>※地点データ、地層データの順にデータを登録してください。</p>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#placePointNameRegister"
+                                data-bs-toggle="tab">地点データの登録</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#placePointDataRegister" data-bs-toggle="tab">地層データの登録</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="placePointNameRegister">
+                            <div class="container-fluid">
+                                <h2>地点データの登録</h2>
+                                <div class="row" id="placePointNameInput"></div>
+                                <button class="btn btn-outline-primary" id="addButton">地点データの追加</button>
+                                <button class="btn btn-outline-secondary" id="removeButton">地点データの削除</button>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="placePointDataRegister">
+                            <div class="container-fluid">
+                                <h2>地層データの登録</h2>
+                                <p>※地層データ登録用のサブウィンドウが開きます。</p>
+                                <div class="row" id="placePointDataInput"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -18,19 +18,53 @@ function elCreate() {
     placeAddButton = select("#addButton")
     placeRemoveButton = select("#removeButton")
 }
+
+placeNameArr = []
 placeNameInputArr = []
 placeNameInputNum = 0
+placeDataInputArr = []
+function placeNameInputFunction() {
+    for (let i = 0; i < placeNameInputNum; i++) {
+        placeNameArr[i] = placeNameInputArr[i].value()
+        placeDataInputArr[i].html(str(placeNameArr[i])+"のデータを編集")
+    }
+}
+function disp() {
+    window.open("test.html", "window_name", "width=300,height=200");
+}
 function addButtonFunction() {
     placeNameInputNum += 1
+    placeNameArr.push("地点"+str(placeNameInputNum))
     let parentDiv = createDiv().parent(placePointNameInput).class("mb-3").id("placeNameInput" + str(placeNameInputNum))
-    let inputGroup = createDiv().parent(parentDiv).class("input-group")
-    createElement("span","地点"+str(placeNameInputNum)+"：").parent(inputGroup).class("input-group-text")
-    createInput().parent(inputGroup).class("form-control")
-    createDiv("地点"+str(placeNameInputNum)+"の名前を入力してください。").parent(parentDiv).class("form-text")
+    let inputGroup1 = createDiv().parent(parentDiv).class("input-group")
+    let inputGroup2 = createDiv().parent(parentDiv).class("input-group")
+
+    // input要素の上の部分
+    createElement("span", "地点" + str(placeNameInputNum) + "：").parent(inputGroup1).class("input-group-text")
+    let placeNameInput = createInput().parent(inputGroup1).class("form-control").input(placeNameInputFunction)
+    placeNameInputArr.push(placeNameInput)
+    // input要素の下の部分
+    createElement("span", "緯度").parent(inputGroup2).class("input-group-text")
+    createInput(0, "number").parent(inputGroup2).class("form-control")
+    createElement("span", "経度").parent(inputGroup2).class("input-group-text")
+    createInput(0, "number").parent(inputGroup2).class("form-control")
+    createDiv("地点" + str(placeNameInputNum) + "の名前、緯度、軽度を入力してください。").parent(parentDiv).class("form-text")
+    // サブウィンドウ生成用のDOM
+    let placeDataInput = 
+    createA("#", str(placeNameArr[placeNameInputNum-1])+"のデータを編集")
+    .class("btn btn-outline-primary m-2")
+    .parent("placePointDataInput")
+    .id("placeDataInput" + str(placeNameInputNum))
+    .mousePressed(disp)
+    placeDataInputArr.push(placeDataInput)
 }
 function removeButtonFunction() {
     if (placeNameInputNum > 0) {
         select("#placeNameInput" + str(placeNameInputNum)).remove()
+        placeNameArr.pop()
+        placeNameInputArr.pop()
+        select("#placeDataInput" + str(placeNameInputNum)).remove()
+        placeDataInputArr.pop()
         placeNameInputNum -= 1
     }
 }
@@ -146,7 +180,6 @@ function createPlane2(x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) {
 let rotateTime = 0;
 function draw() {
     let modalIs = $("#dataRegisterModal").is(":hidden")
-    console.log(modalIs)
     if (modalIs) {
         orbitControl(2)
     }
