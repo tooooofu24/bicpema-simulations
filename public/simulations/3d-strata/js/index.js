@@ -23,8 +23,9 @@ placeNameInputNum = 0
 function addButtonFunction() {
     placeNameInputNum += 1
     let parentDiv = createDiv().parent(placePointNameInput).class("mb-3").id("placeNameInput" + str(placeNameInputNum))
-    createElement("label","地点"+str(placeNameInputNum)).parent(parentDiv).class("form-label")
-    createInput().parent(parentDiv).class("form-control")
+    let inputGroup = createDiv().parent(parentDiv).class("input-group")
+    createElement("span","地点"+str(placeNameInputNum)+"：").parent(inputGroup).class("input-group-text")
+    createInput().parent(inputGroup).class("form-control")
     createDiv("地点"+str(placeNameInputNum)+"の名前を入力してください。").parent(parentDiv).class("form-text")
 }
 function removeButtonFunction() {
