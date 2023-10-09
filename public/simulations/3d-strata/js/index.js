@@ -34,11 +34,10 @@ function placeNameInputFunction() {
     }
 }
 
-// サブウィンドウを生成する関数
-function disp() {
-    window
-        .open("test.html", "window_name", "width=300,height=200");
-}
+// // サブウィンドウを生成する関数
+// function disp(a) {
+//     window.open("child-window.html?" + a, "window_name", "width=500,height=500");
+// }
 
 // 地点データの追加ボタンを押した時に動く関数
 function addButtonFunction() {
@@ -84,7 +83,8 @@ function addButtonFunction() {
         .class("btn btn-outline-primary m-2")
         .parent("placePointDataInput")
         .id("placeDataInput" + str(placeNameInputNum))
-        .mousePressed(disp)
+    document.getElementById("placeDataInput" + str(placeNameInputNum))
+        .onclick = function () { window.open("child-window.html?" +placeNameArr[placeNameInputNum-1], "window_name", "width=600,height=500"); };
     placeDataInputArr.push(placeDataInput)
 }
 
