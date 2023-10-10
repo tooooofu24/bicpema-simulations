@@ -47,7 +47,7 @@ function addButtonFunction() {
     placeNameArr.push("地点" + str(placeNameInputNum))
     let parentDiv = createDiv()
         .parent(placePointNameInput)
-        .class("mb-3")
+        .class("mb-2")
         .id("placeNameInput" + str(placeNameInputNum))
     let inputGroup1 = createDiv()
         .parent(parentDiv)
@@ -77,16 +77,16 @@ function addButtonFunction() {
     createInput(0, "number")
         .parent(inputGroup2)
         .class("form-control")
-    createDiv("地点" + str(placeNameInputNum) + "の名前、緯度、軽度を入力してください。")
+    createDiv("地点" + str(placeNameInputNum) + "の名前、緯度、経度を入力してください。")
         .parent(parentDiv)
         .class("form-text")
     // サブウィンドウ生成用のDOM
     let placeDataInput = createA("javascript:void(0)", str(placeNameArr[placeNameInputNum - 1]) + "のデータを編集")
-        .class("btn btn-outline-primary m-2")
+        .class("btn btn-outline-primary mb-2")
         .parent("placePointDataInput")
         .id("placeDataInput" + str(placeNameInputNum))
     document.getElementById("placeDataInput" + str(placeNameInputNum))
-        .onclick = function () { window.open("child-window.html?" +placeNameArr[placeNameInputNum-1], "window_name", "width=600,height=500"); };
+        .onclick = function () { window.open("child-window.html?" +placeNameArr[placeNameInputNum-1], "window_name", "width=1000,height=500"); };
     placeDataInputArr.push(placeDataInput)
 }
 
