@@ -20,6 +20,9 @@
             document.getElementById("place_name").innerHTML = placeName + "のデータを編集"
             document.title = placeName + "のデータを編集"
         }
+        //function logging() {
+        //    window.opener.logging();
+        //}
     </script>
     <!-- Bootstrap CSS -->
     <link crossorigin="anonymous" href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -29,6 +32,7 @@
     <div class="container">
         <div class="m-2">
             <h1 id="place_name">地層データ編集</h1>
+            <p>※地層を追加する際には右の「地層を追加」ボタンを押し、削除する際にはそれぞれの行の「削除」ボタンを押してください。</p>
             <div class="text-end mb-3">
                 <button class="btn btn-outline-primary" id="trAddButton">地層の追加</button>
             </div>

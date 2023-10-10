@@ -7,7 +7,6 @@ function fullScreen() {
 
 // 外部ファイルの読み込み
 function preload() {
-    dataTable = loadTable("./data/sample-data.csv", "csv", "header")
     jaFont = loadFont('js/ZenMaruGothic-Regular.ttf');
 }
 
@@ -19,86 +18,40 @@ function elCreate() {
     placeRemoveButton = select("#removeButton")
 }
 
-// 地点データの配列、地点データインプットの配列、地点データの個数、地層データインプットの配列
-let placeNameArr = [],
-    placeNameInputArr = [],
-    placeNameInputNum = 0,
-    placeDataInputArr = [];
-
+// 地点データの配列、地点データインプットの配列、地点データの個数、地層データ編集の配列
+let placeNameInputArr = {}
 // 地点データが入力された時に動く関数
 function placeNameInputFunction() {
+    let placeNameInputNum = Object.keys(placeNameInputArr).length
     for (let i = 0; i < placeNameInputNum; i++) {
-        placeNameArr[i] = placeNameInputArr[i].value()
-        placeDataInputArr[i]
-            .html(str(placeNameArr[i]) + "のデータを編集")
-        document.getElementById("placeDataInput" + str(i+1))
-        .onclick = function () { window.open("child-window.html?" +placeNameArr[i], "window_name", "width=600,height=500"); };
+        let place = "地点" + str(i + 1)
+        let placeName = placeNameInputArr[place].name.value()
+        if (placeName == "") {
+            placeName = place
+            placeNameInputArr[place].edit.html("地点" + str(i + 1) + "のデータを編集")
+        } else {
+            placeNameInputArr[place].edit.html(placeName + "のデータを編集")
+        }
+        document.getElementById("placeDataInput" + str(i + 1))
+            .onclick = function () { window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500"); };
     }
 }
 
-// // サブウィンドウを生成する関数
-// function disp(a) {
-//     window.open("child-window.html?" + a, "window_name", "width=500,height=500");
-// }
+function placeCoodiInputFunction() {
+}
 
 // 地点データの追加ボタンを押した時に動く関数
 function addButtonFunction() {
-    placeNameInputNum += 1
-    placeNameArr.push("地点" + str(placeNameInputNum))
-    let parentDiv = createDiv()
-        .parent(placePointNameInput)
-        .class("mb-2")
-        .id("placeNameInput" + str(placeNameInputNum))
-    let inputGroup1 = createDiv()
-        .parent(parentDiv)
-        .class("input-group")
-    let inputGroup2 = createDiv()
-        .parent(parentDiv)
-        .class("input-group")
-    // input要素の上の部分
-    createElement("span", "地点" + str(placeNameInputNum) + "：")
-        .parent(inputGroup1)
-        .class("input-group-text")
-    let placeNameInput = createInput()
-        .parent(inputGroup1)
-        .class("form-control")
-        .input(placeNameInputFunction)
-    placeNameInputArr.push(placeNameInput)
-    // input要素の下の部分
-    createElement("span", "緯度")
-        .parent(inputGroup2)
-        .class("input-group-text")
-    createInput(0, "number")
-        .parent(inputGroup2)
-        .class("form-control")
-    createElement("span", "経度")
-        .parent(inputGroup2)
-        .class("input-group-text")
-    createInput(0, "number")
-        .parent(inputGroup2)
-        .class("form-control")
-    createDiv("地点" + str(placeNameInputNum) + "の名前、緯度、経度を入力してください。")
-        .parent(parentDiv)
-        .class("form-text")
-    // サブウィンドウ生成用のDOM
-    let placeDataInput = createA("javascript:void(0)", str(placeNameArr[placeNameInputNum - 1]) + "のデータを編集")
-        .class("btn btn-outline-primary mb-2")
-        .parent("placePointDataInput")
-        .id("placeDataInput" + str(placeNameInputNum))
-    document.getElementById("placeDataInput" + str(placeNameInputNum))
-        .onclick = function () { window.open("child-window.html?" +placeNameArr[placeNameInputNum-1], "window_name", "width=1000,height=500"); };
-    placeDataInputArr.push(placeDataInput)
+    new DOM()
 }
 
 // 地点データの削除ボタンを押した時に動く関数
 function removeButtonFunction() {
+    let placeNameInputNum = Object.keys(placeNameInputArr).length
     if (placeNameInputNum > 0) {
         select("#placeNameInput" + str(placeNameInputNum)).remove()
-        placeNameArr.pop()
-        placeNameInputArr.pop()
         select("#placeDataInput" + str(placeNameInputNum)).remove()
-        placeDataInputArr.pop()
-        placeNameInputNum -= 1
+        delete placeNameInputArr["地点" + placeNameInputNum]
     }
 }
 
@@ -117,16 +70,9 @@ deepArr = []
 kindsArr = []
 function initValue() {
     camera(800, -500, 800, 0, 0, 0, 0, 1, 0)
-    placeArr = dataTable.getColumn("place-name")
-    xArr = dataTable.getColumn("x-point")
-    yArr = dataTable.getColumn("y-point")
-    shallowArr = dataTable.getColumn("shallow-point")
-    deepArr = dataTable.getColumn("deep-point")
-    kindsArr = dataTable.getColumn("kinds")
     textSize(25)
     textFont(jaFont);
     textAlign(CENTER);
-
 }
 
 // setup関数
@@ -209,53 +155,82 @@ function createPlane2(x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) {
     endShape(CLOSE)
 }
 
+function submit(arr) {
+    let name = arr[0]
+    let dataArr = arr[1]
+    for (let key in placeNameInputArr) {
+        let placeName = placeNameInputArr[key].name.value()
+        if (placeName == "") placeName = key
+        if (placeName == name) {
+            placeNameInputArr[key].layer = dataArr
+        }
+    }
+}
+
 // draw関数
 let rotateTime = 0;
 function draw() {
+
     let modalIs = $("#dataRegisterModal").is(":hidden")
     if (modalIs) {
         orbitControl(2)
     }
     backgroundSetting()
-    rotateTime += 5;
-    for (let i = 0; i < placeArr.length; i++) {
-        let x = xArr[i]
-        let y = yArr[i]
-        let z = shallowArr[i]
-        let zLength = deepArr[i] - shallowArr[i]
-        let kind = kindsArr[i]
+    rotateTime += 2;
+    for (let key in placeNameInputArr) {
+        // let x = key["data"].x.value()
+        let name = placeNameInputArr[key].name.value()
+        if (name == "") name = key
+        let data = placeNameInputArr[key].data
+        let x = data.x.value()
+        if (x == "") x = 0
+        let y = data.y.value()
+        if (y == "") y = 0
         fill(0)
         push()
         translate(x, 0, y)
         rotateY(radians(rotateTime))
-        text(placeArr[i], 0, -55)
+        text(name, 0, -55)
         fill(255, 0, 0)
         noStroke()
         translate(0, -25, 0)
         cone(10, 50, 10, 3, true);
         pop()
-        if (kind == "泥岩") fill(100, 150)
-        if (kind == "砂岩") fill(116, 80, 48, 150)
-        push()
-        translate(x, int(z) + zLength / 2, y)
-        box(50, zLength, 50)
-        pop()
+        let layer = placeNameInputArr[key].layer
+        for (let i = 0; i < layer.length; i++) {
+            let z = layer[i][0]
+            let zLength = layer[i][1] - layer[i][0]
+            let kind = layer[i][2]
+            if (kind == "砂岩層") fill(108, 94, 85, 150)
+            if (kind == "泥岩層") fill(132, 132, 120, 150)
+            if (kind == "れき岩層") fill(68, 78, 41, 150)
+            if (kind == "石灰岩層") fill(174, 170, 170, 150)
+            if (kind == "凝灰岩層・火山灰層") fill(190, 145, 91, 150)
+            if (kind == "ローム層") fill(112, 58, 21, 150)
+            if (kind == "その他の層") fill(0, 150)
+            push()
+            translate(x, int(z) + zLength / 2, y)
+            box(50, zLength, 50)
+            pop()
+        }
     }
-    fill(100, 50)
-    //泥岩のサンプル
-    createPlane1(xArr[0], yArr[0], shallowArr[0], xArr[2], yArr[2], shallowArr[2], xArr[4], yArr[4], shallowArr[4])
-    createPlane1(xArr[0], yArr[0], deepArr[0], xArr[2], yArr[2], deepArr[2], xArr[4], yArr[4], deepArr[4])
-    createPlane2(xArr[0], yArr[0], shallowArr[0], xArr[2], yArr[2], shallowArr[2], xArr[2], yArr[2], deepArr[2], xArr[0], yArr[0], deepArr[0])
-    createPlane2(xArr[0], yArr[0], shallowArr[0], xArr[4], yArr[4], shallowArr[4], xArr[4], yArr[4], deepArr[4], xArr[0], yArr[0], deepArr[0])
-    createPlane2(xArr[2], yArr[2], shallowArr[2], xArr[4], yArr[4], shallowArr[4], xArr[4], yArr[4], deepArr[4], xArr[2], yArr[2], deepArr[2])
 
-    fill(116, 80, 48, 50)
-    //泥岩のサンプル
-    createPlane1(xArr[1], yArr[1], shallowArr[1], xArr[3], yArr[3], shallowArr[3], xArr[5], yArr[5], shallowArr[5])
-    createPlane1(xArr[1], yArr[1], deepArr[1], xArr[3], yArr[3], deepArr[3], xArr[5], yArr[5], deepArr[5])
-    createPlane2(xArr[1], yArr[1], shallowArr[1], xArr[3], yArr[3], shallowArr[3], xArr[3], yArr[3], deepArr[3], xArr[1], yArr[1], deepArr[1])
-    createPlane2(xArr[1], yArr[1], shallowArr[1], xArr[5], yArr[5], shallowArr[5], xArr[5], yArr[5], deepArr[5], xArr[1], yArr[1], deepArr[1])
-    createPlane2(xArr[3], yArr[3], shallowArr[3], xArr[5], yArr[5], shallowArr[5], xArr[5], yArr[5], deepArr[5], xArr[3], yArr[3], deepArr[3])
+    // console.log(placeNameArr)
+    // fill(100, 50)
+    // //泥岩のサンプル
+    // createPlane1(xArr[0], yArr[0], shallowArr[0], xArr[2], yArr[2], shallowArr[2], xArr[4], yArr[4], shallowArr[4])
+    // createPlane1(xArr[0], yArr[0], deepArr[0], xArr[2], yArr[2], deepArr[2], xArr[4], yArr[4], deepArr[4])
+    // createPlane2(xArr[0], yArr[0], shallowArr[0], xArr[2], yArr[2], shallowArr[2], xArr[2], yArr[2], deepArr[2], xArr[0], yArr[0], deepArr[0])
+    // createPlane2(xArr[0], yArr[0], shallowArr[0], xArr[4], yArr[4], shallowArr[4], xArr[4], yArr[4], deepArr[4], xArr[0], yArr[0], deepArr[0])
+    // createPlane2(xArr[2], yArr[2], shallowArr[2], xArr[4], yArr[4], shallowArr[4], xArr[4], yArr[4], deepArr[4], xArr[2], yArr[2], deepArr[2])
+
+    // fill(116, 80, 48, 50)
+    // //泥岩のサンプル
+    // createPlane1(xArr[1], yArr[1], shallowArr[1], xArr[3], yArr[3], shallowArr[3], xArr[5], yArr[5], shallowArr[5])
+    // createPlane1(xArr[1], yArr[1], deepArr[1], xArr[3], yArr[3], deepArr[3], xArr[5], yArr[5], deepArr[5])
+    // createPlane2(xArr[1], yArr[1], shallowArr[1], xArr[3], yArr[3], shallowArr[3], xArr[3], yArr[3], deepArr[3], xArr[1], yArr[1], deepArr[1])
+    // createPlane2(xArr[1], yArr[1], shallowArr[1], xArr[5], yArr[5], shallowArr[5], xArr[5], yArr[5], deepArr[5], xArr[1], yArr[1], deepArr[1])
+    // createPlane2(xArr[3], yArr[3], shallowArr[3], xArr[5], yArr[5], shallowArr[5], xArr[5], yArr[5], deepArr[5], xArr[3], yArr[3], deepArr[3])
 }
 
 // windowがリサイズされたときの処理
@@ -265,6 +240,68 @@ function windowResized() {
     initValue()
 }
 
-// class Sample{
 
-// }
+
+class DOM {
+    constructor() {
+        let placeNameInputNum = Object.keys(placeNameInputArr).length
+        placeNameInputNum += 1
+        let parentDiv = createDiv()
+            .parent(placePointNameInput)
+            .class("mb-2")
+            .id("placeNameInput" + str(placeNameInputNum))
+        let inputGroup1 = createDiv()
+            .parent(parentDiv)
+            .class("input-group")
+        let inputGroup2 = createDiv()
+            .parent(parentDiv)
+            .class("input-group")
+        // input要素の上の部分
+        createElement("span", "地点" + str(placeNameInputNum) + "：")
+            .parent(inputGroup1)
+            .class("input-group-text")
+        let placeNameInput = createInput()
+            .parent(inputGroup1)
+            .class("form-control")
+            .input(placeNameInputFunction)
+        placeNameInputArr["地点" + str(placeNameInputNum)] = { name: placeNameInput, data: { x: "", y: "" }, edit: "", layer: "" }
+        // input要素の下の部分
+        createElement("span", "緯度")
+            .parent(inputGroup2)
+            .class("input-group-text")
+        let xInput = createInput(0, "number")
+            .parent(inputGroup2)
+            .class("form-control")
+            .input(placeCoodiInputFunction)
+        placeNameInputArr["地点" + str(placeNameInputNum)]["data"]["x"] = xInput
+        createElement("span", "経度")
+            .parent(inputGroup2)
+            .class("input-group-text")
+        let yInput = createInput(0, "number")
+            .parent(inputGroup2)
+            .class("form-control")
+            .input(placeCoodiInputFunction)
+        placeNameInputArr["地点" + str(placeNameInputNum)]["data"]["y"] = yInput
+        createDiv("地点" + str(placeNameInputNum) + "の名前、緯度、経度を入力してください。")
+            .parent(parentDiv)
+            .class("form-text")
+        // サブウィンドウ生成用のDOM
+        let placeDataInput = createA("javascript:void(0)", "地点" + str(placeNameInputNum) + "のデータを編集")
+            .class("btn btn-outline-primary mb-2")
+            .parent("placePointDataInput")
+            .id("placeDataInput" + str(placeNameInputNum))
+        placeNameInputArr["地点" + str(placeNameInputNum)]["edit"] = placeDataInput
+        for (let i = 0; i < placeNameInputNum; i++) {
+            let place = "地点" + str(i + 1)
+            let placeName = placeNameInputArr[place].name.value()
+            if (placeName == "") {
+                placeName = place
+                placeNameInputArr[place].edit.html("地点" + str(i + 1) + "のデータを編集")
+            } else {
+                placeNameInputArr[place].edit.html(placeName + "のデータを編集")
+            }
+            document.getElementById("placeDataInput" + str(i + 1))
+                .onclick = function () { window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500"); };
+        }
+    }
+}
