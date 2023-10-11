@@ -191,7 +191,7 @@ function backgroundSetting(min_unit, max_unit) {
             push()
             translate(-500, 0, 500)
             let x_map = map(x, 0, 1000, min_unit, max_unit)
-            if (min_unit == max_unit) x_map = x
+            if (min_unit == max_unit) x_map = x / 100
             text(nf(x_map, 1, 1), x, -10, 0)
             pop()
         }
@@ -220,8 +220,8 @@ function backgroundSetting(min_unit, max_unit) {
         line(-500, 0, y - 500, -500, 1000, y - 500)
         if (y % 100 == 0) {
             push()
-            let y_map = map(y, 0, 1000, min_unit, max_unit)
-            if (min_unit == max_unit) y_map = y
+            let y_map = map(y, 1000, 0, min_unit, max_unit)
+            if (min_unit == max_unit) y_map = (1000 - y) / 100
             rotateY(PI / 2)
             translate(-y + 500, 0, 500)
             text(nf(y_map, 1, 1), 0, -10)
@@ -298,7 +298,7 @@ function drawStrata(key, rotateTime, min_unit, max_unit) {
     x = map(x, min_unit, max_unit, -500, 500)
     let y = data.y.value()
     if (y == "") y = 0
-    y = map(y, min_unit, max_unit, -500, 500)
+    y = map(y, min_unit, max_unit, 500, -500)
     fill(0)
     push()
     translate(x, 0, y)
