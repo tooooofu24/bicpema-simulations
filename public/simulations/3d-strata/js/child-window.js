@@ -9,7 +9,6 @@ function trAddButtonFunction() {
     let n = trSum
     let tr = new TR(n)
     trArr.push(tr)
-    console.log(trArr)
 }
 
 function elCreate() {
@@ -34,7 +33,6 @@ function elInit() {
 function setup() {
     elCreate()
     elInit()
-
 }
 
 function draw() {
@@ -74,10 +72,8 @@ class TR {
             for (let i = 0; i < idArr.length; i++) {
                 select("#th" + idArr[i]).html(i + 1 + "層目")
             }
-            console.log(trArr)
         }
         this.trRemoveButton.mousePressed(_removeButtonFunction)
         idArr.push(str(a))
-        console.log(idArr)
     }
 }

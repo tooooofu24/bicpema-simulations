@@ -44,6 +44,7 @@ let dataInputArr = {}
 //      ]
 // }
 
+
 // 地点データが入力された時に動く関数
 function placeNameInputFunction() {
 
@@ -61,7 +62,9 @@ function placeNameInputFunction() {
             dataInputArr[place].edit.html(placeName + "のデータを編集")
         }
         document.getElementById("placeDataInput" + str(i + 1))
-            .onclick = function () { window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500"); };
+            .onclick = function () {
+                let win = window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500")
+            };
     }
 
 }
@@ -89,7 +92,9 @@ function addButtonFunction() {
 
     // サブウィンドウを開く機構の付与
     document.getElementById("placeDataInput" + str(newPlaceNum))
-        .onclick = function () { window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500"); };
+        .onclick = function () {
+            let win = window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500")
+        };
 
 }
 
@@ -129,59 +134,103 @@ function setup() {
     initValue()
 }
 
+// 緯度経度の最小値と最大値を計算する関数
+function calculateValue() {
+    let latitudeArr = []
+    let longitudeArr = []
+    for (let key in dataInputArr) {
+        let value = dataInputArr[key]
+        let data = value.data
+        let latitude = data.y.value()
+        let longitude = data.x.value()
+        if (latitude != "") {
+            latitudeArr.push(int(latitude))
+        } else {
+            latitudeArr.push(0)
+        }
+        if (longitude != "") {
+            longitudeArr.push(int(longitude))
+        } else {
+            longitudeArr.push(0)
+        }
+    }
+    return {
+        x: {
+            min: min(longitudeArr),
+            max: max(longitudeArr)
+        },
+        y: {
+            min: min(latitudeArr),
+            max: max(latitudeArr)
+        },
+    }
+}
+
 //背景を設定する関数
-function backgroundSetting() {
+function backgroundSetting(min_unit, max_unit) {
     background(240)
     strokeWeight(3)
     // x軸
     stroke(255, 0, 0)
-    line(0, 0, 0, 500, 0, 0)
-    // y軸
-    stroke(0, 255, 0)
-    line(0, 0, 0, 0, 500, 0)
+    line(-500, 0, -500, 500, 0, -500)
     // z軸
+    stroke(0, 255, 0)
+    line(-500, 0, -500, -500, 1000, -500)
+    // y軸
     stroke(0, 0, 255)
-    line(0, 0, 0, 0, 0, 500)
+    line(-500, 0, -500, -500, 0, 500)
     // 格子線
     smooth()
     strokeWeight(1)
-    stroke(170)
+    stroke(170, 150)
     fill(0)
-    for (let x = 0; x <= 500; x += 50) {
-        line(x, 0, 0, x, 500, 0)
-        line(x, 0, 0, x, 0, 500)
+    for (let x = 0; x <= 1000; x += 50) {
+        line(x - 500, 0, -500, x - 500, 1000, -500)
+        line(x - 500, 0, -500, x - 500, 0, 500)
         if (x % 100 == 0) {
             push()
-            translate(0, 0, 500)
-            text(x, x, -10, 0)
+            translate(-500, 0, 500)
+            let x_map = map(x, 0, 1000, min_unit, max_unit)
+            if (min_unit == max_unit) x_map = x
+            text(nf(x_map, 1, 1), x, -10, 0)
             pop()
         }
     }
     push()
     translate(0, 0, 500)
-    text("経度", 250, -50)
+    text("経度", 0, -50)
     pop()
 
-    for (let y = 0; y <= 500; y += 50) {
-        line(0, y, 0, 500, y, 0)
-        line(0, y, 0, 0, y, 500)
-        if (y % 100 == 0) text(y, 0, y, 0)
-    }
-    text("深さ", -50, 250, 0)
-    for (let z = 0; z <= 500; z += 50) {
-        line(0, 0, z, 500, 0, z)
-        line(0, 0, z, 0, 500, z)
+    for (let z = 0; z <= 1000; z += 50) {
+        line(-500, z, -500, 500, z, -500)
+        line(-500, z, -500, -500, z, 500)
         if (z % 100 == 0) {
             push()
+            translate(0, 0, -500)
+            text(z, -500, z)
+            pop()
+        }
+    }
+    push()
+    translate(0, 0, -500)
+    text("深さ", -550, 500, 0)
+    pop()
+    for (let y = 0; y <= 1000; y += 50) {
+        line(-500, 0, y - 500, 500, 0, y - 500)
+        line(-500, 0, y - 500, -500, 1000, y - 500)
+        if (y % 100 == 0) {
+            push()
+            let y_map = map(y, 0, 1000, min_unit, max_unit)
+            if (min_unit == max_unit) y_map = y
             rotateY(PI / 2)
-            translate(-z, 0, 500)
-            text(z, 0, -10)
+            translate(-y + 500, 0, 500)
+            text(nf(y_map, 1, 1), 0, -10)
             pop()
         }
     }
     push()
     rotateY(PI / 2)
-    translate(-250, -50, 500)
+    translate(0, -50, 500)
     text("緯度", 0, -10)
     pop()
 }
@@ -223,28 +272,31 @@ function drawDirMark(x, y) {
     strokeWeight(1)
     stroke(0)
     line(x + 50, y, x - 50, y)
-    line(x - 50, y, x, y + 50)
-    line(x, y + 50, x, y - 75)
-    text("東", x + 70 + 20, y + 8)
-    text("西", x - 70 - 20, y + 8)
-    text("南", x, y + 70 + 20)
-    text("北", x, y - 70 - 20)
+    line(x + 20, y - 50, x - 20, y - 50)
+    line(x, y - 100, x, +y + 100)
+    line(x, y - 100, x - 20, y - 50)
+    text("東", x + 70, y + 8)
+    text("西", x - 70, y + 8)
+    text("南", x, y + 70 + 60)
+    text("北", x, y - 70 - 40)
     pop()
 }
 
 
-function drawStrata(key, r) {
+function drawStrata(key, rotateTime, min_unit, max_unit) {
     let name = dataInputArr[key].name.value()
     if (name == "") name = key
     let data = dataInputArr[key].data
     let x = data.x.value()
     if (x == "") x = 0
+    x = map(x, min_unit, max_unit, -500, 500)
     let y = data.y.value()
     if (y == "") y = 0
+    y = map(y, min_unit, max_unit, -500, 500)
     fill(0)
     push()
     translate(x, 0, y)
-    rotateY(radians(r))
+    rotateY(radians(rotateTime))
     text(name, 0, -55)
     fill(255, 0, 0)
     noStroke()
@@ -273,19 +325,29 @@ function drawStrata(key, r) {
 // draw関数
 let rotateTime = 0;
 function draw() {
-
-    backgroundSetting()
-    drawDirMark(-100, -100)
+    let coordinateData = calculateValue()
+    let x_min = coordinateData.x.min
+    if (x_min == Infinity) x_min = 0
+    let x_max = coordinateData.x.max
+    if (x_max == -Infinity) x_max = 0
+    let y_min = coordinateData.y.min
+    if (y_min == Infinity) y_min = 0
+    let y_max = coordinateData.y.max
+    if (y_max == -Infinity) y_max = 0
+    let min_unit = min([x_min, y_min])
+    let max_unit = max([x_max, y_max])
+    backgroundSetting(min_unit, max_unit)
+    drawDirMark(-600, -600)
 
     // データ登録モーダルを開いている時にオービットコントロールを無効化
     let modalIs = $("#dataRegisterModal").is(":hidden")
     if (modalIs) {
-        orbitControl(1)
+        orbitControl(2)
     }
 
     rotateTime += 2;
     for (let key in dataInputArr) {
-        drawStrata(key, rotateTime)
+        drawStrata(key, rotateTime, min_unit, max_unit)
     }
 
     // fill(100, 50)
