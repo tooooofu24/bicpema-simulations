@@ -19,6 +19,14 @@
             }
             document.getElementById("place_name").innerHTML = placeName + "のデータを編集"
             document.title = placeName + "のデータを編集"
+            let layers = window.opener.loadLayers(placeName)
+            let layersNum = layers.length
+            for (let i = 0; i < layersNum; i++) {
+                trAddButtonFunction()
+                document.getElementById("td1Input" + (i + 1).toString()).value = layers[i][0]
+                document.getElementById("td2Input" + (i + 1).toString()).value = layers[i][1]
+                document.getElementById("td3Select" + (i + 1).toString()).value = layers[i][2]
+            }
         }
     </script>
     <!-- Bootstrap CSS -->

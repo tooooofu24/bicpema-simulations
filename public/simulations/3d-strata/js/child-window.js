@@ -9,6 +9,7 @@ function trAddButtonFunction() {
     let n = trSum
     let tr = new TR(n)
     trArr.push(tr)
+    return trSum
 }
 
 function elCreate() {
@@ -45,11 +46,11 @@ class TR {
         this.tr = createElement("tr").id("tr" + a)
         this.th = createElement("th").id("th" + a).html(trNum + "層目")
         this.td1 = createElement("td").id("td1" + a)
-        this.td1Input = createInput(0, "number")
+        this.td1Input = createInput(0, "number").id("td1Input" + a)
         this.td2 = createElement("td").id("td2" + a)
-        this.td2Input = createInput(0, "number")
+        this.td2Input = createInput(0, "number").id("td2Input" + a)
         this.td3 = createElement("td").id("td3" + a)
-        this.td3Select = createSelect()
+        this.td3Select = createSelect().id("td3Select" + a)
         this.td4 = createElement("td").id("td4" + a)
         this.trRemoveButton = createButton("削除")
         this.tr.parent("tablebody")

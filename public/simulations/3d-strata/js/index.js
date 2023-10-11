@@ -265,6 +265,12 @@ function submit(arr) {
     }
 }
 
+function loadLayers(placeName) {
+    let value = dataInputArr[placeName]
+    let layers = value.layer
+    return layers
+}
+
 // 方角を描画する関数
 function drawDirMark(x, y) {
     push()
