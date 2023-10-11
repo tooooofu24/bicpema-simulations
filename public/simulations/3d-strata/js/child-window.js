@@ -34,6 +34,7 @@ function elInit() {
 function setup() {
     elCreate()
     elInit()
+
 }
 
 function draw() {

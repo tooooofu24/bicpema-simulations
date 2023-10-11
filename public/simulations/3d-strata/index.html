@@ -16,7 +16,8 @@
         referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <!-- Bootstrap CSS -->
     <link crossorigin="anonymous" href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="./style.css" rel="stylesheet">
+    <!-- {simulation name}.js -->
+    <script language="javascript" src="js/index.js" type="text/javascript"></script>
     <style>
         body {
             padding: 0;
@@ -39,11 +40,6 @@
             padding: 0;
         }
     </style>
-    <!-- <script Language="JavaScript">
-        function sample() {
-            console.log("test!!!!")
-        }
-    </script> -->
 </head>
 
 <body oncontextmenu="return false;">
@@ -74,8 +70,8 @@
             </div>
         </div>
     </div>
-    <button class="btn-lg btn-primary rounded-pill sp-button " type="button" data-bs-toggle="modal"
-        data-bs-target="#dataRegisterModal">
+    <button class="btn-lg btn-primary rounded-pill position-absolute end-0 bottom-0 mb-3 me-3" type="button"
+        data-bs-toggle="modal" data-bs-target="#dataRegisterModal">
         データの登録 +
     </button>
     <div class="modal fade" id="dataRegisterModal" tabindex="-1" aria-labelledby="dataRegisterModalLabel"
@@ -121,10 +117,6 @@
             </div>
         </div>
     </div>
-    <div id="p5Canvas"></div>
-
-    <!-- {simulation name}.js -->
-    <script language="javascript" src="js/index.js" type="text/javascript"></script>
     <!-- jQuery -->
     <script language="javascript" src="../../assets/js/jquery-3.6.4.min.js" type="text/javascript"></script>
     <!-- Bootstrap JS -->
