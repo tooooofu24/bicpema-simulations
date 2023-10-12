@@ -10,7 +10,8 @@ function preload() {
 
 // 地点を追加、削除するボタン
 let placeAddButton,
-    placeRemoveButton;
+    placeRemoveButton,
+    usageGuideDiv;
 // DOM要素の生成
 function elCreate() {
     placeAddButton = select("#addButton")
@@ -317,17 +318,18 @@ function drawStrata(key, rotateTime, min_unit, max_unit) {
     cone(10, 50, 10, 3, true);
     pop()
     let layer = dataInputArr[key].layer
+    noStroke()
     for (let i = 0; i < layer.length; i++) {
         let z = layer[i][0]
         let zLength = layer[i][1] - layer[i][0]
         let kind = layer[i][2]
-        if (kind == "砂岩層") fill(108, 94, 85, 150)
-        if (kind == "泥岩層") fill(132, 132, 120, 150)
-        if (kind == "れき岩層") fill(68, 78, 41, 150)
-        if (kind == "石灰岩層") fill(174, 170, 170, 150)
-        if (kind == "凝灰岩層・火山灰層") fill(190, 145, 91, 150)
-        if (kind == "ローム層") fill(112, 58, 21, 150)
-        if (kind == "その他の層") fill(0, 150)
+        if (kind == "砂岩層") fill(215, 205, 166, 200)
+        if (kind == "泥岩層") fill(156, 154, 143, 200)
+        if (kind == "れき岩層") fill(252, 180, 172, 200)
+        if (kind == "石灰岩層") fill(120, 170, 170, 200)
+        if (kind == "凝灰岩層・火山灰層") fill(200, 200, 200, 200)
+        if (kind == "ローム層") fill(112, 58, 21, 200)
+        if (kind == "その他の層") fill(0, 200)
         push()
         translate(x, int(z) + zLength / 2, y)
         box(50, zLength, 50)
