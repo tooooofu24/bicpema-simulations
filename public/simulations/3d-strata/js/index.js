@@ -192,7 +192,7 @@ function backgroundSetting(min_unit, max_unit) {
             translate(-500, 0, 500)
             let x_map = map(x, 0, 1000, min_unit, max_unit)
             if (min_unit == max_unit) x_map = x / 100
-            text(nf(x_map, 1, 1), x, -10, 0)
+            text(nf(x_map, 1, 2), x, -10, 0)
             pop()
         }
     }
@@ -224,7 +224,7 @@ function backgroundSetting(min_unit, max_unit) {
             if (min_unit == max_unit) y_map = (1000 - y) / 100
             rotateY(PI / 2)
             translate(-y + 500, 0, 500)
-            text(nf(y_map, 1, 1), 0, -10)
+            text(nf(y_map, 1, 2), 0, -10)
             pop()
         }
     }
@@ -266,7 +266,14 @@ function submit(arr) {
 }
 
 function loadLayers(placeName) {
-    let value = dataInputArr[placeName]
+    let arrKey = placeName
+    for (let key in dataInputArr) {
+        let a = dataInputArr[key].name.value()
+        if (a == arrKey) {
+            arrKey = key
+        }
+    }
+    let value = dataInputArr[arrKey]
     let layers = value.layer
     return layers
 }
