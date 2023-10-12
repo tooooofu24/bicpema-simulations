@@ -70,11 +70,6 @@
                 </svg>
             </div>
         </div>
-        <button class=" btn-lg btn btn-secondary rounded-pill position-absolute mt-3 me-3 end-0" type="button"
-            data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
-            凡例の表示・非表示
-        </button>
-
         <div class="position-absolute start-0 m-3 card collapse col-sm-6 col-lg-3" id="collapse">
             <div class="card-body">
                 <ul class="list-group list-group-flush border border-0">
@@ -123,10 +118,7 @@
                 </ul>
             </div>
         </div>
-        <button class="btn-lg btn-primary rounded-pill position-absolute end-0 bottom-0 mb-3 me-3" type="button"
-            data-bs-toggle="modal" data-bs-target="#dataRegisterModal">
-            データの登録 +
-        </button>
+
         <div class="modal fade" id="dataRegisterModal" tabindex="-1" aria-labelledby="dataRegisterModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -169,6 +161,16 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="position-absolute m-3 end-0 bottom-0">
+            <button class="btn btn-secondary rounded-pill " type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                凡例の表示・非表示
+            </button>
+            <button class="btn btn-primary rounded-pill" type="button" data-bs-toggle="modal"
+                data-bs-target="#dataRegisterModal">
+                データの登録 +
+            </button>
         </div>
     </div>
     <!-- jQuery -->
