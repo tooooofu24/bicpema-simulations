@@ -168,7 +168,7 @@ function calculateValue() {
 }
 
 //背景を設定する関数
-function backgroundSetting(min_unit, max_unit) {
+function backgroundSetting(xMin, xMax, yMin, yMax) {
     background(240)
     strokeWeight(3)
     // x軸
@@ -191,9 +191,9 @@ function backgroundSetting(min_unit, max_unit) {
         if (x % 100 == 0) {
             push()
             translate(-500, 0, 500)
-            let x_map = map(x, 0, 1000, min_unit, max_unit)
-            if (min_unit == max_unit) x_map = x / 100
-            text(nf(x_map, 1, 2), x, -10, 0)
+            let xMap = map(x, 0, 1000, xMin, xMax)
+            if (xMin == xMax) xMap = x / 100
+            text(nf(xMap, 1, 2), x, -10, 0)
             pop()
         }
     }
@@ -221,11 +221,11 @@ function backgroundSetting(min_unit, max_unit) {
         line(-500, 0, y - 500, -500, 1000, y - 500)
         if (y % 100 == 0) {
             push()
-            let y_map = map(y, 1000, 0, min_unit, max_unit)
-            if (min_unit == max_unit) y_map = (1000 - y) / 100
+            let yMap = map(y, 1000, 0, yMin, yMax)
+            if (yMin == yMax) yMap = (1000 - y) / 100
             rotateY(PI / 2)
             translate(-y + 500, 0, 500)
-            text(nf(y_map, 1, 2), 0, -10)
+            text(nf(yMap, 1, 2), 0, -10)
             pop()
         }
     }
@@ -297,16 +297,16 @@ function drawDirMark(x, y) {
 }
 
 
-function drawStrata(key, rotateTime, min_unit, max_unit) {
+function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax) {
     let name = dataInputArr[key].name.value()
     if (name == "") name = key
     let data = dataInputArr[key].data
     let x = data.x.value()
     if (x == "") x = 0
-    x = map(x, min_unit, max_unit, -500, 500)
+    x = map(x, xMin, xMax, -500, 500)
     let y = data.y.value()
     if (y == "") y = 0
-    y = map(y, min_unit, max_unit, 500, -500)
+    y = map(y, yMin, yMax, 500, -500)
     fill(0)
     push()
     translate(x, 0, y)
@@ -341,17 +341,27 @@ function drawStrata(key, rotateTime, min_unit, max_unit) {
 let rotateTime = 0;
 function draw() {
     let coordinateData = calculateValue()
-    let x_min = coordinateData.x.min
-    if (x_min == Infinity) x_min = 0
-    let x_max = coordinateData.x.max
-    if (x_max == -Infinity) x_max = 0
-    let y_min = coordinateData.y.min
-    if (y_min == Infinity) y_min = 0
-    let y_max = coordinateData.y.max
-    if (y_max == -Infinity) y_max = 0
-    let min_unit = min([x_min, y_min])
-    let max_unit = max([x_max, y_max])
-    backgroundSetting(min_unit, max_unit)
+    let xMin = coordinateData.x.min
+    if (xMin == Infinity) xMin = 0
+    let xMax = coordinateData.x.max
+    if (xMax == -Infinity) xMax = 0
+    let xLen = xMax - xMin
+    let yMin = coordinateData.y.min
+    if (yMin == Infinity) yMin = 0
+    let yMax = coordinateData.y.max
+    if (yMax == -Infinity) yMax = 0
+    let yLen = yMax - yMin
+    let unitLen = max([xLen, yLen])
+    if (xLen <= yLen) {
+        let addLenValue = (unitLen - xLen) / 2
+        xMin -= addLenValue
+        xMax += addLenValue
+    } else {
+        let addLenValue = (unitLen - yLen) / 2
+        yMin -= addLenValue
+        yMax += addLenValue
+    }
+    backgroundSetting(xMin, xMax, yMin, yMax)
     drawDirMark(-600, -600)
 
     // データ登録モーダルを開いている時にオービットコントロールを無効化
@@ -362,7 +372,7 @@ function draw() {
 
     rotateTime += 2;
     for (let key in dataInputArr) {
-        drawStrata(key, rotateTime, min_unit, max_unit)
+        drawStrata(key, rotateTime, xMin, xMax, yMin, yMax)
     }
 
     // fill(100, 50)
