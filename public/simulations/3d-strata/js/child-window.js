@@ -25,6 +25,10 @@ function reloadFunction() {
     let name = c.split("のデータを編集")[0]
     let arr = [name, a]
     window.opener.submit(arr);
+    window.opener.planeRefreshFunction()
+    window.opener.firstPlaceSelectFunction()
+    // window.opener.secondPlaceSelectFunction()
+    // window.opener.thirdPlaceSelectFunction()
 }
 
 function elInit() {

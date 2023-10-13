@@ -145,7 +145,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body container">
-                        <p>※地点データ、地層データの順にデータを登録してください。</p>
+                        <p>※地点データ、地層データ、表示する平面の順に登録してください。</p>
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#placePointNameRegister"
@@ -154,21 +154,80 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#placePointDataRegister" data-bs-toggle="tab">地層データの登録</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#planeDataRegister" data-bs-toggle="tab">表示する平面の登録</a>
+                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="placePointNameRegister">
-                                <div class="container-fluid">
-                                    <h2>地点データの登録</h2>
-                                    <button class="btn btn-outline-primary mb-2" id="addButton">地点データの追加</button>
-                                    <button class="btn btn-outline-secondary mb-2" id="removeButton">地点データの削除</button>
+                                <div class="container">
+                                    <h2 class="mt-3">地点データの登録</h2>
+                                    <button class="btn btn-outline-primary mb-2" id="placeAddButton">地点データの追加</button>
+                                    <button class="btn btn-outline-secondary mb-2"
+                                        id="placeRemoveButton">地点データの削除</button>
                                     <div class="row" id="placePointNameInput"></div>
                                 </div>
                             </div>
                             <div class="tab-pane" id="placePointDataRegister">
-                                <div class="container-fluid">
-                                    <h2>地層データの登録</h2>
+                                <div class="container">
+                                    <h2 class="mt-3">地層データの登録</h2>
                                     <p>※地層データ登録用のサブウィンドウが開きます。</p>
                                     <div class="row" id="placePointDataInput"></div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="planeDataRegister">
+                                <div class="container">
+                                    <h2 class="mt-3">表示する平面の登録</h2>
+                                    <div class="container">
+                                        <h3>平面を構成する地点</h3>
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width: 33%;">１つめの地点</th>
+                                                    <th class="text-center" style="width: 33%;">２つめの地点</th>
+                                                    <th class="text-center" style="width: 33%;">３つめの地点</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <select class="form-select" id="firstPlaceSelect">
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select" id="secondPlaceSelect">
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select" id="thirdPlaceSelect">
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="container">
+                                        <h3>表示する地層</h3>
+                                        <button class="btn btn-outline-primary mb-2" id="strataAddButton">組の追加</button>
+                                        <button class="btn btn-outline-secondary mb-2"
+                                            id="strataRemoveButton">組の削除</button>
+                                        <table class=" table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width: 10%;">組番号</th>
+                                                    <th class="text-center" style="width: 22.5%;">層の種類</th>
+                                                    <th class="text-center" id="firstPlaceName" style="width: 22.5%;">
+                                                        -</th>
+                                                    <th class="text-center" id="secondPlaceName" style="width: 22.5%;">
+                                                        -</th>
+                                                    <th class="text-center" id="thirdPlaceName" style="width: 22.5%;">
+                                                        -</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="strataSelect">
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -180,15 +239,15 @@
             </div>
         </div>
         <div class="position-absolute m-3 end-0">
-            <a class="btn btn-primary rounded-pill" id="screenshot-btn" type="button">
-                スクリーンショット
-            </a>
-        </div>
-        <div class="position-absolute m-3 end-0 bottom-0">
             <button class="btn btn-secondary rounded-pill" type="button" data-bs-toggle="collapse"
                 data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
                 凡例の表示・非表示
             </button>
+        </div>
+        <div class="position-absolute m-3 end-0 bottom-0">
+            <a class="btn btn-primary rounded-pill" id="screenshot-btn" type="button">
+                スクリーンショット
+            </a>
             <button class="btn btn-primary rounded-pill" type="button" data-bs-toggle="modal"
                 data-bs-target="#dataRegisterModal">
                 データの登録 +
