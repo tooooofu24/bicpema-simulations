@@ -188,6 +188,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax) {
     for (let x = 0; x <= 1000; x += 50) {
         line(x - 500, 0, -500, x - 500, 1000, -500)
         line(x - 500, 0, -500, x - 500, 0, 500)
+        line(x - 500, 0, 500, x - 500, 1000, 500)
         if (x % 100 == 0) {
             push()
             translate(-500, 0, 500)
@@ -205,6 +206,8 @@ function backgroundSetting(xMin, xMax, yMin, yMax) {
     for (let z = 0; z <= 1000; z += 50) {
         line(-500, z, -500, 500, z, -500)
         line(-500, z, -500, -500, z, 500)
+        line(-500, z, 500, 500, z, 500)
+        line(500, z, -500, 500, z, 500)
         if (z % 100 == 0) {
             push()
             translate(0, 0, -500)
@@ -219,6 +222,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax) {
     for (let y = 0; y <= 1000; y += 50) {
         line(-500, 0, y - 500, 500, 0, y - 500)
         line(-500, 0, y - 500, -500, 1000, y - 500)
+        line(500, 0, y - 500, 500, 1000, y - 500)
         if (y % 100 == 0) {
             push()
             let yMap = map(y, 1000, 0, yMin, yMax)
