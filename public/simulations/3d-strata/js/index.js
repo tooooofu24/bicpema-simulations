@@ -303,6 +303,8 @@ function strataAddButtonFunction() {
 }
 
 function strataRemoveButtonFunction() {
+    let strataSelect =  document.getElementById("strataSelect")
+    if(strataSelect.childElementCount > 0)strataSelect.removeChild(strataSelect.lastChild);
 }
 
 // DOM要素の設定
