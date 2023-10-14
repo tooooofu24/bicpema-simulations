@@ -1,6 +1,6 @@
 ///全画面表示
 function fullScreen() {
-    createCanvas(2 * windowWidth / 3, 1 * windowHeight / 10 + 7 * windowHeight / 10, WEBGL)
+    createCanvas(windowWidth,windowHeight, WEBGL)
 }
 
 // 外部ファイルの読み込み
@@ -172,7 +172,6 @@ function toRGB(a) {
 }
 // draw関数
 function draw() {
-    orbitControl(10)
     background(100)
     createPolarizer(200, 0, 0, 50, 0)
     celloNum = 0
@@ -208,14 +207,6 @@ function draw() {
         xArr2[i - 380] = lightArr[i - 380] * xLambda[i - 380]
         yArr2[i - 380] = lightArr[i - 380] * yLambda[i - 380]
         zArr2[i - 380] = lightArr[i - 380] * zLambda[i - 380]
-    }
-    noStroke()
-    for (let i = 0; i < osArr.length; i++) {
-        ellipse(0.5 * i, 100 - 100 * osArr[i], 1, 1)
-        ellipse(0.5 * i, 100 - 100 * osArrOrigin[i], 1, 1)
-        ellipse(0.5 * i, 100 - 100 * xArr[i], 1, 1)
-        ellipse(0.5 * i, 100 - 100 * yArr[i], 1, 1)
-        ellipse(0.5 * i, 100 - 100 * zArr[i], 1, 1)
     }
     x_sum = math.sum(xArr)
     y_sum = math.sum(yArr)
