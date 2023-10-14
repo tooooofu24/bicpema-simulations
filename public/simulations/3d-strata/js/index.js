@@ -303,8 +303,8 @@ function strataAddButtonFunction() {
 }
 
 function strataRemoveButtonFunction() {
-    let strataSelect =  document.getElementById("strataSelect")
-    if(strataSelect.childElementCount > 0)strataSelect.removeChild(strataSelect.lastChild);
+    let strataSelect = document.getElementById("strataSelect")
+    if (strataSelect.childElementCount > 0) strataSelect.removeChild(strataSelect.lastChild);
 }
 
 // DOM要素の設定
@@ -507,20 +507,12 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax) {
     let y = data.y.value()
     if (y == "") y = 0
     y = map(y, yMin, yMax, 500, -500)
-    fill(0)
-    push()
-    translate(x, 0, y)
-    rotateY(radians(rotateTime))
-    text(name, 0, -55)
-    fill(255, 0, 0)
-    noStroke()
-    translate(0, -25, 0)
-    cone(10, 50, 10, 3, true);
-    pop()
     let layer = dataInputArr[key].layer
     noStroke()
+    let zArr = []
     for (let i = 0; i < layer.length; i++) {
         let z = layer[i][0]
+        zArr.push(z)
         let zLength = layer[i][1] - layer[i][0]
         let kind = layer[i][2]
         if (kind == "砂岩層") fill(215, 205, 166, 200)
@@ -535,6 +527,18 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax) {
         box(50, zLength, 50)
         pop()
     }
+    fill(0)
+    push()
+    translate(x, 0, y)
+    rotateY(radians(rotateTime))
+    if (min(zArr) < 0) {
+        translate(0, min(zArr), 0)
+    }
+    text(name, 0, -55)
+    fill(255, 0, 0)
+    translate(0, -25, 0)
+    cone(10, 50, 10, 3, true);
+    pop()
 }
 
 // draw関数
