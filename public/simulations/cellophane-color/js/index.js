@@ -1,6 +1,7 @@
 ///全画面表示
 function fullScreen() {
-    createCanvas(windowWidth,windowHeight, WEBGL)
+    let canvas = createCanvas(6 * windowWidth / 10, 8 * windowHeight / 10, WEBGL)
+    canvas.parent("p5Canvas")
 }
 
 // 外部ファイルの読み込み
@@ -114,8 +115,8 @@ function initValue() {
 // setup関数
 function setup() {
     fullScreen()
-    elCreate()
-    elInit()
+    // elCreate()
+    // elInit()
     initValue()
     camera(0, 0, 500, 0, 0, 0, 0, 1, 0);
 }
