@@ -1,3 +1,21 @@
+// html要素が全て読み込まれた後に読み込む
+window.onload = function () {
+
+    // screenshotButtonの設定
+    document.getElementById('screenshotButton').addEventListener('click', () => {
+        html2canvas(document.body).then((canvas) => {
+            downloadImage(canvas.toDataURL());
+        });
+    });
+    function downloadImage(dataUrl) {
+        const name = 'screenshot.png';
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = name;
+        a.click();
+    }
+};
+
 //全画面表示
 function fullScreen() {
     createCanvas(windowWidth, 9 * windowHeight / 10, WEBGL);
@@ -5,13 +23,18 @@ function fullScreen() {
 
 // 外部ファイルの読み込み
 function preload() {
+
+    // フォントのデータ
     jaFont = loadFont('../../assets/fonts/ZenMaruGothic-Regular.ttf');
+
 }
 
 // 地点を追加、削除するボタン
 let placeAddButton,
-    placeRemoveButton,
-    strataAddButton,
+    placeRemoveButton;
+
+// 平面を構成する地層の組を追加、削除するボタン
+let strataAddButton,
     strataRemoveButton;
 
 // DOM要素の生成
@@ -52,8 +75,10 @@ let dataInputArr = {}
 
 // 地点データが入力された時に動く関数
 function placeNameInputFunction() {
+
     // 地点データの数
     let placeNum = Object.keys(dataInputArr).length
+
     // データを編集するボタンのhtml要素を書き換える繰り返し
     for (let i = 0; i < placeNum; i++) {
         let place = "地点" + str(i + 1)
@@ -69,10 +94,13 @@ function placeNameInputFunction() {
                 let win = window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500")
             };
     }
-    planeRefreshFunction()
+
+    // 平面データの設定を常に更新
+    placeRefreshFunction()
     firstPlaceSelectFunction()
     secondPlaceSelectFunction()
     thirdPlaceSelectFunction()
+
 }
 
 // 地点データの追加ボタンを押した時に動く関数
@@ -101,8 +129,8 @@ function placeAddButtonFunction() {
         .onclick = function () {
             let win = window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500")
         };
-    planeRefreshFunction()
 
+    placeRefreshFunction()
 }
 
 // 地点データの削除ボタンを押した時に動く関数
@@ -116,9 +144,11 @@ function placeRemoveButtonFunction() {
         select("#placeDataInput" + str(placeNum)).remove()
         delete dataInputArr["地点" + placeNum]
     }
-    planeRefreshFunction()
+
+    placeRefreshFunction()
 }
 
+// 平面を構成する１つ目の地点のデータに関連する処理
 function firstPlaceSelectFunction() {
     let firstPlaceSelect = select("#firstPlaceSelect")
     let firstPlaceName = document.getElementById("firstPlaceName")
@@ -155,6 +185,7 @@ function firstPlaceSelectFunction() {
     }
 }
 
+// 平面を構成する２つ目の地点のデータに関連する処理
 function secondPlaceSelectFunction() {
     let secondPlaceSelect = select("#secondPlaceSelect")
     let secondPlaceName = document.getElementById("secondPlaceName")
@@ -191,6 +222,7 @@ function secondPlaceSelectFunction() {
     }
 }
 
+// 平面を構成する３つ目の地点のデータに関連する処理
 function thirdPlaceSelectFunction() {
     let thirdPlaceSelect = select("#thirdPlaceSelect")
     let thirdPlaceName = document.getElementById("thirdPlaceName")
@@ -228,13 +260,16 @@ function thirdPlaceSelectFunction() {
 
 }
 
-function placeSelectRefreshFunction() {
+// 平面を構成する地層の種類が変わったときの処理
+function strataSelectFunction() {
     firstPlaceSelectFunction()
     secondPlaceSelectFunction()
     thirdPlaceSelectFunction()
 }
 
-function planeRefreshFunction() {
+// 平面を構成する地点を更新する処理
+function placeRefreshFunction() {
+
     let firstPlaceSelect = select("#firstPlaceSelect")
     let secondPlaceSelect = select("#secondPlaceSelect")
     let thirdPlaceSelect = select("#thirdPlaceSelect")
@@ -273,6 +308,7 @@ function planeRefreshFunction() {
     thirdPlaceSelectDoc.addEventListener('change', thirdPlaceSelectFunction)
 }
 
+// 平面を構成する地層の組を追加するボタンを押した時の処理
 function strataAddButtonFunction() {
     let NextTrNum = document.getElementById("strataSelect").childElementCount + 1
     let tr = createElement("tr").parent("strataSelect").id("tr-" + NextTrNum)
@@ -280,7 +316,7 @@ function strataAddButtonFunction() {
     let td1 = createElement("td").parent("tr-" + NextTrNum).id("td1-" + NextTrNum)
     let select1 = createSelect().parent("td1-" + NextTrNum).class("form-select").id("select1-" + NextTrNum)
     let select1doc = document.getElementById("select1-" + NextTrNum)
-    select1doc.addEventListener('change', placeSelectRefreshFunction);
+    select1doc.addEventListener('change', strataSelectFunction);
     let strataArr = [
         "砂岩層",
         "泥岩層",
@@ -300,8 +336,10 @@ function strataAddButtonFunction() {
     firstPlaceSelectFunction()
     secondPlaceSelectFunction()
     thirdPlaceSelectFunction()
+
 }
 
+// 平面を構成する地層の組を削除するボタンを押した時の処理
 function strataRemoveButtonFunction() {
     let strataSelect = document.getElementById("strataSelect")
     if (strataSelect.childElementCount > 0) strataSelect.removeChild(strataSelect.lastChild);
@@ -331,10 +369,11 @@ function setup() {
     initValue()
 }
 
-// 緯度経度の最小値と最大値を計算する関数
+// 緯度経度、深さの最小値と最大値を計算する関数
 function calculateValue() {
     let latitudeArr = []
     let longitudeArr = []
+    let depthArr = []
     for (let key in dataInputArr) {
         let value = dataInputArr[key]
         let data = value.data
@@ -350,6 +389,10 @@ function calculateValue() {
         } else {
             longitudeArr.push(0)
         }
+        let layer = value.layer
+        for (let i = 0; i < layer.length; i++) {
+            depthArr.push(layer[i][0], layer[i][1])
+        }
     }
     return {
         x: {
@@ -360,11 +403,15 @@ function calculateValue() {
             min: min(latitudeArr),
             max: max(latitudeArr)
         },
+        z: {
+            min: min(depthArr),
+            max: max(depthArr)
+        }
     }
 }
 
 //背景を設定する関数
-function backgroundSetting(xMin, xMax, yMin, yMax) {
+function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
     background(240)
     strokeWeight(3)
     // x軸
@@ -372,7 +419,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax) {
     line(-500, 0, -500, 500, 0, -500)
     // z軸
     stroke(0, 255, 0)
-    line(-500, 0, -500, -500, 1000, -500)
+    line(-500, 0, -500, -500, 500, -500)
     // y軸
     stroke(0, 0, 255)
     line(-500, 0, -500, -500, 0, 500)
@@ -382,15 +429,15 @@ function backgroundSetting(xMin, xMax, yMin, yMax) {
     stroke(170, 150)
     fill(0)
     for (let x = 0; x <= 1000; x += 50) {
-        line(x - 500, 0, -500, x - 500, 1000, -500)
+        line(x - 500, 0, -500, x - 500, 500, -500)
         line(x - 500, 0, -500, x - 500, 0, 500)
-        line(x - 500, 0, 500, x - 500, 1000, 500)
+        line(x - 500, 0, 500, x - 500, 500, 500)
         if (x % 100 == 0) {
             push()
             translate(-500, 0, 500)
             let xMap = map(x, 0, 1000, xMin, xMax)
             if (xMin == xMax) xMap = x / 100
-            text(nf(xMap, 1, 2), x, -10, 0)
+            text(nf(xMap, 1, 2), x, -10)
             pop()
         }
     }
@@ -399,7 +446,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax) {
     text("経度", 0, -50)
     pop()
 
-    for (let z = 0; z <= 1000; z += 50) {
+    for (let z = 0; z <= 500; z += 50) {
         line(-500, z, -500, 500, z, -500)
         line(-500, z, -500, -500, z, 500)
         line(-500, z, 500, 500, z, 500)
@@ -407,18 +454,20 @@ function backgroundSetting(xMin, xMax, yMin, yMax) {
         if (z % 100 == 0) {
             push()
             translate(0, 0, -500)
-            text(z, -500, z)
+            let zMap = map(z, 0, 500, zMin, zMax)
+            if (zMin == zMax) zMap = z
+            text(nf(zMap, 1, 2), -500, z)
             pop()
         }
     }
     push()
     translate(0, 0, -500)
-    text("深さ", -550, 500, 0)
+    text("深さ", -550, 250, 0)
     pop()
     for (let y = 0; y <= 1000; y += 50) {
         line(-500, 0, y - 500, 500, 0, y - 500)
-        line(-500, 0, y - 500, -500, 1000, y - 500)
-        line(500, 0, y - 500, 500, 1000, y - 500)
+        line(-500, 0, y - 500, -500,500, y - 500)
+        line(500, 0, y - 500, 500, 500, y - 500)
         if (y % 100 == 0) {
             push()
             let yMap = map(y, 1000, 0, yMin, yMax)
@@ -436,6 +485,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax) {
     pop()
 }
 
+// ３点を結び平面を生成する関数
 function createPlane1(x1, z1, y1, x2, z2, y2, x3, z3, y3) {
     beginShape()
     vertex(x1, y1, z1)
@@ -444,6 +494,7 @@ function createPlane1(x1, z1, y1, x2, z2, y2, x3, z3, y3) {
     endShape(CLOSE)
 }
 
+// ４点を結び平面を生成する関数
 function createPlane2(x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) {
     beginShape()
     vertex(x1, y1, z1)
@@ -466,6 +517,7 @@ function submit(arr) {
     }
 }
 
+// input済みの地層データを引き継ぐ関数
 function loadLayers(placeName) {
     let arrKey = placeName
     for (let key in dataInputArr) {
@@ -478,6 +530,7 @@ function loadLayers(placeName) {
     let layers = value.layer
     return layers
 }
+
 
 // 方角を描画する関数
 function drawDirMark(x, y) {
@@ -496,8 +549,8 @@ function drawDirMark(x, y) {
     pop()
 }
 
-
-function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax) {
+// 地層の平面を描画する処理
+function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     let name = dataInputArr[key].name.value()
     if (name == "") name = key
     let data = dataInputArr[key].data
@@ -523,8 +576,8 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax) {
         if (kind == "ローム層") fill(112, 58, 21, 200)
         if (kind == "その他の層") fill(0, 200)
         push()
-        translate(x, int(z) + zLength / 2, y)
-        box(50, zLength, 50)
+        translate(x, map(int(z) + zLength / 2,zMin,zMax,0,500), y)
+        box(50, map(zLength,zMin,zMax,0,500), 50)
         pop()
     }
     fill(0)
@@ -565,7 +618,13 @@ function draw() {
         yMin -= addLenValue
         yMax += addLenValue
     }
-    backgroundSetting(xMin, xMax, yMin, yMax)
+
+    let zMin = coordinateData.z.min
+    if (zMin == Infinity) zMin = 0
+    let zMax = coordinateData.z.max
+    if (zMax == -Infinity) zMax = 0
+
+    backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax)
     drawDirMark(-600, -600)
 
     // データ登録モーダルを開いている時にオービットコントロールを無効化
@@ -576,7 +635,7 @@ function draw() {
 
     rotateTime += 2;
     for (let key in dataInputArr) {
-        drawStrata(key, rotateTime, xMin, xMax, yMin, yMax)
+        drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax)
     }
 
     let trNum = document.getElementById("strataSelect").childElementCount
@@ -624,6 +683,12 @@ function draw() {
             let p3Max = select4.substr(select4.indexOf('m-') + 2);
             p3Max = p3Max.substr(0, p3Max.indexOf('m'))
 
+            p1Min = map(p1Min,zMin,zMax,0,500)
+            p1Max = map(p1Max,zMin,zMax,0,500)
+            p2Min = map(p2Min,zMin,zMax,0,500)
+            p2Max = map(p2Max,zMin,zMax,0,500)
+            p3Min = map(p3Min,zMin,zMax,0,500)
+            p3Max = map(p3Max,zMin,zMax,0,500)
 
             if (select1 == "砂岩層") fill(215, 205, 166, 100)
             if (select1 == "泥岩層") fill(156, 154, 143, 100)
@@ -648,51 +713,23 @@ function windowResized() {
     initValue()
 }
 
-
-
+// DOM要素のクラス
 class DOM {
     constructor(n) {
         this.n = n
-        this.parentDiv = createDiv()
-            .parent(placePointNameInput)
-            .class("mb-2")
-            .id("placeNameInput" + str(this.n))
-        this.inputGroup1 = createDiv()
-            .parent(this.parentDiv)
-            .class("input-group")
-        this.inputGroup2 = createDiv()
-            .parent(this.parentDiv)
-            .class("input-group")
+        this.parentDiv = createDiv().parent(placePointNameInput).class("mb-2").id("placeNameInput" + str(this.n))
+        this.inputGroup1 = createDiv().parent(this.parentDiv).class("input-group")
+        this.inputGroup2 = createDiv().parent(this.parentDiv).class("input-group")
         // input要素の上の部分
-        createElement("span", "地点" + str(this.n) + "：")
-            .parent(this.inputGroup1)
-            .class("input-group-text")
-        this.placeNameInput = createInput()
-            .parent(this.inputGroup1)
-            .class("form-control")
-            .input(placeNameInputFunction)
+        createElement("span", "地点" + str(this.n) + "：").parent(this.inputGroup1).class("input-group-text")
+        this.placeNameInput = createInput().parent(this.inputGroup1).class("form-control").input(placeNameInputFunction)
         // input要素の下の部分
-        createElement("span", "緯度")
-            .parent(this.inputGroup2)
-            .class("input-group-text")
-        this.yInput = createInput(0, "number")
-            .parent(this.inputGroup2)
-            .class("form-control")
-
-        createElement("span", "経度")
-            .parent(this.inputGroup2)
-            .class("input-group-text")
-        this.xInput = createInput(0, "number")
-            .parent(this.inputGroup2)
-            .class("form-control")
-
-        createDiv("地点" + str(this.n) + "の名前、緯度、経度を入力してください。")
-            .parent(this.parentDiv)
-            .class("form-text")
+        createElement("span", "緯度").parent(this.inputGroup2).class("input-group-text")
+        this.yInput = createInput(0, "number").parent(this.inputGroup2).class("form-control")
+        createElement("span", "経度").parent(this.inputGroup2).class("input-group-text")
+        this.xInput = createInput(0, "number").parent(this.inputGroup2).class("form-control")
+        createDiv("地点" + str(this.n) + "の名前、緯度、経度を入力してください。").parent(this.parentDiv).class("form-text")
         // サブウィンドウ生成用のDOM
-        this.placeDataInput = createA("javascript:void(0)", "地点" + str(this.n) + "のデータを編集")
-            .class("btn btn-outline-primary mb-2")
-            .parent("placePointDataInput")
-            .id("placeDataInput" + str(this.n))
+        this.placeDataInput = createA("javascript:void(0)", "地点" + str(this.n) + "のデータを編集").class("btn btn-outline-primary mb-2").parent("placePointDataInput").id("placeDataInput" + str(this.n))
     }
 }

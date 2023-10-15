@@ -14,54 +14,19 @@
     <script crossorigin="anonymous"
         integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
         referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <!-- Bootstrap CSS -->
-    <link crossorigin="anonymous" href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
     <!-- {simulation name}.js -->
     <script language="javascript" src="js/index.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <script lang="javascript">
-        window.onload = function () {
-            document.getElementById('screenshot-btn').addEventListener('click', () => {
-                html2canvas(document.body).then((canvas) => {
-                    downloadImage(canvas.toDataURL());
-                });
-            });
-            function downloadImage(dataUrl) {
-                const name = 'screenshot.png';
-                const a = document.createElement('a');
-                a.href = dataUrl;
-                a.download = name;
-                a.click();
-            }
-        };
-    </script>
+    <!-- html2canvas.min.js -->
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- style.css -->
     <link href="style.css" rel="stylesheet">
-    <style>
-        body {
-            padding: 0;
-            margin: 0;
-            position: fixed;
-            font-size: 16px;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        .upper-bar {
-            height: 10vh;
-        }
-
-        .upper-bar-content {
-            height: 100%
-        }
-
-        .simuation-title {
-            padding: 0;
-        }
-    </style>
 </head>
 
 <body id="target" oncontextmenu="return false;">
     <div class="container-fluid bg-dark upper-bar">
+        <!-- navigation-bar -->
         <div class="row d-flex align-items-center upper-bar-content">
             <a class="col text-center" href="https://bicpema-blog.web.app/">
                 <svg class="bi bi-house-fill text-white" fill="currentColor" height="2.5vw" viewbox="0 0 16 16"
@@ -87,6 +52,8 @@
                 </svg>
             </div>
         </div>
+
+        <!-- シミュレーション画面 -->
         <div class="position-absolute start-0 m-3 card collapse col-sm-6 col-lg-3" id="collapse">
             <div class="card-body">
                 <ul class="list-group list-group-flush border border-0">
@@ -136,6 +103,7 @@
             </div>
         </div>
 
+        <!-- モーダル -->
         <div class="modal fade" id="dataRegisterModal" tabindex="-1" aria-labelledby="dataRegisterModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -238,6 +206,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- ボタン -->
         <div class="position-absolute m-3 end-0">
             <button class="btn btn-secondary rounded-pill" type="button" data-bs-toggle="collapse"
                 data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
@@ -245,7 +215,7 @@
             </button>
         </div>
         <div class="position-absolute m-3 end-0 bottom-0">
-            <a class="btn btn-primary rounded-pill" id="screenshot-btn" type="button">
+            <a class="btn btn-primary rounded-pill" id="screenshotButton" type="button">
                 スクリーンショット
             </a>
             <button class="btn btn-primary rounded-pill" type="button" data-bs-toggle="modal"

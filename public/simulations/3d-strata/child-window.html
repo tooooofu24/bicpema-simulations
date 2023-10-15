@@ -9,26 +9,6 @@
     <script language="javascript" src="../../assets/js/p5.min.js" type="text/javascript"></script>
     <!-- p5.dom.min.js -->
     <script language="javascript" src="../../assets/js/p5.dom.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        window.onload = function () {
-            placeName = decodeURI(location.search);
-            placeName = placeName.substring(1, placeName.length);
-            if (!window.opener || window.opener.closed) {
-                window.alert('親ウィンドウがありません。');
-                return false;
-            }
-            document.getElementById("place_name").innerHTML = placeName + "のデータを編集"
-            document.title = placeName + "のデータを編集"
-            let layers = window.opener.loadLayers(placeName)
-            let layersNum = layers.length
-            for (let i = 0; i < layersNum; i++) {
-                trAddButtonFunction()
-                document.getElementById("td1Input" + (i + 1).toString()).value = layers[i][0]
-                document.getElementById("td2Input" + (i + 1).toString()).value = layers[i][1]
-                document.getElementById("td3Select" + (i + 1).toString()).value = layers[i][2]
-            }
-        }
-    </script>
     <!-- Bootstrap CSS -->
     <link crossorigin="anonymous" href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
 </head>
@@ -60,7 +40,7 @@
             </div>
         </div>
     </div>
-    <!-- {simulation name}.js -->
+    <!-- child-window.js -->
     <script language="javascript" src="js/child-window.js" type="text/javascript"></script>
     <!-- jQuery -->
     <script language="javascript" src="../../assets/js/jquery-3.6.4.min.js" type="text/javascript"></script>
