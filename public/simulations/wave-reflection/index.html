@@ -43,7 +43,7 @@
 </head>
 
 <body oncontextmenu="return false;">
-    <div class="container-fluid bg-dark upper-bar">
+    <div class="container-fluid bg-dark upper-bar p-0">
         <div class="row d-flex align-items-center upper-bar-content">
             <a class="col text-center" href="https://bicpema-blog.web.app/">
                 <svg class="bi bi-house-fill text-white" fill="currentColor" height="2.5vw" viewbox="0 0 16 16"
@@ -68,6 +68,67 @@
                     </path>
                 </svg>
             </div>
+        </div>
+        <!-- Button trigger modal -->
+        <div class="position-absolute end-0 m-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#simulationSettingModal">
+                シミュレーションの設定
+            </button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="simulationSettingModal" tabindex="-1" aria-labelledby="simulationSettingModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="simulationSettingModalLabel">シミュレーションの設定</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating mb-3" id="floatingSelect">
+                            <select class="form-select" id="reflectSelect">
+                                <option>固定端反射</option>
+                                <option>自由端反射</option>
+                            </select>
+                            <label for="floatingSelect">波の反射の仕方を選択してください。</label>
+                        </div>
+                        <div class="form-floating mb-3" id="floatingSelect">
+                            <select class="form-select" id="waveSelect">
+                                <option>sin波</option>
+                                <option>-sin波</option>
+                            </select>
+                            <label for="floatingSelect">波の種類を選択してください。</label>
+                        </div>
+                        <div class="mb-2">
+                            <label>波の情報を入力してください。</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="form-floating col m-0">
+                                <input type="number" class="form-control" placeholder="速度" value="1" id="speedInput"
+                                    min="0">
+                                <label for="floatingInputGroup">波の速度</label>
+                            </div>
+                            <div class="form-floating col m-0">
+                                <input type="number" class="form-control" placeholder="振幅" value="1"
+                                    id="amplitudeInput">
+                                <label for="floatingInputGroup">波の振幅</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="position-absolute bottom-0 m-2">
+            <a class="btn btn-primary m-1" id="startButton">波の発射</a>
+            <a class="btn btn-secondary m-1" id="stopButton">一時停止</a>
+            <a class="btn btn-secondary m-1" id="restartButton">再開</a>
+            <a class="btn btn-danger m-1" id="resetButton">リセット</a>
         </div>
     </div>
     <!-- jQuery -->
