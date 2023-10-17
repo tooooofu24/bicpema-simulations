@@ -1,6 +1,7 @@
 ///全画面表示
 function fullScreen() {
-    let canvas = createCanvas(6 * windowWidth / 10, 8 * windowHeight / 10, WEBGL)
+    let p5Canvas = document.getElementById("p5Canvas")
+    let canvas = createCanvas(p5Canvas.clientWidth, p5Canvas.clientHeight, WEBGL)
     canvas.parent("p5Canvas")
 }
 
@@ -117,7 +118,7 @@ function setup() {
     fullScreen()
     // elCreate()
     // elInit()
-    initValue()
+    // initValue()
     camera(0, 0, 500, 0, 0, 0, 0, 1, 0);
 }
 
@@ -175,71 +176,72 @@ function toRGB(a) {
 function draw() {
     background(100)
     createPolarizer(200, 0, 0, 50, 0)
-    celloNum = 0
-    for (let i = 0; i < colabNum.value(); i++)celloNum += parseInt(celloColabInputArr[i][1].value())
-    if (polarizer.value() == "平行ニコル配置") createPolarizer(200, 0, 0, 50 - 0.1 * celloNum, 0)
-    if (polarizer.value() == "直交ニコル配置") createPolarizer(200, 0, 0, 50 - 0.1 * celloNum, 1)
-    let z = 0
-    for (let i = 0; i < colabNum.value(); i++) {
-        createCellophane(parseInt(celloColabInputArr[i][1].value()), parseInt(celloColabInputArr[i][3].value()), z)
-        z += parseInt(celloColabInputArr[i][1].value())
-    }
-    // 本シミュレーションにおいては一枚目のセロハンに対する相対角度で計算を行う
-    // aは一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    let I = 0
-    let a = radians(celloColabInputArr[0][3].value())
-    E_1 = [[sin(a)], [cos(a)]]
-    // bはセロハン二枚目の回転角
-    let b = radians(celloColabInputArr[1][3].value() - celloColabInputArr[0][3].value())
-    // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
-    let c = radians(celloColabInputArr[0][3].value())
-    for (let i = 380; i <= 750; i++) {
-        let l = i
-        delta = 2 * opdInput.value() * PI / l
-        cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
-        E_2 = math.multiply(cello, E_1)
-        E_3 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)))
-        E_4 = math.multiply(jhons(c), E_3)
-        let magni = math.abs(math.abs(math.multiply(E_4[0], E_4[0])) + math.abs(math.multiply(E_4[1], E_4[1])))
-        osArr[i - 380] = (magni * osArrOrigin[i - 380])
-        xArr[i - 380] = osArr[i - 380] * xLambda[i - 380]
-        yArr[i - 380] = osArr[i - 380] * yLambda[i - 380]
-        zArr[i - 380] = osArr[i - 380] * zLambda[i - 380]
-        xArr2[i - 380] = lightArr[i - 380] * xLambda[i - 380]
-        yArr2[i - 380] = lightArr[i - 380] * yLambda[i - 380]
-        zArr2[i - 380] = lightArr[i - 380] * zLambda[i - 380]
-    }
-    x_sum = math.sum(xArr)
-    y_sum = math.sum(yArr)
-    z_sum = math.sum(zArr)
-    x_sum2 = math.sum(xArr2)
-    y_sum2 = math.sum(yArr2)
-    z_sum2 = math.sum(zArr2)
-    x_num = map(x_sum, x_sum + y_sum + z_sum, 0, 1, 0)
-    y_num = map(y_sum, x_sum + y_sum + z_sum, 0, 1, 0)
-    z_num = map(z_sum, x_sum + y_sum + z_sum, 0, 1, 0)
-    x_num2 = map(x_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
-    y_num2 = map(y_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
-    z_num2 = map(z_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
-    tosRGB =
-        [[3.2406, -1.5372, -0.4986],
-        [-0.9689, 1.8758, 0.0415],
-        [0.0557, -0.2040, 1.0570]]
-    sRGB = math.multiply(tosRGB, [x_num, y_num, z_num])
-    sRGB2 = math.multiply(tosRGB, [x_num2, y_num2, z_num2])
-    R = toRGB(sRGB[0])
-    G = toRGB(sRGB[1])
-    B = toRGB(sRGB[2])
-    R2 = toRGB(sRGB2[0])
-    G2 = toRGB(sRGB2[1])
-    B2 = toRGB(sRGB2[2])
-    beforeColor.style("background-color:rgb(" + str(R2) + "," + str(G2) + "," + str(B2) + ")")
-    afterColor.style("background-color:rgb(" + str(R) + "," + str(G) + "," + str(B) + ")")
+    // celloNum = 0
+    // for (let i = 0; i < colabNum.value(); i++)celloNum += parseInt(celloColabInputArr[i][1].value())
+    // if (polarizer.value() == "平行ニコル配置") createPolarizer(200, 0, 0, 50 - 0.1 * celloNum, 0)
+    // if (polarizer.value() == "直交ニコル配置") createPolarizer(200, 0, 0, 50 - 0.1 * celloNum, 1)
+    // let z = 0
+    // for (let i = 0; i < colabNum.value(); i++) {
+    //     createCellophane(parseInt(celloColabInputArr[i][1].value()), parseInt(celloColabInputArr[i][3].value()), z)
+    //     z += parseInt(celloColabInputArr[i][1].value())
+    // }
+    // // 本シミュレーションにおいては一枚目のセロハンに対する相対角度で計算を行う
+    // // aは一組目のセロハンに対する偏光板一枚目の相対的な回転角
+    // let I = 0
+    // let a = radians(celloColabInputArr[0][3].value())
+    // E_1 = [[sin(a)], [cos(a)]]
+    // // bはセロハン二枚目の回転角
+    // let b = radians(celloColabInputArr[1][3].value() - celloColabInputArr[0][3].value())
+    // // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
+    // let c = radians(celloColabInputArr[0][3].value())
+    // for (let i = 380; i <= 750; i++) {
+    //     let l = i
+    //     delta = 2 * opdInput.value() * PI / l
+    //     cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
+    //     E_2 = math.multiply(cello, E_1)
+    //     E_3 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)))
+    //     E_4 = math.multiply(jhons(c), E_3)
+    //     let magni = math.abs(math.abs(math.multiply(E_4[0], E_4[0])) + math.abs(math.multiply(E_4[1], E_4[1])))
+    //     osArr[i - 380] = (magni * osArrOrigin[i - 380])
+    //     xArr[i - 380] = osArr[i - 380] * xLambda[i - 380]
+    //     yArr[i - 380] = osArr[i - 380] * yLambda[i - 380]
+    //     zArr[i - 380] = osArr[i - 380] * zLambda[i - 380]
+    //     xArr2[i - 380] = lightArr[i - 380] * xLambda[i - 380]
+    //     yArr2[i - 380] = lightArr[i - 380] * yLambda[i - 380]
+    //     zArr2[i - 380] = lightArr[i - 380] * zLambda[i - 380]
+    // }
+    // x_sum = math.sum(xArr)
+    // y_sum = math.sum(yArr)
+    // z_sum = math.sum(zArr)
+    // x_sum2 = math.sum(xArr2)
+    // y_sum2 = math.sum(yArr2)
+    // z_sum2 = math.sum(zArr2)
+    // x_num = map(x_sum, x_sum + y_sum + z_sum, 0, 1, 0)
+    // y_num = map(y_sum, x_sum + y_sum + z_sum, 0, 1, 0)
+    // z_num = map(z_sum, x_sum + y_sum + z_sum, 0, 1, 0)
+    // x_num2 = map(x_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
+    // y_num2 = map(y_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
+    // z_num2 = map(z_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
+    // tosRGB =
+    //     [[3.2406, -1.5372, -0.4986],
+    //     [-0.9689, 1.8758, 0.0415],
+    //     [0.0557, -0.2040, 1.0570]]
+    // sRGB = math.multiply(tosRGB, [x_num, y_num, z_num])
+    // sRGB2 = math.multiply(tosRGB, [x_num2, y_num2, z_num2])
+    // R = toRGB(sRGB[0])
+    // G = toRGB(sRGB[1])
+    // B = toRGB(sRGB[2])
+    // R2 = toRGB(sRGB2[0])
+    // G2 = toRGB(sRGB2[1])
+    // B2 = toRGB(sRGB2[2])
+    // beforeColor.style("background-color:rgb(" + str(R2) + "," + str(G2) + "," + str(B2) + ")")
+    // afterColor.style("background-color:rgb(" + str(R) + "," + str(G) + "," + str(B) + ")")
 }
 
 // windowがリサイズされたときの処理
 function windowResized() {
-    fullScreen()
-    elInit()
+    let p5Canvas = document.getElementById("p5Canvas")
+    let canvas = resizeCanvas(p5Canvas.clientWidth, p5Canvas.clientHeight, WEBGL)
+    // elInit()
     initValue()
 }

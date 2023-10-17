@@ -1,3 +1,13 @@
-#p5Canvas{
-    display:inline-block;
+#p5Canvas,
+#graph {
+    height: 45vh;
+}
+
+#graph {
+    background-color: rgb(146, 146, 144);
+}
+
+.color-display {
+    height: 5vh;
+    background-color: rgb(98, 190, 70);
 }
