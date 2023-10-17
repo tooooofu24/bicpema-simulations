@@ -12,13 +12,13 @@ function preload() {
 }
 
 function createCelloColabInput() {
-    for (let i = 0; i < parseInt(colabNum.value()); i++) {
+    for (let i = 0; i < parseInt(colabNumInput.value()); i++) {
         celloColabInputArr[i][0].show().style("font-size:16px; display:flex; align-items:center;")
         celloColabInputArr[i][1].show()
         celloColabInputArr[i][2].show().style("font-size:16px; display:flex; align-items:center;")
         celloColabInputArr[i][3].show()
     }
-    for (let i = parseInt(colabNum.value()); i < 10; i++) {
+    for (let i = parseInt(colabNumInput.value()); i < 10; i++) {
         celloColabInputArr[i][0].hide()
         celloColabInputArr[i][1].hide()
         celloColabInputArr[i][2].hide()
@@ -28,16 +28,9 @@ function createCelloColabInput() {
 
 // DOM要素の生成
 function elCreate() {
-    polarizerIntro = createElement("label", "偏光板の配置").class("form-label")
-    polarizer = createSelect().class("form-select")
-    optionArr = ["平行ニコル配置", "直交ニコル配置"]
-    for (let i = 0; i < optionArr.length; i++)polarizer.option(optionArr[i])
-    opdInputIntro = createElement("label", "光路差").class("form-label")
-    opdInput = createInput(213.4931888, "number").class("form-control")
-    colabNumIntro = createElement("label", "セロハンの組み合わせの数").class("form-label")
-    colabNum = createSelect().input(createCelloColabInput).class("form-select")
-    for (let i = 1; i <= 10; i++)colabNum.option(i)
-    celloColabInputArr = []
+    polarizerIntro = select("#polarizerSelect")
+    opdInput = select("#opdInput")
+    colabNumInput = select("#colabNumInput")
     for (let i = 0; i < 10; i++) {
         celloColabInputArr.push(
             [
@@ -50,7 +43,6 @@ function elCreate() {
     }
     beforeColor = createDiv("入射光").class("colorDiv")
     afterColor = createDiv("出射光").class("colorDiv")
-    calculationButton = createButton("色の計算").class("btn btn-danger").mousePressed(calculate)
 }
 
 //出射光の計算をする
@@ -66,7 +58,7 @@ function elInit() {
     opdInputIntro.position(width, windowHeight / 10 + 2 * windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
     opdInput.position(width, windowHeight / 10 + 3 * windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
     colabNumIntro.position(width, windowHeight / 10 + 4 * windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
-    colabNum.position(width, windowHeight / 10 + 5 * windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
+    colabNumInput.position(width, windowHeight / 10 + 5 * windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
     for (let i = 0; i < 10; i++) {
         celloColabInputArr[i][0].position(width, windowHeight / 10 + (6 + i) * windowHeight / 18).size(windowWidth / 6, windowHeight / 18)
         celloColabInputArr[i][1].position(width + windowWidth / 6, windowHeight / 10 + (6 + i) * windowHeight / 18).size(windowWidth / 24, windowHeight / 18)
@@ -79,7 +71,6 @@ function elInit() {
     celloColabInputArr[0][3].show()
     beforeColor.position(0, 9 * windowHeight / 10).size(width / 3, windowHeight / 10)
     afterColor.position(width / 3, 9 * windowHeight / 10).size(width / 3, windowHeight / 10)
-    calculationButton.position(2 * width / 3, 9 * windowHeight / 10).size(width / 3, windowHeight / 10)
 }
 
 
@@ -177,11 +168,11 @@ function draw() {
     background(100)
     createPolarizer(200, 0, 0, 50, 0)
     // celloNum = 0
-    // for (let i = 0; i < colabNum.value(); i++)celloNum += parseInt(celloColabInputArr[i][1].value())
+    // for (let i = 0; i < colabNumInput.value(); i++)celloNum += parseInt(celloColabInputArr[i][1].value())
     // if (polarizer.value() == "平行ニコル配置") createPolarizer(200, 0, 0, 50 - 0.1 * celloNum, 0)
     // if (polarizer.value() == "直交ニコル配置") createPolarizer(200, 0, 0, 50 - 0.1 * celloNum, 1)
     // let z = 0
-    // for (let i = 0; i < colabNum.value(); i++) {
+    // for (let i = 0; i < colabNumInput.value(); i++) {
     //     createCellophane(parseInt(celloColabInputArr[i][1].value()), parseInt(celloColabInputArr[i][3].value()), z)
     //     z += parseInt(celloColabInputArr[i][1].value())
     // }
