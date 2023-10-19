@@ -11,78 +11,55 @@ function preload() {
     osTable = loadTable("./data/os.csv", "csv", "header")
 }
 
-function createCelloColabInput() {
-    for (let i = 0; i < parseInt(colabNumInput.value()); i++) {
-        celloColabInputArr[i][0].show().style("font-size:16px; display:flex; align-items:center;")
-        celloColabInputArr[i][1].show()
-        celloColabInputArr[i][2].show().style("font-size:16px; display:flex; align-items:center;")
-        celloColabInputArr[i][3].show()
-    }
-    for (let i = parseInt(colabNumInput.value()); i < 10; i++) {
-        celloColabInputArr[i][0].hide()
-        celloColabInputArr[i][1].hide()
-        celloColabInputArr[i][2].hide()
-        celloColabInputArr[i][3].hide()
-    }
-}
+let polarizerSelect,
+    opdInput,
+    cellophaneAddButton,
+    cellophaneRemoveButton;
 
 // DOM要素の生成
 function elCreate() {
-    polarizerIntro = select("#polarizerSelect")
+    polarizerSelect = select("#polarizerSelect")
     opdInput = select("#opdInput")
-    colabNumInput = select("#colabNumInput")
-    for (let i = 0; i < 10; i++) {
-        celloColabInputArr.push(
-            [
-                createElement("label", str(i + 1) + "組目：枚数").hide().class("form-label"),
-                createInput(1, "number").hide().attribute("min", 1).attribute("max", 10).class("form-control"),
-                createElement("label", "　角度").hide().class("form-label"),
-                createInput(90, "number").hide().class("form-control")
-            ]
-        )
-    }
-    beforeColor = createDiv("入射光").class("colorDiv")
-    afterColor = createDiv("出射光").class("colorDiv")
+    cellophaneAddButton = select("#cellophaneAddButton")
+    cellophaneRemoveButton = select("#cellophaneRemoveButton")
 }
 
 //出射光の計算をする
 function calculate() {
     beforeColor.style("background-color:rgb(" + str(255) + "," + str(255) + "," + str(255) + ")")
-    afterColor.style("background-color:rgb(" + str(R) + "," + str(G) + "," + str(B) + ")")
+    afterColor.style("background-color:rgb(" + str(rAfter) + "," + str(gAfter) + "," + str(bAfter) + ")")
 }
 
+function cellophaneAddButtonFunction() {
+    colabNum += 1
+    cellophaneArr.push(new Cellophane(colabNum))
+}
+function cellophaneRemoveButtonFunction() {
+    if (colabNum > 0) {
+        let targetDiv = select("#cellophane-" + colabNum)
+        cellophaneArr.pop(-1)
+        targetDiv.remove()
+        colabNum -= 1
+    }
+}
 // DOM要素の設定
 function elInit() {
-    polarizerIntro.position(width, windowHeight / 10).size(windowWidth / 3, windowHeight / 18)
-    polarizer.position(width, windowHeight / 10 + windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
-    opdInputIntro.position(width, windowHeight / 10 + 2 * windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
-    opdInput.position(width, windowHeight / 10 + 3 * windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
-    colabNumIntro.position(width, windowHeight / 10 + 4 * windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
-    colabNumInput.position(width, windowHeight / 10 + 5 * windowHeight / 18).size(windowWidth / 3, windowHeight / 18)
-    for (let i = 0; i < 10; i++) {
-        celloColabInputArr[i][0].position(width, windowHeight / 10 + (6 + i) * windowHeight / 18).size(windowWidth / 6, windowHeight / 18)
-        celloColabInputArr[i][1].position(width + windowWidth / 6, windowHeight / 10 + (6 + i) * windowHeight / 18).size(windowWidth / 24, windowHeight / 18)
-        celloColabInputArr[i][2].position(width + windowWidth / 6 + windowWidth / 24, windowHeight / 10 + (6 + i) * windowHeight / 18).size(windowWidth / 12, windowHeight / 18)
-        celloColabInputArr[i][3].position(width + windowWidth / 6 + windowWidth / 24 + windowWidth / 12, windowHeight / 10 + (6 + i) * windowHeight / 18).size(windowWidth / 24, windowHeight / 18)
-    }
-    celloColabInputArr[0][0].show()
-    celloColabInputArr[0][1].show()
-    celloColabInputArr[0][2].show()
-    celloColabInputArr[0][3].show()
-    beforeColor.position(0, 9 * windowHeight / 10).size(width / 3, windowHeight / 10)
-    afterColor.position(width / 3, 9 * windowHeight / 10).size(width / 3, windowHeight / 10)
+    cellophaneAddButton.mousePressed(cellophaneAddButtonFunction)
+    cellophaneRemoveButton.mousePressed(cellophaneRemoveButtonFunction)
 }
-
 
 let cmfRowNum;
 let osRowNum;
 let waveLengthArr;
 let xLambda, yLambda, zLambda;
 let osArr;
-let xArr = [], yArr = [], zArr = [];
-let xArr2 = [], yArr2 = [], zArr2 = [];
-let R, G, B;
+let xArrAfter = [], yArrAfter = [], zArrAfter = [];
+let xArrBefore = [], yArrBefore = [], zArrBefore = [];
 let lightArr;
+let cellophaneNum;
+let cellophaneArr = [];
+let rBefore = 0, gBefore = 0, bBefore = 0;
+let rAfter = 0, gAfter = 0, bAfter = 0;
 // 初期値やシミュレーションの設定
 function initValue() {
     cmfRowNum = cmfTable.getRowCount();
@@ -94,23 +71,26 @@ function initValue() {
     osArr = osTable.getColumn("optical-strength")
     osArrOrigin = osTable.getColumn("optical-strength")
     for (let i = 0; i < osRowNum; i++) {
-        xArr.push(0);
-        yArr.push(0);
-        zArr.push(0);
-        xArr2.push(0);
-        yArr2.push(0);
-        zArr2.push(0);
+        xArrAfter.push(0);
+        yArrAfter.push(0);
+        zArrAfter.push(0);
+        xArrBefore.push(0);
+        yArrBefore.push(0);
+        zArrBefore.push(0);
     }
     lightArr = osTable.getColumn("light")
+    colabNum = 0
+    cellophaneNum = 0
 }
 
 // setup関数
 function setup() {
     fullScreen()
-    // elCreate()
-    // elInit()
-    // initValue()
-    camera(0, 0, 500, 0, 0, 0, 0, 1, 0);
+    elCreate()
+    elInit()
+    initValue()
+    rBefore, gBefore, bBefore = beforeColorCalculate()
+    camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
 }
 
 function createPolarizer(size, x, y, z, pattern) {
@@ -132,14 +112,14 @@ function createPolarizer(size, x, y, z, pattern) {
     pop();
 }
 
-function createCellophane(n, r, a) {
+function createCellophane(n, rAfter, a) {
     // noStroke()
     push()
-    rotateZ(r * PI / 180)
+    rotateZ(rAfter * PI / 180)
     fill(157, 204, 224, 50)
     for (let i = 0; i < n; i++) {
         push()
-        translate(-0, 0, -0.1 * (i + a) + 50)
+        translate(-0, 0, -0.1 * (i + a))
         box(100, 200, 0.1)
         pop()
     }
@@ -163,76 +143,180 @@ function toRGB(a) {
         return (1.055 * a ** (1 / 2.4) - 0.055) * 255
     }
 }
+
+
+function numInputFunction() {
+    cellophaneNum = 0
+    for (let i = 0; i < colabNum; i++) {
+        let num = i + 1
+        let numInput = select("#numInput-" + num)
+        cellophaneNum += int(numInput.value())
+    }
+    return cellophaneNum
+}
+
+
+// 偏光板１枚を透過したときの色の計算
+function beforeColorCalculate() {
+    for (let i = 380; i <= 750; i++) {
+        xArrBefore[i - 380] = lightArr[i - 380] * xLambda[i - 380]
+        yArrBefore[i - 380] = lightArr[i - 380] * yLambda[i - 380]
+        zArrBefore[i - 380] = lightArr[i - 380] * zLambda[i - 380]
+    }
+    xSumBefore = math.sum(xArrBefore)
+    ySumBefore = math.sum(yArrBefore)
+    zSumBefore = math.sum(zArrBefore)
+    xNumBefore = map(xSumBefore, xSumBefore + ySumBefore + zSumBefore, 0, 1, 0)
+    yNumBefore = map(ySumBefore, xSumBefore + ySumBefore + zSumBefore, 0, 1, 0)
+    zNumBefore = map(zSumBefore, xSumBefore + ySumBefore + zSumBefore, 0, 1, 0)
+    tosRGB = [
+        [3.2406, -1.5372, -0.4986],
+        [-0.9689, 1.8758, 0.0415],
+        [0.0557, -0.2040, 1.0570]
+    ]
+    rgbBefore = math.multiply(tosRGB, [xNumBefore, yNumBefore, zNumBefore])
+    rBefore = toRGB(rgbBefore[0])
+    gBefore = toRGB(rgbBefore[1])
+    bBefore = toRGB(rgbBefore[2])
+    let beforeColor = select("#beforeColor")
+    beforeColor.style("background-color:rgb(" + str(rBefore) + "," + str(gBefore) + "," + str(bBefore) + ")")
+    return rBefore, gBefore, bBefore
+}
+
+function afterColorCalculate() {
+    if (colabNum >= 1) {
+        let referenceAngle = select("#rotateInput-1")
+        // 本シミュレーションにおいては一枚目のセロハンに対する相対角度で計算を行う
+        // aは一組目のセロハンに対する偏光板一枚目の相対的な回転角
+        let a = radians(referenceAngle.value())
+        E_1 = [[sin(a)], [cos(a)]]
+        let num = select("#numInput-1")
+        for (let i = 380; i <= 750; i++) {
+            let l = i
+            delta = num.value() * 2 * opdInput.value() * PI / l
+            cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
+            E_2 = math.multiply(cello, E_1)
+            if (colabNum > 1) {
+                let sample2 = select("#rotateInput-2")
+                // bはセロハン二枚目の回転角
+                let bAfter = radians(sample2.value() - referenceAngle.value())
+                num = select("#numInput-2")
+                delta = num.value() * 2 * opdInput.value() * PI / l
+                cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
+                E_3 = math.multiply(r_theta(bAfter), math.multiply(cello, math.multiply(mai_r_theta(bAfter), E_2)))
+                for (let ss = 3; ss <= colabNum; ss++) {
+                    num = select("#numInput-" + ss)
+                    delta = num.value() * 2 * opdInput.value() * PI / l
+                    cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
+                    let sample2 = select("#rotateInput-" + ss)
+                    // bはセロハン二枚目の回転角
+                    let bAfter = radians(sample2.value() - referenceAngle.value())
+                    // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
+                    E_3 = math.multiply(r_theta(bAfter), math.multiply(cello, math.multiply(mai_r_theta(bAfter), E_3)))
+                }
+                // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
+                let c = radians(referenceAngle.value())
+                E_4 = math.multiply(jhons(c), E_3)
+            } else {
+                // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
+                let c = radians(referenceAngle.value())
+                E_4 = math.multiply(jhons(c), E_2)
+            }
+            let magni = math.abs(math.abs(math.multiply(E_4[0], E_4[0])) + math.abs(math.multiply(E_4[1], E_4[1])))
+            console.log(magni)
+            osArr[i - 380] = (magni * osArrOrigin[i - 380])
+            xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380]
+            yArrAfter[i - 380] = osArr[i - 380] * yLambda[i - 380]
+            zArrAfter[i - 380] = osArr[i - 380] * zLambda[i - 380]
+        }
+        xSumAfter = math.sum(xArrAfter)
+        ySumAfter = math.sum(yArrAfter)
+        zSumAfter = math.sum(zArrAfter)
+        xNumAfter = map(xSumAfter, xSumAfter + ySumAfter + zSumAfter, 0, 1, 0)
+        yNumAfter = map(ySumAfter, xSumAfter + ySumAfter + zSumAfter, 0, 1, 0)
+        zNumAfter = map(zSumAfter, xSumAfter + ySumAfter + zSumAfter, 0, 1, 0)
+        tosRGB = [
+            [3.2406, -1.5372, -0.4986],
+            [-0.9689, 1.8758, 0.0415],
+            [0.0557, -0.2040, 1.0570]
+        ]
+        sRGB = math.multiply(tosRGB, [xNumAfter, yNumAfter, zNumAfter])
+        rAfter = toRGB(sRGB[0])
+        gAfter = toRGB(sRGB[1])
+        bAfter = toRGB(sRGB[2])
+    } else {
+        rAfter = rBefore
+        gAfter = gBefore
+        bAfter = bBefore
+    }
+    let afterColor = select("#afterColor")
+    afterColor.style("background-color:rgb(" + str(rAfter) + "," + str(gAfter) + "," + str(bAfter) + ")")
+    return rAfter, gAfter, bAfter
+}
+
 // draw関数
+let rotateTime = 0
 function draw() {
     background(100)
-    createPolarizer(200, 0, 0, 50, 0)
-    // celloNum = 0
-    // for (let i = 0; i < colabNumInput.value(); i++)celloNum += parseInt(celloColabInputArr[i][1].value())
-    // if (polarizer.value() == "平行ニコル配置") createPolarizer(200, 0, 0, 50 - 0.1 * celloNum, 0)
-    // if (polarizer.value() == "直交ニコル配置") createPolarizer(200, 0, 0, 50 - 0.1 * celloNum, 1)
-    // let z = 0
-    // for (let i = 0; i < colabNumInput.value(); i++) {
-    //     createCellophane(parseInt(celloColabInputArr[i][1].value()), parseInt(celloColabInputArr[i][3].value()), z)
-    //     z += parseInt(celloColabInputArr[i][1].value())
-    // }
-    // // 本シミュレーションにおいては一枚目のセロハンに対する相対角度で計算を行う
-    // // aは一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    // let I = 0
-    // let a = radians(celloColabInputArr[0][3].value())
-    // E_1 = [[sin(a)], [cos(a)]]
-    // // bはセロハン二枚目の回転角
-    // let b = radians(celloColabInputArr[1][3].value() - celloColabInputArr[0][3].value())
-    // // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
-    // let c = radians(celloColabInputArr[0][3].value())
-    // for (let i = 380; i <= 750; i++) {
-    //     let l = i
-    //     delta = 2 * opdInput.value() * PI / l
-    //     cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
-    //     E_2 = math.multiply(cello, E_1)
-    //     E_3 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)))
-    //     E_4 = math.multiply(jhons(c), E_3)
-    //     let magni = math.abs(math.abs(math.multiply(E_4[0], E_4[0])) + math.abs(math.multiply(E_4[1], E_4[1])))
-    //     osArr[i - 380] = (magni * osArrOrigin[i - 380])
-    //     xArr[i - 380] = osArr[i - 380] * xLambda[i - 380]
-    //     yArr[i - 380] = osArr[i - 380] * yLambda[i - 380]
-    //     zArr[i - 380] = osArr[i - 380] * zLambda[i - 380]
-    //     xArr2[i - 380] = lightArr[i - 380] * xLambda[i - 380]
-    //     yArr2[i - 380] = lightArr[i - 380] * yLambda[i - 380]
-    //     zArr2[i - 380] = lightArr[i - 380] * zLambda[i - 380]
-    // }
-    // x_sum = math.sum(xArr)
-    // y_sum = math.sum(yArr)
-    // z_sum = math.sum(zArr)
-    // x_sum2 = math.sum(xArr2)
-    // y_sum2 = math.sum(yArr2)
-    // z_sum2 = math.sum(zArr2)
-    // x_num = map(x_sum, x_sum + y_sum + z_sum, 0, 1, 0)
-    // y_num = map(y_sum, x_sum + y_sum + z_sum, 0, 1, 0)
-    // z_num = map(z_sum, x_sum + y_sum + z_sum, 0, 1, 0)
-    // x_num2 = map(x_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
-    // y_num2 = map(y_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
-    // z_num2 = map(z_sum2, x_sum2 + y_sum2 + z_sum2, 0, 1, 0)
-    // tosRGB =
-    //     [[3.2406, -1.5372, -0.4986],
-    //     [-0.9689, 1.8758, 0.0415],
-    //     [0.0557, -0.2040, 1.0570]]
-    // sRGB = math.multiply(tosRGB, [x_num, y_num, z_num])
-    // sRGB2 = math.multiply(tosRGB, [x_num2, y_num2, z_num2])
-    // R = toRGB(sRGB[0])
-    // G = toRGB(sRGB[1])
-    // B = toRGB(sRGB[2])
-    // R2 = toRGB(sRGB2[0])
-    // G2 = toRGB(sRGB2[1])
-    // B2 = toRGB(sRGB2[2])
-    // beforeColor.style("background-color:rgb(" + str(R2) + "," + str(G2) + "," + str(B2) + ")")
-    // afterColor.style("background-color:rgb(" + str(R) + "," + str(G) + "," + str(B) + ")")
+    orbitControl(10)
+    // rotateTime += 0.25
+    // rotateY(rotateTime * PI / 180)
+    // 入射光側
+    fill(rBefore, gBefore, bBefore, 100)
+    noStroke()
+    // rect(-100, -100, 200, 200)
+    ellipse(0, 0, 100, 100)
+    createPolarizer(200, 0, 0, 0, 0)
+    cellophaneNum = numInputFunction()
+    if (polarizerSelect.value() == "平行ニコル配置") createPolarizer(200, 0, 0, - 0.1 * cellophaneNum, 0)
+    if (polarizerSelect.value() == "直交ニコル配置") createPolarizer(200, 0, 0, - 0.1 * cellophaneNum, 1)
+    push()
+    rotateX(PI / 2)
+    translate(0, -0.05 * cellophaneNum, 0)
+    fill(0)
+    cylinder(1, 0.1 * cellophaneNum + 50, 10, 3, true, true);
+    translate(0, -25 - 0.05 * cellophaneNum, 0)
+    rotateZ(PI)
+    cone(5, 10, 10, 3, false);
+    pop()
+    let z = 0
+    for (let i = 0; i < colabNum; i++) {
+        let num = i + 1
+        let numInput = select("#numInput-" + num)
+        let rotateInput = select("#rotateInput-" + num)
+        createCellophane(numInput.value(), rotateInput.value(), z)
+        z += parseInt(numInput.value())
+    }
+    rAfter, gAfter, bAfter = afterColorCalculate()
+    noStroke()
+    fill(rAfter, gAfter, bAfter)
+    push()
+    translate(0, 0, - 0.1 * cellophaneNum - 1)
+    ellipse(0, 0, 100, 100)
+    pop()
+
+
 }
 
 // windowがリサイズされたときの処理
 function windowResized() {
     let p5Canvas = document.getElementById("p5Canvas")
     let canvas = resizeCanvas(p5Canvas.clientWidth, p5Canvas.clientHeight, WEBGL)
-    // elInit()
+    elInit()
+    for (let i = 0; i < cellophaneNum; i++)cellophaneRemoveButtonFunction()
     initValue()
+    camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
+    beforeColorCalculate()
+}
+
+class Cellophane {
+    constructor(n) {
+        this.number = n
+        let parentDiv = createDiv().parent("#cellophaneColabNum").id("cellophane-" + this.number).class("mb-1 pb-1")
+        let inputGroup = createDiv().parent(parentDiv).class("input-group")
+        let numSpan = createSpan(this.number + "組目の枚数").parent(inputGroup).class("input-group-text")
+        let numInput = createInput(1, "number").parent(inputGroup).class("form-control").attribute("min", 1).id("numInput-" + this.number)
+        let rotateSpan = createSpan(this.number + "組目の回転角").parent(inputGroup).class("input-group-text")
+        let rotateInput = createInput(1, "number").parent(inputGroup).class("form-control").id("rotateInput-" + this.number)
+    }
 }

@@ -1,13 +1,24 @@
-#p5Canvas,
-#graph {
-    height: 45vh;
+#p5Canvas {
+    height: 90vh;
 }
 
-#graph {
+#graph1,
+#graph2 {
+    height: 40vh;
+}
+
+#graph1 {
     background-color: rgb(146, 146, 144);
+}
+
+#graph2 {
+    background-color: rgb(187, 187, 24);
+}
+
+#color {
+    height: 10vh;
 }
 
 .color-display {
     height: 5vh;
-    background-color: rgb(98, 190, 70);
 }
