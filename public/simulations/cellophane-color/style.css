@@ -2,13 +2,9 @@
     height: 90vh;
 }
 
-#graph1,
+#spectrumGraphParent,
 #graph2 {
     height: 40vh;
-}
-
-#graph1 {
-    background-color: rgb(146, 146, 144);
 }
 
 #graph2 {

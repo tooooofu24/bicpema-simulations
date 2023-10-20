@@ -64,6 +64,7 @@ let rAfter = 0, gAfter = 0, bAfter = 0;
 function initValue() {
     cmfRowNum = cmfTable.getRowCount();
     waveLengthArr = cmfTable.getColumn("wave-length")
+    waveLengthArr = waveLengthArr.map(str => parseInt(str, 10));
     xLambda = cmfTable.getColumn("x(lambda)")
     yLambda = cmfTable.getColumn("y(lambda)")
     zLambda = cmfTable.getColumn("z(lambda)")
@@ -223,7 +224,7 @@ function afterColorCalculate() {
                 E_4 = math.multiply(jhons(c), E_2)
             }
             let magni = math.abs(math.abs(math.multiply(E_4[0], E_4[0])) + math.abs(math.multiply(E_4[1], E_4[1])))
-            console.log(magni)
+
             osArr[i - 380] = (magni * osArrOrigin[i - 380])
             xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380]
             yArrAfter[i - 380] = osArr[i - 380] * yLambda[i - 380]
@@ -294,8 +295,7 @@ function draw() {
     translate(0, 0, - 0.1 * cellophaneNum - 1)
     ellipse(0, 0, 100, 100)
     pop()
-
-
+    drawGraph()
 }
 
 // windowがリサイズされたときの処理
@@ -319,4 +319,75 @@ class Cellophane {
         let rotateSpan = createSpan(this.number + "組目の回転角").parent(inputGroup).class("input-group-text")
         let rotateInput = createInput(1, "number").parent(inputGroup).class("form-control").id("rotateInput-" + this.number)
     }
+}
+let chartObj
+function drawGraph() {
+
+    if (typeof chartObj !== 'undefined' && chartObj) {
+        chartObj.destroy();
+    }
+    //データ
+    let data = {
+        labels: waveLengthArr,
+        datasets: [
+            {
+                label: "スペクトルのデータ",  //options.legend で凡例の表示・非表示を設定できる
+                data: osArr,
+                backgroundColor: "#0",  //点の色
+                borderColor: "#0",
+                pointRadius: 0,
+                fill: false,
+                showLine: true
+
+            },
+
+        ],
+
+    };
+
+    //グラフの表示設定
+    let options = {
+
+        title: {
+            display: true,
+            text: "グラフの見出し",
+            fontSize: 20,
+        },
+
+        legend: {
+            display: true,  //凡例を表示
+        },
+        animation: false,
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: '波長(nm)'
+                },
+                max: 750,
+                min: 380
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: '強度(a.u.)'
+                },
+                max: 1,
+                min: 0
+            }
+        },
+    };
+
+    let chartsetup = {
+        type: "scatter",
+        data: data,
+        options: options,
+    };
+
+    //canvasにグラフを描画
+    //Chart.Scatter() で散布図になる
+    let ctx = document.getElementById("spectrumGraph");
+    chartObj = new Chart(ctx, chartsetup);
 }
