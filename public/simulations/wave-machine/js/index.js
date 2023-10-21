@@ -48,7 +48,7 @@ function setup() {
     stopperY = height / 2 - stopper.height / 8;
     slider = createSlider(0, 1, 1, 0.01)
     slider.size(width / 5);
-    slider.position(100 - button.width / 2, height / 2 + 2 * button.height)
+    slider.position(100 - button.width / 2, height / 2 + 3 * button.height)
 }
 
 function draw() {
@@ -256,5 +256,5 @@ function windowResized() {
     stopperY = height / 2 - stopper.height / 8;
 }
 function fullScreen() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(windowWidth, 9 * windowHeight / 10);
 }
