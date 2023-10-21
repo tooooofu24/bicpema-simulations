@@ -181,15 +181,15 @@ class incidenceWave {
         noFill()
         stroke(this.color.value())
         push()
-        translate(this.posx - 60 * (this.waveLength.value() - 1), height / 2)
+        translate(this.posx - 60 * (2*this.waveLength.value() - 1), height / 2)
         beginShape()
-        for (let i = 0; i <= 60 * this.waveLength.value(); i++) {
+        for (let i = 0; i <= 60*2 * this.waveLength.value(); i++) {
             let amp = 60 * this.amplitude.value()
             let pha = 0
             if (this.waveType.value() == "sin波") {
-                pha = this.frequency.value() * 2 * PI * i / (60 * this.waveLength.value())
+                pha = this.frequency.value() * 2 * PI * i / (2*60 * this.waveLength.value())
             } else if (this.waveType.value() == "-sin波") {
-                pha = -this.frequency.value() * 2 * PI * i / (60 * this.waveLength.value())
+                pha = -this.frequency.value() * 2 * PI * i / (2*60 * this.waveLength.value())
             }
             vertex(i, amp * sin(pha))
         }
