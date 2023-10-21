@@ -21,6 +21,7 @@ function startButtonFunction() {
                 waveColabArr[i].amplitudeInput,
                 waveColabArr[i].frequencyInput,
                 waveColabArr[i].colorInput,
+                waveColabArr[i].waveNumInput,
                 waveColabArr[i].waveTypeInput
             )
             waveArr.push(newWave)
@@ -142,7 +143,7 @@ function draw() {
         // 波の数だけ繰り返す
         for (let num = 0; num < waveNum; num++) {
             // 波の速度だけ繰り返す
-            for (let speed = 0; speed < waveArr[num].frequency.value()*waveArr[num].waveLength.value(); speed++) {
+            for (let speed = 0; speed < waveArr[num].frequency.value() * waveArr[num].waveLength.value(); speed++) {
                 waveArr[num]._update()
             }
             waveArr[num]._draw()
@@ -162,12 +163,13 @@ function windowResized() {
 }
 
 class incidenceWave {
-    constructor(l, a, f, c, t) {
+    constructor(l, a, f, c, n, t) {
         this.posx = 0
         this.waveLength = l
         this.amplitude = a
         this.frequency = f
         this.color = c
+        this.waveNum = n
         this.waveType = t
     }
     _update() {
@@ -179,17 +181,17 @@ class incidenceWave {
         noFill()
         stroke(this.color.value())
         push()
-        translate(this.posx - 60 * (2*this.waveLength.value() - 1), height / 2)
+        translate(this.posx, height / 2)
         beginShape()
-        for (let i = 0; i <= 60*2 * this.waveLength.value(); i++) {
+        for (let i = 0; i <= 60 * 2 * this.waveLength.value()*this.waveNum.value(); i++) {
             let amp = 60 * this.amplitude.value()
             let pha = 0
-            if (this.waveType.value() == "sin波") {
-                pha = 2 * PI * i / (2*60 * this.waveLength.value())
-            } else if (this.waveType.value() == "-sin波") {
-                pha = - 2 * PI * i / (2*60 * this.waveLength.value())
+            if (this.waveType.value() == "-sin波") {
+                pha = 2 * PI * i / (2 * 60 * this.waveLength.value())
+            } else if (this.waveType.value() == "sin波") {
+                pha = - 2 * PI * i / (2 * 60 * this.waveLength.value())
             }
-            vertex(i, amp * sin(pha))
+            vertex(-i+60, amp * sin(pha))
         }
         endShape()
         pop()
@@ -207,6 +209,7 @@ class DOM {
         this.waveTypeInput = createSelect().parent(this.parentDiv).id("waveTypeInput-" + this.num).class("form-select")
         let optionArr = ["sin波", "-sin波"]
         for (let i = 0; i < optionArr.length; i++) this.waveTypeInput.option(optionArr[i])
+        this.waveNumInput = createInput(1, "number").parent(this.parentDiv).id("waveNumInput-" + this.num).attribute("placeholder", "波数").attribute("min", "1").class("form-control")
         this.colorInput = createColorPicker().parent(this.parentDiv).id("colorInput-" + this.num).class("form-control form-control-color")
     }
 }
