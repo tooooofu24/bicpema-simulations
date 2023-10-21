@@ -3,7 +3,7 @@
 <html lang="ja">
 
 <head>
-    <title>色々な波</title>
+    <title>色々な波の形</title>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <!-- p5.min.js -->
@@ -57,7 +57,7 @@
                 </svg>
             </a>
             <div class="col-10 navbar-brand text-center simulation-title">
-                <span class="text-white simulation-title-content" style="font-size: 2.5vw;">色々な波</span>
+                <span class="text-white simulation-title-content" style="font-size: 2.5vw;">色々な波の形</span>
             </div>
             <div class="col text-center">
                 <svg class="bi bi-info-circle text-white" fill="currentColor" height="2.5vw" viewbox="0 0 16 16"
@@ -73,7 +73,7 @@
         <div class="position-absolute end-0 m-3">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                 data-bs-target="#simulationSettingModal">
-                シミュレーションの設定
+                波の設定
             </button>
         </div>
 
@@ -83,31 +83,49 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="simulationSettingModalLabel">シミュレーションの設定</h1>
+                        <h1 class="modal-title fs-5" id="simulationSettingModalLabel">波の設定</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-floating mb-3" id="floatingSelect">
-                            <select class="form-select" id="waveSelect">
-                                <option>sin波</option>
-                                <option>-sin波</option>
+                        <div class="alert alert-primary d-flex align-items-center" role="alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-check-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path
+                                    d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                            </svg>
+                            <div>　グレーアウトした例を参考に値を入力してください。</div>
+
+                        </div>
+                        <div class="input-group mb-3" disabled>
+                            <span class="input-group-text">組数</span>
+                            <input type="text" class="form-control" placeholder="波長" disabled readonly>
+                            <input type="text" class="form-control" placeholder="振幅" disabled readonly>
+                            <input type="text" class="form-control" placeholder="速度" disabled readonly>
+                            <input type="text" class="form-control" placeholder="振動数" disabled readonly>
+                            <select class="form-select" id="inputGroupSelect01" disabled readonly>
+                                <option>波形</option>
                             </select>
-                            <label>波の種類を選択してください。</label>
+                            <input type="color" class="form-control form-control-color" disabled readonly>
                         </div>
-                        <div class="mb-2">
-                            <label>波の情報を入力してください。</label>
-                        </div>
-                        <div class="input-group">
-                            <div class="form-floating col m-0">
-                                <input type="number" class="form-control" placeholder="速度" value="1" id="speedInput"
-                                    min="0">
-                                <label>波の速度</label>
-                            </div>
-                            <div class="form-floating col m-0">
-                                <input type="number" class="form-control" placeholder="振幅" value="1"
-                                    id="amplitudeInput">
-                                <label>波の振幅</label>
-                            </div>
+                        <button class="btn btn-outline-primary mb-2" id="waveColabAddButton">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                                class="bi bi-plus-circle pb-1" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg>
+                            追加
+                        </button>
+                        <button class="btn btn-outline-danger mb-2" id="waveColabRemoveButton">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                                class="bi bi-dash-circle pb-1" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                            </svg>
+                            削除
+                        </button>
+                        <div id="waveSettingDiv">
                         </div>
                     </div>
                     <div class="modal-footer">

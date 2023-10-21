@@ -3,46 +3,92 @@ function fullScreen() {
     createCanvas(windowWidth, 9 * windowHeight / 10)
 }
 
+// DOM要素を格納する変数
 let startButton,
     stopButton,
     restartButton,
     resetButton,
-    waveSelect,
-    speedInput,
-    amplitudeInput;
-// DOM要素の生成
+    waveColabAddButton,
+    waveColabRemoveButton;
+
+// 波の発射ボタンを押したときの処理
 function startButtonFunction() {
-    waveArr.push(new incidenceWave())
-    moveIs = true
+    if (waveColabNum > 0) {
+        // モーダルで設定した數分だけwaveArrに波を追加
+        for (let i = 0; i < waveColabNum; i++) {
+            let newWave = new incidenceWave(
+                waveColabArr[i].waveLengthInput,
+                waveColabArr[i].amplitudeInput,
+                waveColabArr[i].speedInput,
+                waveColabArr[i].frequencyInput,
+                waveColabArr[i].colorInput,
+                waveColabArr[i].waveTypeInput
+            )
+            waveArr.push(newWave)
+            waveNum += 1
+        }
+        moveIs = true
+    }
+
 }
+
+// 一時停止ボタンを押したときの処理
 function stopButtonFunction() {
     moveIs = false
 }
+
+// 再開ボタンを押したときの処理
 function restartButtonFunction() {
-    moveIs = true
+    if (waveColabNum > 0) {
+        moveIs = true
+    }
 }
+
+// リセットボタンを押したときの処理
 function resetButtonFunction() {
     initValue()
 }
+
+// ボタンの組を追加するボタンを押したときの処理
+function waveColabAddButtonFunction() {
+    waveColabNum += 1
+    let dom = new DOM(waveColabNum);
+    waveColabArr.push(dom)
+}
+
+// ボタンの組を削除するボタンを押したときの処理
+function waveColabRemoveButtonFunction() {
+    if (waveColabNum > 0) {
+        waveColabArr.pop(-1)
+        let targetDom = select("#parentDiv-" + waveColabNum)
+        targetDom.remove()
+        waveColabNum -= 1
+    }
+}
+
+// DOM要素を生成する処理
 function elCreate() {
     startButton = select("#startButton").mousePressed(startButtonFunction)
     stopButton = select("#stopButton").mousePressed(stopButtonFunction)
     restartButton = select("#restartButton").mousePressed(restartButtonFunction)
     resetButton = select("#resetButton").mousePressed(resetButtonFunction)
-    waveSelect = select("#waveSelect")
-    speedInput = select("#speedInput")
-    amplitudeInput = select("#amplitudeInput")
+    waveColabAddButton = select("#waveColabAddButton").mousePressed(waveColabAddButtonFunction)
+    waveColabRemoveButton = select("#waveColabRemoveButton").mousePressed(waveColabRemoveButtonFunction)
 }
 
-
 // 初期値やシミュレーションの設定
-let waveArr;
-let moveIs;
+let waveArr = [];
+let waveNum = 0
+let moveIs = false;
+let waveColabNum = 0;
+let waveColabArr = [];
+
 function initValue() {
     textAlign(CENTER)
     textSize(20)
     waveArr = []
     moveIs = false
+    waveNum = 0
 }
 
 // setup関数
@@ -52,14 +98,12 @@ function setup() {
     initValue()
 }
 
-
 // 背景の設定
 function drawGrid() {
     fill(0)
     strokeWeight(1)
     stroke(68, 122, 191)
     let max_time = width
-
     for (let x = 60; x <= max_time; x += 60)line(x, 0, x, height)
     for (let y = height / 2; y > 0; y -= 60)line(60, y, max_time, y)
     for (let y = height / 2; y < height; y += 60)line(60, y, max_time, y)
@@ -88,23 +132,25 @@ function drawScale() {
     line(60, height / 2 - max_amp, 48, height / 2 - max_amp + 12)
     line(60, height / 2 - max_amp, 72, height / 2 - max_amp + 12)
     line(60, height / 2 - max_amp, 60, height / 2 + max_amp)
-    // line(60, height / 2, max_time, height / 2)
+    line(60, height / 2, max_time, height / 2)
 }
 
 // draw関数
 function draw() {
-    stroke(0)
-    strokeWeight(1)
     background(255)
+
     if (moveIs) {
-        for (let speed = 0; speed < speedInput.value(); speed++) {
-            for (let i = 0; i < waveArr.length; i++) {
-                waveArr[i]._update()
+        // 波の数だけ繰り返す
+        for (let num = 0; num < waveNum; num++) {
+            // 波の速度だけ繰り返す
+            for (let speed = 0; speed < waveArr[num].speed.value(); speed++) {
+                waveArr[num]._update()
             }
+            waveArr[num]._draw()
         }
     }
-    for (let i = 0; i < waveArr.length; i++) {
-        waveArr[i]._draw()
+    for (let num = 0; num < waveNum; num++) {
+        waveArr[num]._draw()
     }
     drawGrid()
     drawScale()
@@ -117,27 +163,53 @@ function windowResized() {
 }
 
 class incidenceWave {
-    constructor() {
+    constructor(l, a, s, f, c, t) {
         this.posx = 0
+        this.waveLength = l
+        this.amplitude = a
+        this.speed = s
+        this.frequency = f
+        this.color = c
+        this.waveType = t
     }
     _update() {
-        this.posx++
+        this.posx += 1
     }
     _draw() {
         fill(255)
         strokeWeight(5)
-        stroke(68, 122, 191)
-        line(0, height / 2, width, height / 2)
+        noFill()
+        stroke(this.color.value())
         push()
-        translate(this.posx, height / 2)
-        noStroke()
-        rect(0, -60, 60, 120)
-        stroke(68, 122, 191)
+        translate(this.posx - 60 * (this.waveLength.value() - 1), height / 2)
         beginShape()
-        for (let i = 0; i <= 60; i++) {
-            vertex(i, 60 * sin(i / 60 * 2 * PI))
+        for (let i = 0; i <= 60 * this.waveLength.value(); i++) {
+            let amp = 60 * this.amplitude.value()
+            let pha = 0
+            if (this.waveType.value() == "sin波") {
+                pha = this.frequency.value() * 2 * PI * i / (60 * this.waveLength.value())
+            } else if (this.waveType.value() == "-sin波") {
+                pha = -this.frequency.value() * 2 * PI * i / (60 * this.waveLength.value())
+            }
+            vertex(i, amp * sin(pha))
         }
         endShape()
         pop()
+    }
+}
+
+class DOM {
+    constructor(n) {
+        this.num = n
+        this.parentDiv = createDiv().parent("#waveSettingDiv").id("parentDiv-" + this.num).class("input-group mb-2")
+        this.span = createSpan(this.num + "組目").parent(this.parentDiv).class("input-group-text")
+        this.waveLengthInput = createInput(1, "number").parent(this.parentDiv).id("waveLengthInput-" + this.num).attribute("placeholder", "波長").attribute("min", "0").class("form-control")
+        this.amplitudeInput = createInput(1, "number").parent(this.parentDiv).id("amplitudeInput-" + this.num).attribute("placeholder", "振幅").attribute("min", "0").class("form-control")
+        this.speedInput = createInput(1, "number").parent(this.parentDiv).id("speedInput-" + this.num).attribute("placeholder", "速度").class("form-control")
+        this.frequencyInput = createInput(1, "number").parent(this.parentDiv).id("frequencyInput-" + this.num).attribute("placeholder", "振動数").attribute("min", "0").class("form-control")
+        this.waveTypeInput = createSelect().parent(this.parentDiv).id("waveTypeInput-" + this.num).class("form-select")
+        let optionArr = ["sin波", "-sin波"]
+        for (let i = 0; i < optionArr.length; i++) this.waveTypeInput.option(optionArr[i])
+        this.colorInput = createColorPicker().parent(this.parentDiv).id("colorInput-" + this.num).class("form-control form-control-color")
     }
 }
