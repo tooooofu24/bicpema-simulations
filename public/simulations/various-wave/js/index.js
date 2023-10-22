@@ -183,7 +183,7 @@ class incidenceWave {
         push()
         translate(this.posx, height / 2)
         beginShape()
-        for (let i = 0; i <= 60 * 2 * this.waveLength.value()*this.waveNum.value(); i++) {
+        for (let i = 0; i <= 60 * 2 * this.waveLength.value() * this.waveNum.value(); i++) {
             let amp = 60 * this.amplitude.value()
             let pha = 0
             if (this.waveType.value() == "-sin波") {
@@ -191,7 +191,7 @@ class incidenceWave {
             } else if (this.waveType.value() == "sin波") {
                 pha = - 2 * PI * i / (2 * 60 * this.waveLength.value())
             }
-            vertex(-i+60, amp * sin(pha))
+            vertex(-i / 2 + 60, amp * sin(pha))
         }
         endShape()
         pop()
