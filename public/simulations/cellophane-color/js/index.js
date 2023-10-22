@@ -1,15 +1,19 @@
-///全画面表示
+// p5Canvasという要素を親要素にする
 function fullScreen() {
     let p5Canvas = document.getElementById("p5Canvas")
     let canvas = createCanvas(p5Canvas.clientWidth, p5Canvas.clientHeight, WEBGL)
     canvas.parent("p5Canvas")
 }
 
+// cmfTableは等色関数のデータ
+// osTableは偏光板を一枚通したときの波長毎の強度分布
+let cmfTable, osTable;
 // 外部ファイルの読み込み
 function preload() {
     cmfTable = loadTable("./data/cmf.csv", "csv", "header")
     osTable = loadTable("./data/os.csv", "csv", "header")
 }
+
 
 let polarizerSelect,
     opdInput,
@@ -24,16 +28,13 @@ function elCreate() {
     cellophaneRemoveButton = select("#cellophaneRemoveButton")
 }
 
-//出射光の計算をする
-function calculate() {
-    beforeColor.style("background-color:rgb(" + str(255) + "," + str(255) + "," + str(255) + ")")
-    afterColor.style("background-color:rgb(" + str(rAfter) + "," + str(gAfter) + "," + str(bAfter) + ")")
-}
-
+// 追加ボタンを押したときの処理
 function cellophaneAddButtonFunction() {
     colabNum += 1
     cellophaneArr.push(new Cellophane(colabNum))
 }
+
+// 削除ボタンを押したときの処理
 function cellophaneRemoveButtonFunction() {
     if (colabNum > 0) {
         let targetDiv = select("#cellophane-" + colabNum)
@@ -42,17 +43,22 @@ function cellophaneRemoveButtonFunction() {
         colabNum -= 1
     }
 }
+
 // DOM要素の設定
 function elInit() {
     cellophaneAddButton.mousePressed(cellophaneAddButtonFunction)
     cellophaneRemoveButton.mousePressed(cellophaneRemoveButtonFunction)
 }
 
+// テーブルオブジェクトの行数
 let cmfRowNum;
 let osRowNum;
+// 波長の配列
 let waveLengthArr;
+// XYZ等色関数の配列
 let xLambda, yLambda, zLambda;
-let osArr;
+// 強度の配列
+let osArr, osArrOrigin;
 let xArrAfter = [], yArrAfter = [], zArrAfter = [];
 let xArrBefore = [], yArrBefore = [], zArrBefore = [];
 let lightArr;
@@ -94,6 +100,7 @@ function setup() {
     camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
 }
 
+// 偏光板を描画する処理
 function createPolarizer(size, x, y, z, pattern) {
     push();
     translate(x, y, z);
@@ -113,6 +120,7 @@ function createPolarizer(size, x, y, z, pattern) {
     pop();
 }
 
+// セロハンを描画する処理
 function createCellophane(n, rAfter, a) {
     // noStroke()
     push()
@@ -127,16 +135,22 @@ function createCellophane(n, rAfter, a) {
     pop()
 }
 
-
+// 回転行列R(theta)
 function r_theta(theta) {
     return [[cos(theta), -sin(theta)], [sin(theta), cos(theta)]]
 }
+
+// 回転行列R(-theta)
 function mai_r_theta(theta) {
     return [[cos(theta), sin(theta)], [-sin(theta), cos(theta)]]
 }
+
+// ジョーンズベクトル
 function jhons(theta) {
     return [[sin(theta) ** 2, -sin(theta) * cos(theta)], [-sin(theta) * cos(theta), cos(theta) ** 2]]
 }
+
+// RGBへの変換
 function toRGB(a) {
     if (a <= 0.031308) {
         return 12.92 * a * 255
@@ -145,7 +159,7 @@ function toRGB(a) {
     }
 }
 
-
+// セロハンの総数の数え上げをする処理
 function numInputFunction() {
     cellophaneNum = 0
     for (let i = 0; i < colabNum; i++) {
@@ -184,8 +198,9 @@ function beforeColorCalculate() {
     return rBefore, gBefore, bBefore
 }
 
+// セロハン及び二枚目の偏光板を透過した時の処理
 function afterColorCalculate() {
-    if (colabNum >= 1) {
+    if (colabNum > 0) {
         let referenceAngle = select("#rotateInput-1")
         // 本シミュレーションにおいては一枚目のセロハンに対する相対角度で計算を行う
         // aは一組目のセロハンに対する偏光板一枚目の相対的な回転角
@@ -259,10 +274,8 @@ function afterColorCalculate() {
 let rotateTime = 0
 function draw() {
     background(100)
-    orbitControl(10)
-    // rotateTime += 0.25
-    // rotateY(rotateTime * PI / 180)
-    // 入射光側
+    rotateTime += 0.5
+    rotateY(rotateTime * PI / 180)
     fill(rBefore, gBefore, bBefore, 100)
     noStroke()
     // rect(-100, -100, 200, 200)
