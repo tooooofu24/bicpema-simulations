@@ -9,7 +9,8 @@ let startButton,
     restartButton,
     resetButton,
     waveColabAddButton,
-    waveColabRemoveButton;
+    waveColabRemoveButton,
+    timer;
 
 // 波の発射ボタンを押したときの処理
 function startButtonFunction() {
@@ -74,6 +75,7 @@ function elCreate() {
     resetButton = select("#resetButton").mousePressed(resetButtonFunction)
     waveColabAddButton = select("#waveColabAddButton").mousePressed(waveColabAddButtonFunction)
     waveColabRemoveButton = select("#waveColabRemoveButton").mousePressed(waveColabRemoveButtonFunction)
+    timer = select("#timer")
 }
 
 // 初期値やシミュレーションの設定
@@ -82,6 +84,7 @@ let waveNum = 0
 let moveIs = false;
 let waveColabNum = 0;
 let waveColabArr = [];
+let time;
 
 function initValue() {
     textAlign(CENTER)
@@ -89,6 +92,8 @@ function initValue() {
     waveArr = []
     moveIs = false
     waveNum = 0
+    time = 0
+    frameRate(60)
 }
 
 // setup関数
@@ -148,10 +153,12 @@ function draw() {
             }
             waveArr[num]._draw()
         }
+        time += 1
     }
     for (let num = 0; num < waveNum; num++) {
         waveArr[num]._draw()
     }
+    timer.html(nf(time / 60, 2, 2))
     drawGrid()
     drawScale()
 }
