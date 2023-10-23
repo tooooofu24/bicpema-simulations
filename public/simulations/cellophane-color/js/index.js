@@ -1,3 +1,20 @@
+window.onload = function () {
+
+    // screenshotButtonの設定
+    document.getElementById('screenshotButton').addEventListener('click', () => {
+        html2canvas(document.body).then((canvas) => {
+            downloadImage(canvas.toDataURL());
+        });
+    });
+    function downloadImage(dataUrl) {
+        const name = 'screenshot.png';
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = name;
+        a.click();
+    }
+};
+
 // p5Canvasという要素を親要素にする
 function fullScreen() {
     let p5Canvas = document.getElementById("p5Canvas")
@@ -5,20 +22,18 @@ function fullScreen() {
     canvas.parent("p5Canvas")
 }
 
-// cmfTableは等色関数のデータ
-// osTableは偏光板を一枚通したときの波長毎の強度分布
 let cmfTable, osTable;
 // 外部ファイルの読み込み
 function preload() {
-    cmfTable = loadTable("./data/cmf.csv", "csv", "header")
-    osTable = loadTable("./data/os.csv", "csv", "header")
+    cmfTable = loadTable("./data/cmf.csv", "csv", "header") // 等色関数のデータ
+    osTable = loadTable("./data/os.csv", "csv", "header") // 偏光板を一枚通したときの波長毎の強度分布
 }
 
 
-let polarizerSelect,
-    opdInput,
-    cellophaneAddButton,
-    cellophaneRemoveButton;
+let polarizerSelect, // 偏光板の配置方法のselect要素
+    opdInput, // 光路差のinput要素
+    cellophaneAddButton, // セロハン追加のbutton要素
+    cellophaneRemoveButton; // セロハン削除のbutton要素
 
 // DOM要素の生成
 function elCreate() {
@@ -50,24 +65,22 @@ function elInit() {
     cellophaneRemoveButton.mousePressed(cellophaneRemoveButtonFunction)
 }
 
-// テーブルオブジェクトの行数
-let cmfRowNum;
-let osRowNum;
-// 波長の配列
-let waveLengthArr;
-// XYZ等色関数の配列
-let xLambda, yLambda, zLambda;
-// 強度の配列
-let osArr, osArrOrigin;
-let xArrAfter = [], yArrAfter = [], zArrAfter = [];
-let xArrBefore = [], yArrBefore = [], zArrBefore = [];
-let lightArr;
-let cellophaneNum;
-let cellophaneArr = [];
-let rBefore = 0, gBefore = 0, bBefore = 0;
-let rAfter = 0, gAfter = 0, bAfter = 0;
+let cmfRowNum; // 等色関数のデータ行数
+let osRowNum; // 強度分布のデータ行数
+let waveLengthArr; // 波長の配列
+let xLambda, yLambda, zLambda; // XYZ等色関数の配列
+let osArr, osArrOrigin; // 強度データの配列
+let xArrAfter = [], yArrAfter = [], zArrAfter = []; // 一枚目の偏光板を透過したときのxyz要素
+let xArrBefore = [], yArrBefore = [], zArrBefore = []; // 二枚目の偏光板を透過したときのxyz要素
+let cellophaneNum; // セロハンの枚数
+let cellophaneArr = []; // セロハンのデータ配列
+let rBefore = 0, gBefore = 0, bBefore = 0; // 一枚目の偏光板を透過したときのrgb要素
+let rAfter = 0, gAfter = 0, bAfter = 0; // 二枚目の偏光板を透過したときのrgb要素
+
 // 初期値やシミュレーションの設定
 function initValue() {
+
+    // テーブルからそれぞれのデータを取得
     cmfRowNum = cmfTable.getRowCount();
     waveLengthArr = cmfTable.getColumn("wave-length")
     waveLengthArr = waveLengthArr.map(str => parseInt(str, 10));
@@ -77,6 +90,8 @@ function initValue() {
     osRowNum = osTable.getRowCount();
     osArr = osTable.getColumn("optical-strength")
     osArrOrigin = osTable.getColumn("optical-strength")
+
+    // xyzを格納する配列の初期化
     for (let i = 0; i < osRowNum; i++) {
         xArrAfter.push(0);
         yArrAfter.push(0);
@@ -85,7 +100,7 @@ function initValue() {
         yArrBefore.push(0);
         zArrBefore.push(0);
     }
-    lightArr = osTable.getColumn("light")
+
     colabNum = 0
     cellophaneNum = 0
 }
@@ -173,11 +188,15 @@ function numInputFunction() {
 
 // 偏光板１枚を透過したときの色の計算
 function beforeColorCalculate() {
+
+    // XYZ刺激値への変換（等色関数×スペクトル）
     for (let i = 380; i <= 750; i++) {
-        xArrBefore[i - 380] = lightArr[i - 380] * xLambda[i - 380]
-        yArrBefore[i - 380] = lightArr[i - 380] * yLambda[i - 380]
-        zArrBefore[i - 380] = lightArr[i - 380] * zLambda[i - 380]
+        xArrBefore[i - 380] = osArr[i - 380] * xLambda[i - 380]
+        yArrBefore[i - 380] = osArr[i - 380] * yLambda[i - 380]
+        zArrBefore[i - 380] = osArr[i - 380] * zLambda[i - 380]
     }
+
+    // RGBへの変換
     xSumBefore = math.sum(xArrBefore)
     ySumBefore = math.sum(yArrBefore)
     zSumBefore = math.sum(zArrBefore)
@@ -193,58 +212,60 @@ function beforeColorCalculate() {
     rBefore = toRGB(rgbBefore[0])
     gBefore = toRGB(rgbBefore[1])
     bBefore = toRGB(rgbBefore[2])
+
+    // 要素へのRGBの反映
     let beforeColor = select("#beforeColor")
     beforeColor.style("background-color:rgb(" + str(rBefore) + "," + str(gBefore) + "," + str(bBefore) + ")")
     return rBefore, gBefore, bBefore
+
 }
 
 // セロハン及び二枚目の偏光板を透過した時の処理
 function afterColorCalculate() {
-    if (colabNum > 0) {
-        let referenceAngle = select("#rotateInput-1")
-        // 本シミュレーションにおいては一枚目のセロハンに対する相対角度で計算を行う
-        // aは一組目のセロハンに対する偏光板一枚目の相対的な回転角
-        let a = radians(referenceAngle.value())
-        E_1 = [[sin(a)], [cos(a)]]
-        let num = select("#numInput-1")
-        for (let i = 380; i <= 750; i++) {
-            let l = i
-            delta = num.value() * 2 * opdInput.value() * PI / l
-            cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
-            E_2 = math.multiply(cello, E_1)
-            if (colabNum > 1) {
-                let sample2 = select("#rotateInput-2")
-                // bはセロハン二枚目の回転角
-                let bAfter = radians(sample2.value() - referenceAngle.value())
-                num = select("#numInput-2")
-                delta = num.value() * 2 * opdInput.value() * PI / l
-                cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
-                E_3 = math.multiply(r_theta(bAfter), math.multiply(cello, math.multiply(mai_r_theta(bAfter), E_2)))
-                for (let ss = 3; ss <= colabNum; ss++) {
-                    num = select("#numInput-" + ss)
-                    delta = num.value() * 2 * opdInput.value() * PI / l
-                    cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
-                    let sample2 = select("#rotateInput-" + ss)
-                    // bはセロハン二枚目の回転角
-                    let bAfter = radians(sample2.value() - referenceAngle.value())
-                    // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
-                    E_3 = math.multiply(r_theta(bAfter), math.multiply(cello, math.multiply(mai_r_theta(bAfter), E_3)))
-                }
-                // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
-                let c = radians(referenceAngle.value())
-                E_4 = math.multiply(jhons(c), E_3)
-            } else {
-                // cは一組目のセロハンに対する偏光板二枚目の相対的な回転角
-                let c = radians(referenceAngle.value())
-                E_4 = math.multiply(jhons(c), E_2)
-            }
-            let magni = math.abs(math.abs(math.multiply(E_4[0], E_4[0])) + math.abs(math.multiply(E_4[1], E_4[1])))
 
+    // セロハンの組数が１枚以上ある場合
+    if (colabNum >= 1) {
+
+        // 計算には１組目のセロハンを基準とした相対角度を使う
+        let referenceAngle = select("#rotateInput-1")
+        let a = radians(referenceAngle.value()) // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
+        let firstCellophaneNum = select("#numInput-1") // セロハン１組目の枚数
+        E_1 = [[sin(a)], [cos(a)]]
+        // それぞれの波長毎に計算
+        for (let i = 380; i <= 750; i++) {
+
+            let l = i
+            let delta = firstCellophaneNum.value() * 2 * opdInput.value() * PI / l
+            let cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
+            E_2 = math.multiply(cello, E_1)
+
+            // セロハンの組数が2組以上の場合、それぞれのセロハンに関する計算を再帰的に行う
+            if (colabNum >= 2) {
+                for (let n = 2; n <= colabNum; n++) {
+                    let otherCellophaneNum = select("#numInput-" + n)
+                    let delta = otherCellophaneNum.value() * 2 * opdInput.value() * PI / l
+                    let cello = [[1, 0], [0, math.exp(math.complex(0, -delta))]]
+                    let targetAngle = select("#rotateInput-" + n)
+                    let b = radians(targetAngle.value() - referenceAngle.value())
+                    E_2 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)))
+                }
+            }
+            let c
+            if (polarizerSelect.value() == "平行ニコル配置") {
+                c = radians(referenceAngle.value())
+            } else if (polarizerSelect.value() == "直交ニコル配置") {
+                c = radians(referenceAngle.value()) + radians(90)
+            }
+
+            E_3 = math.multiply(jhons(c), E_2)
+            let magni = math.abs(math.abs(math.multiply(E_3[0], E_3[0])) + math.abs(math.multiply(E_3[1], E_3[1])))
             osArr[i - 380] = (magni * osArrOrigin[i - 380])
             xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380]
             yArrAfter[i - 380] = osArr[i - 380] * yLambda[i - 380]
             zArrAfter[i - 380] = osArr[i - 380] * zLambda[i - 380]
+
         }
+
         xSumAfter = math.sum(xArrAfter)
         ySumAfter = math.sum(yArrAfter)
         zSumAfter = math.sum(zArrAfter)
@@ -260,30 +281,50 @@ function afterColorCalculate() {
         rAfter = toRGB(sRGB[0])
         gAfter = toRGB(sRGB[1])
         bAfter = toRGB(sRGB[2])
-    } else {
+    }
+
+    // セロハンの組が0組の場合
+    else {
         rAfter = rBefore
         gAfter = gBefore
         bAfter = bBefore
     }
+
+    // 色を要素に反映
     let afterColor = select("#afterColor")
     afterColor.style("background-color:rgb(" + str(rAfter) + "," + str(gAfter) + "," + str(bAfter) + ")")
     return rAfter, gAfter, bAfter
+
 }
 
 // draw関数
 let rotateTime = 0
 function draw() {
+
+    // 背景色の設定
     background(100)
+
+    // 回転の設定
     rotateTime += 0.5
     rotateY(rotateTime * PI / 180)
+
+    // 偏光板を一枚透過したときの色の描画
     fill(rBefore, gBefore, bBefore, 100)
     noStroke()
-    // rect(-100, -100, 200, 200)
+    push()
+    translate(0, 0, 0.1)
     ellipse(0, 0, 100, 100)
+    pop()
+
+
+    // 偏光板の描画
     createPolarizer(200, 0, 0, 0, 0)
     cellophaneNum = numInputFunction()
     if (polarizerSelect.value() == "平行ニコル配置") createPolarizer(200, 0, 0, - 0.1 * cellophaneNum, 0)
     if (polarizerSelect.value() == "直交ニコル配置") createPolarizer(200, 0, 0, - 0.1 * cellophaneNum, 1)
+
+
+    // セロハンの透過方向を示す矢印の描画
     push()
     rotateX(PI / 2)
     translate(0, -0.05 * cellophaneNum, 0)
@@ -293,6 +334,9 @@ function draw() {
     rotateZ(PI)
     cone(5, 10, 10, 3, false);
     pop()
+
+
+    // セロハンの描画
     let z = 0
     for (let i = 0; i < colabNum; i++) {
         let num = i + 1
@@ -301,13 +345,19 @@ function draw() {
         createCellophane(numInput.value(), rotateInput.value(), z)
         z += parseInt(numInput.value())
     }
+
+
     rAfter, gAfter, bAfter = afterColorCalculate()
     noStroke()
     fill(rAfter, gAfter, bAfter)
+
+    // 二枚目の偏光板を透過したときの色の描画
     push()
     translate(0, 0, - 0.1 * cellophaneNum - 1)
     ellipse(0, 0, 100, 100)
     pop()
+
+    // グラフの描画
     drawGraph()
 }
 
@@ -322,6 +372,7 @@ function windowResized() {
     beforeColorCalculate()
 }
 
+// セロハンのDOMクラス
 class Cellophane {
     constructor(n) {
         this.number = n
@@ -333,14 +384,16 @@ class Cellophane {
         let rotateInput = createInput(1, "number").parent(inputGroup).class("form-control").id("rotateInput-" + this.number)
     }
 }
-let chartObj
+
+let mainChartObj
+let subChartObj
 function drawGraph() {
 
-    if (typeof chartObj !== 'undefined' && chartObj) {
-        chartObj.destroy();
+    if (typeof mainChartObj !== 'undefined' && mainChartObj) {
+        mainChartObj.destroy();
     }
     //データ
-    let data = {
+    let mainData = {
         labels: waveLengthArr,
         datasets: [
             {
@@ -359,7 +412,7 @@ function drawGraph() {
     };
 
     //グラフの表示設定
-    let options = {
+    let mainOptions = {
 
         title: {
             display: true,
@@ -393,14 +446,83 @@ function drawGraph() {
         },
     };
 
-    let chartsetup = {
+    let mainChartsetup = {
         type: "scatter",
-        data: data,
-        options: options,
+        data: mainData,
+        options: mainOptions,
     };
 
     //canvasにグラフを描画
     //Chart.Scatter() で散布図になる
-    let ctx = document.getElementById("spectrumGraph");
-    chartObj = new Chart(ctx, chartsetup);
+    let mainCtx = document.getElementById("mainSpectrumGraph");
+    mainChartObj = new Chart(mainCtx, mainChartsetup);
+
+
+    if (typeof subChartObj !== 'undefined' && subChartObj) {
+        subChartObj.destroy();
+    }
+    //データ
+    let subData = {
+        labels: waveLengthArr,
+        datasets: [
+            {
+                label: "スペクトルのデータ",  //options.legend で凡例の表示・非表示を設定できる
+                data: osArr,
+                backgroundColor: "#0",  //点の色
+                borderColor: "#0",
+                pointRadius: 0,
+                fill: false,
+                showLine: true
+
+            },
+
+        ],
+
+    };
+
+    //グラフの表示設定
+    let subOptions = {
+
+        title: {
+            display: true,
+            text: "グラフの見出し",
+            fontSize: 20,
+        },
+
+        legend: {
+            display: true,  //凡例を表示
+        },
+        animation: false,
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: '波長(nm)'
+                },
+                max: 750,
+                min: 380
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: '強度(a.u.)'
+                },
+                max: 1,
+                min: 0
+            }
+        },
+    };
+
+    let subChartsetup = {
+        type: "scatter",
+        data: subData,
+        options: subOptions,
+    };
+
+    //canvasにグラフを描画
+    //Chart.Scatter() で散布図になる
+    let subCtx = document.getElementById("subSpectrumGraph");
+    subChartObj = new Chart(subCtx, subChartsetup);
 }
