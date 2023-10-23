@@ -231,6 +231,7 @@ function afterColorCalculate() {
         let a = radians(referenceAngle.value()) // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
         let firstCellophaneNum = select("#numInput-1") // セロハン１組目の枚数
         E_1 = [[sin(a)], [cos(a)]]
+
         // それぞれの波長毎に計算
         for (let i = 380; i <= 750; i++) {
 
@@ -250,6 +251,8 @@ function afterColorCalculate() {
                     E_2 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)))
                 }
             }
+
+
             let c
             if (polarizerSelect.value() == "平行ニコル配置") {
                 c = radians(referenceAngle.value())
