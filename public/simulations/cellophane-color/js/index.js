@@ -261,8 +261,8 @@ function afterColorCalculate() {
             }
 
             E_3 = math.multiply(jhons(c), E_2)
-            let magni = math.abs(math.abs(math.multiply(E_3[0], E_3[0])) + math.abs(math.multiply(E_3[1], E_3[1])))
-            osArr[i - 380] = (magni * osArrOrigin[i - 380])
+            let relativeStrength = math.abs(math.abs(math.multiply(E_3[0], E_3[0])) + math.abs(math.multiply(E_3[1], E_3[1])))
+            osArr[i - 380] = (relativeStrength * osArrOrigin[i - 380])
             xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380]
             yArrAfter[i - 380] = osArr[i - 380] * yLambda[i - 380]
             zArrAfter[i - 380] = osArr[i - 380] * zLambda[i - 380]
