@@ -24,7 +24,7 @@
 
 <body oncontextmenu="return false;">
     <div class="container-fluid bg-dark upper-bar p-0">
-        <div class="row align-items-center upper-bar-content p-0" id="upper-bar">
+        <div class="row align-items-center upper-bar-content p-0 w-100 m-0" id="upper-bar">
             <a class="col text-center" href="https://bicpema-blog.web.app/">
                 <svg class="bi bi-house-fill text-white" fill="currentColor" height="2.5vw" viewbox="0 0 16 16"
                     xmlns="http://www.w3.org/2000/svg">
@@ -49,17 +49,17 @@
                 </svg>
             </div>
         </div>
-        <div class="row" id="content-box">
-            <div class="col pe-0">
+        <div class="row w-100 m-0">
+            <div class="col p-0 content-box">
                 <div class="" id="p5Canvas"></div>
             </div>
-            <div class="col ps-0">
-                <div class="m-2 row" id="color">
-                    <div class="col m-2 border row d-flex align-items-center">
+            <div class="col p-0 content-box">
+                <div class="row w-100 m-0" id="color">
+                    <div class="col m-2 border row d-flex align-items-center p-0">
                         <span class="col text-center">１枚目の偏光板を透過</span>
                         <div class="col color-display m-2" id="beforeColor"></div>
                     </div>
-                    <div class="col m-2 border row d-flex align-items-center">
+                    <div class="col m-2 border row d-flex align-items-center p-0">
                         <span class="col text-center">２枚目の偏光板を透過</span>
                         <div class="col color-display m-2" id="afterColor"></div>
                     </div>
@@ -139,12 +139,13 @@
                 </div>
             </div>
         </div>
-        <!-- jQuery -->
-        <script language="javascript" src="../../assets/js/jquery-3.6.4.min.js" type="text/javascript"></script>
-        <!-- Bootstrap JS -->
-        <script language="javascript" src="../../assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-        <!-- {simulation name}.js -->
-        <script language="javascript" src="js/index.js" type="text/javascript"></script>
+    </div>
+    <!-- jQuery -->
+    <script language="javascript" src="../../assets/js/jquery-3.6.4.min.js" type="text/javascript"></script>
+    <!-- Bootstrap JS -->
+    <script language="javascript" src="../../assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <!-- {simulation name}.js -->
+    <script language="javascript" src="js/index.js" type="text/javascript"></script>
 </body>
 
 </html>
