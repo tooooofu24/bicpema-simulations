@@ -288,9 +288,19 @@ function afterColorCalculate() {
 
     // セロハンの組が0組の場合
     else {
-        rAfter = rBefore
-        gAfter = gBefore
-        bAfter = bBefore
+        if (polarizerSelect.value() == "平行ニコル配置") {
+            rAfter = rBefore
+            gAfter = gBefore
+            bAfter = bBefore
+        } else if (polarizerSelect.value() == "直交ニコル配置") {
+            rAfter = 0
+            gAfter = 0
+            bAfter = 0
+            for (let i = 380; i <= 750; i++) {
+                osArr[i - 380] = 0
+
+            }
+        }
     }
 
     // 色を要素に反映
