@@ -410,12 +410,21 @@ function drawGraph() {
         labels: waveLengthArr,
         datasets: [
             {
-                label: "スペクトルのデータ",  //options.legend で凡例の表示・非表示を設定できる
+                label: "シミュレーションのスペクトル",  //options.legend で凡例の表示・非表示を設定できる
                 data: osArr,
-                backgroundColor: "#0",  //点の色
-                borderColor: "#0",
+                backgroundColor: "rgba(" + rAfter + "," + gAfter + "," + bAfter + ",0.5)",  //点の色
+                borderColor: "rgba(" + rAfter + "," + gAfter + "," + bAfter + ",1)",
                 pointRadius: 0,
-                fill: false,
+                fill: 'start',
+                showLine: true
+
+            }, {
+                label: "１枚目の偏光板を透過した時のスペクトル",  //options.legend で凡例の表示・非表示を設定できる
+                data: osArrOrigin,
+                backgroundColor: "rgba(" + rBefore + "," + gBefore + "," + bBefore + ",0.5)",  //点の色
+                borderColor: "rgba(" + rBefore + "," + gBefore + "," + bBefore + ",1)",
+                pointRadius: 0,
+                fill: 'start',
                 showLine: true
 
             },
@@ -426,15 +435,12 @@ function drawGraph() {
 
     //グラフの表示設定
     let mainOptions = {
-
-        title: {
-            display: true,
-            text: "グラフの見出し",
-            fontSize: 20,
-        },
-
-        legend: {
-            display: true,  //凡例を表示
+        plugins: {
+            legend: true,
+            title: {
+                display: true,
+                text: '１枚目の偏光板を透過した後とシミュレーションのスペクトルの比較',
+            }
         },
         animation: false,
         scales: {
@@ -479,12 +485,12 @@ function drawGraph() {
         labels: waveLengthArr,
         datasets: [
             {
-                label: "スペクトルのデータ",  //options.legend で凡例の表示・非表示を設定できる
-                data: osArr,
-                backgroundColor: "#0",  //点の色
-                borderColor: "#0",
+                label: "１枚目の偏光板を透過した時のスペクトル",  //options.legend で凡例の表示・非表示を設定できる
+                data: osArrOrigin,
+                backgroundColor: "rgba(" + rBefore + "," + gBefore + "," + bBefore + ",0.5)",  //点の色
+                borderColor: "rgba(" + rBefore + "," + gBefore + "," + bBefore + ",1)",
                 pointRadius: 0,
-                fill: false,
+                fill: 'start',
                 showLine: true
 
             },
@@ -495,15 +501,12 @@ function drawGraph() {
 
     //グラフの表示設定
     let subOptions = {
-
-        title: {
-            display: true,
-            text: "グラフの見出し",
-            fontSize: 20,
-        },
-
-        legend: {
-            display: true,  //凡例を表示
+        plugins: {
+            legend: true,
+            title: {
+                display: true,
+                text: '保存したスペクトルデータの比較'
+            }
         },
         animation: false,
         scales: {
