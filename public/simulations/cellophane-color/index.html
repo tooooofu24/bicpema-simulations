@@ -69,6 +69,15 @@
                     </canvas>
                 </div>
                 <div id="subSpectrumGraphParent">
+                    <div class="position-absolute end-0 m-1 bottom-0" id="graphButton">
+                        <button type="button" class="btn btn-primary" id="addToGraphButton">
+                            追加
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                            data-bs-target="#dataEditModal" id="detailButton">
+                            詳細
+                        </button>
+                    </div>
                     <canvas class="w-100 h-100" id="subSpectrumGraph">
                     </canvas>
                 </div>
@@ -139,6 +148,31 @@
                 </div>
             </div>
         </div>
+
+
+
+
+
+        <div class="modal fade" id="dataEditModal" tabindex="-1" aria-labelledby="dataEditModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="dataEditModalLabel">グラフのデータの詳細</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
     <!-- jQuery -->
     <script language="javascript" src="../../assets/js/jquery-3.6.4.min.js" type="text/javascript"></script>

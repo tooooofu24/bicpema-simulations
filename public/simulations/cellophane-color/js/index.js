@@ -76,6 +76,7 @@ let cellophaneNum; // セロハンの枚数
 let cellophaneArr = []; // セロハンのデータ配列
 let rBefore = 0, gBefore = 0, bBefore = 0; // 一枚目の偏光板を透過したときのrgb要素
 let rAfter = 0, gAfter = 0, bAfter = 0; // 二枚目の偏光板を透過したときのrgb要素
+let savedSpectrumData = []
 
 // 初期値やシミュレーションの設定
 function initValue() {
