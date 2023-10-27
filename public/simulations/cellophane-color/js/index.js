@@ -160,9 +160,12 @@ function mai_r_theta(theta) {
     return [[cos(theta), sin(theta)], [-sin(theta), cos(theta)]]
 }
 
-// ジョーンズベクトル
+// ジョーンズマトリクス
 function jhons(theta) {
-    return [[sin(theta) ** 2, -sin(theta) * cos(theta)], [-sin(theta) * cos(theta), cos(theta) ** 2]]
+    return [
+        [sin(theta) ** 2, -sin(theta) * cos(theta)],
+        [-sin(theta) * cos(theta), cos(theta) ** 2]
+    ]
 }
 
 // RGBへの変換
@@ -230,7 +233,7 @@ function afterColorCalculate() {
         let referenceAngle = select("#rotateInput-1")
         let a = radians(referenceAngle.value()) // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
         let firstCellophaneNum = select("#numInput-1") // セロハン１組目の枚数
-        E_1 = [[sin(a)], [cos(a)]]
+        E_1 = [[-sin(a)], [cos(a)]]
 
         // それぞれの波長毎に計算
         for (let i = 380; i <= 750; i++) {
