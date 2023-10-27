@@ -439,59 +439,32 @@ function drawGraph() {
     //グラフの表示設定
     let mainOptions = {
         plugins: {
-            legend: {
-                labels: {
-                    font: {
-                        size: 16
-                    }
-                }
-            },
+            legend: true,
             title: {
                 display: true,
                 text: '１枚目の偏光板を透過した後とシミュレーションのスペクトルの比較',
-                font: {
-                    size: 20
-                }
             }
         },
-        responsive: true,
-        maintainAspectRatio: false,
         animation: false,
         scales: {
             x: {
                 display: true,
                 title: {
                     display: true,
-                    text: '波長(nm)',
-                    font: {
-                        size: 16
-                    }
+                    text: '波長(nm)'
                 },
                 max: 750,
-                min: 380,
-                ticks: {
-                    font: {
-                        size: 14
-                    }
-                }
+                min: 380
             },
             y: {
                 display: true,
                 title: {
                     display: true,
-                    text: '強度(a.u.)',
-                    font: {
-                        size: 16
-                    }
+                    text: '強度(a.u.)'
                 },
                 max: 1,
-                min: 0,
-                ticks: {
-                    font: {
-                        size: 14
-                    }
-                }
-            },
+                min: 0
+            }
         },
     };
 
@@ -531,62 +504,32 @@ function drawGraph() {
 
     //グラフの表示設定
     let subOptions = {
-
         plugins: {
-            legend: {
-                labels: {
-                    font: {
-                        size: 16
-                    }
-                }
-            },
+            legend: true,
             title: {
                 display: true,
-                text: '保存したスペクトルデータの比較',
-                font: {
-                    size: 20
-                }
-            },
-
+                text: '保存したスペクトルデータの比較'
+            }
         },
         animation: false,
-        responsive: true,
-        maintainAspectRatio: false,
         scales: {
             x: {
                 display: true,
                 title: {
                     display: true,
-                    text: '波長(nm)',
-                    font: {
-                        size: 16
-                    }
-
+                    text: '波長(nm)'
                 },
                 max: 750,
-                min: 380,
-                ticks: {
-                    font: {
-                        size: 14
-                    }
-                }
+                min: 380
             },
             y: {
                 display: true,
                 title: {
                     display: true,
-                    text: '強度(a.u.)',
-                    font: {
-                        size: 16
-                    }
+                    text: '強度(a.u.)'
                 },
                 max: 1,
-                min: 0,
-                ticks: {
-                    font: {
-                        size: 14
-                    }
-                }
+                min: 0
             }
         },
     };
