@@ -76,7 +76,6 @@ let cellophaneNum; // セロハンの枚数
 let cellophaneArr = []; // セロハンのデータ配列
 let rBefore = 0, gBefore = 0, bBefore = 0; // 一枚目の偏光板を透過したときのrgb要素
 let rAfter = 0, gAfter = 0, bAfter = 0; // 二枚目の偏光板を透過したときのrgb要素
-let savedSpectrumData = []
 
 // 初期値やシミュレーションの設定
 function initValue() {
@@ -507,99 +506,4 @@ function drawGraph() {
     let mainCtx = document.getElementById("mainSpectrumGraph");
     mainChartObj = new Chart(mainCtx, mainChartsetup);
 
-
-    if (typeof subChartObj !== 'undefined' && subChartObj) {
-        subChartObj.destroy();
-    }
-    //データ
-    let subData = {
-        labels: waveLengthArr,
-        datasets: [
-            {
-                label: "１枚目の偏光板を透過した時のスペクトル",  //options.legend で凡例の表示・非表示を設定できる
-                data: osArrOrigin,
-                backgroundColor: "rgba(" + rBefore + "," + gBefore + "," + bBefore + ",0.5)",  //点の色
-                borderColor: "rgba(" + rBefore + "," + gBefore + "," + bBefore + ",1)",
-                pointRadius: 0,
-                fill: 'start',
-                showLine: true
-
-            },
-
-        ],
-
-    };
-
-    //グラフの表示設定
-    let subOptions = {
-
-        plugins: {
-            legend: {
-                labels: {
-                    font: {
-                        size: 16
-                    }
-                }
-            },
-            title: {
-                display: true,
-                text: '保存したスペクトルデータの比較',
-                font: {
-                    size: 20
-                }
-            },
-
-        },
-        animation: false,
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                display: true,
-                title: {
-                    display: true,
-                    text: '波長(nm)',
-                    font: {
-                        size: 16
-                    }
-
-                },
-                max: 750,
-                min: 380,
-                ticks: {
-                    font: {
-                        size: 14
-                    }
-                }
-            },
-            y: {
-                display: true,
-                title: {
-                    display: true,
-                    text: '強度(a.u.)',
-                    font: {
-                        size: 16
-                    }
-                },
-                max: 1,
-                min: 0,
-                ticks: {
-                    font: {
-                        size: 14
-                    }
-                }
-            }
-        },
-    };
-
-    let subChartsetup = {
-        type: "scatter",
-        data: subData,
-        options: subOptions,
-    };
-
-    //canvasにグラフを描画
-    //Chart.Scatter() で散布図になる
-    let subCtx = document.getElementById("subSpectrumGraph");
-    subChartObj = new Chart(subCtx, subChartsetup);
 }

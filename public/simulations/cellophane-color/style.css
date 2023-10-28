@@ -23,9 +23,8 @@
      height: 90vh;
  }
 
- #mainSpectrumGraphParent,
- #subSpectrumGraphParent {
-     height: 40vh;
+ #mainSpectrumGraphParent {
+     height: 80vh;
  }
 
  #color {
@@ -33,9 +32,6 @@
      font-size: 16px;
  }
 
- #graphButton {
-     top: 60vh;
- }
 
  .color-display {
      height: 5vh;
