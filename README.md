@@ -6,6 +6,7 @@ bicpema の実験データを置くリポジトリ
 
 ```
 .github GitHubの設定ディレクトリ
+.vscode VSCodeの設定ディレクトリ
 public  GitHub Pagesの公開ディレクトリ
   ├─articles 紀要論文のPDF
   ├─assets 共通ファイルを置く
@@ -15,9 +16,7 @@ public  GitHub Pagesの公開ディレクトリ
   ├─404.html 404ページ
   └─index.html トップページ
 .editorconfig エディタの設定ファイル
-.firebaserc Firebaseの設定ファイル
 .gitignore Gitの設定ファイル
-firebase.json Firebaseの設定ファイル
 README.md このファイル
 ```
 
