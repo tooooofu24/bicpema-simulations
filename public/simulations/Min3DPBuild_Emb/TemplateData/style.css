@@ -1,14 +1,68 @@
-body { padding: 0; margin: 0 }
-#unity-container { position: absolute }
+body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
 
-#unity-canvas { background: #FFFFFF }
-#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
-#unity-logo { width: 154px; height: 130px; background: url('DiamondLogo.png') no-repeat center }
-#unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('Progress_emp_dark.png') no-repeat center }
-#unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('Progress_full_dark.png') no-repeat center }    
-#unity-footer { position: relative }
+#unity-container {
+    position: absolute
+}
 
-#unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
+#unity-canvas {
+    background: #FFFFFF
+}
 
-#unity-container{position: absolute; width: 100%; height: 100%}
-#unity-canvas{background: #231F20; width:100%; height:100%}
+#unity-loading-bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: none
+}
+
+#unity-logo {
+    width: 154px;
+    height: 130px;
+    background: url('DiamondLogo.png') no-repeat center
+}
+
+#unity-progress-bar-empty {
+    width: 141px;
+    height: 18px;
+    margin-top: 10px;
+    margin-left: 6.5px;
+    background: url('Progress_emp_dark.png') no-repeat center
+}
+
+#unity-progress-bar-full {
+    width: 0%;
+    height: 18px;
+    margin-top: 10px;
+    background: url('Progress_full_dark.png') no-repeat center
+}
+
+#unity-footer {
+    position: relative
+}
+
+#unity-warning {
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%);
+    background: white;
+    padding: 10px;
+    display: none
+}
+
+#unity-container {
+    position: absolute;
+    width: 100%;
+    height: 100%
+}
+
+#unity-canvas {
+    background: #231F20;
+    width: 100%;
+    height: 100%
+}
