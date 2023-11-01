@@ -38,26 +38,27 @@ function buttonSettings() {
   startButton
     .mousePressed(moveButtonAction)
     .size(windowWidth / 3, windowHeight / 10)
-    .position(0, height+windowHeight/10)
-    .addClass("btn btn-outline-primary")
+    .position(0, height + windowHeight / 10)
+    .addClass("btn btn-outline-primary fs-2")
     .parent(backgroundDiv);
   stopButton
     .mousePressed(moveButtonAction)
     .size(windowWidth / 3, windowHeight / 10)
-    .position(0, height+windowHeight/10)
-    .addClass("btn btn-outline-danger")
+    .position(0, height + windowHeight / 10)
+    .addClass("btn btn-outline-danger fs-2")
     .hide()
     .parent(backgroundDiv);
   resetButton
     .mousePressed(resetButtonAction)
     .size(windowWidth / 3, windowHeight / 10)
-    .position(windowWidth / 3, height+windowHeight/10)
-    .addClass("btn btn-outline-secondary")
+    .position(windowWidth / 3, height + windowHeight / 10)
+    .addClass("btn btn-outline-secondary fs-2")
     .parent(backgroundDiv);
   speedButton
     .size(windowWidth / 3, windowHeight / 10)
-    .position((2 * windowWidth) / 3, height+windowHeight/10)
+    .position((2 * windowWidth) / 3, height + windowHeight / 10)
     .style("text-align", "center")
+    .addClass("fs-2")
     .parent(backgroundDiv);
 }
 

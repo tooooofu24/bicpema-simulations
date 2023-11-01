@@ -91,7 +91,7 @@ function placeNameInputFunction() {
         }
         document.getElementById("placeDataInput" + str(i + 1))
             .onclick = function () {
-                let win = window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500")
+                let win = window.open("/simulations/3d-strata/child-window.html?" + placeName, "window_name", "width=1000,height=500")
             };
     }
 
@@ -127,7 +127,7 @@ function placeAddButtonFunction() {
     // サブウィンドウを開く機構の付与
     document.getElementById("placeDataInput" + str(newPlaceNum))
         .onclick = function () {
-            let win = window.open("child-window.html?" + placeName, "window_name", "width=1000,height=500")
+            let win = window.open("/simulations/3d-strata/child-window.html?" + placeName, "window_name", "width=1000,height=500")
         };
 
     placeRefreshFunction()
@@ -466,7 +466,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
     pop()
     for (let y = 0; y <= 1000; y += 50) {
         line(-500, 0, y - 500, 500, 0, y - 500)
-        line(-500, 0, y - 500, -500,500, y - 500)
+        line(-500, 0, y - 500, -500, 500, y - 500)
         line(500, 0, y - 500, 500, 500, y - 500)
         if (y % 100 == 0) {
             push()
@@ -576,8 +576,8 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
         if (kind == "ローム層") fill(112, 58, 21, 200)
         if (kind == "その他の層") fill(0, 200)
         push()
-        translate(x, map(int(z) + zLength / 2,zMin,zMax,0,500), y)
-        box(50, map(zLength,zMin,zMax,0,500), 50)
+        translate(x, map(int(z) + zLength / 2, zMin, zMax, 0, 500), y)
+        box(50, map(zLength, zMin, zMax, 0, 500), 50)
         pop()
     }
     fill(0)
@@ -683,12 +683,12 @@ function draw() {
             let p3Max = select4.substr(select4.indexOf('m-') + 2);
             p3Max = p3Max.substr(0, p3Max.indexOf('m'))
 
-            p1Min = map(p1Min,zMin,zMax,0,500)
-            p1Max = map(p1Max,zMin,zMax,0,500)
-            p2Min = map(p2Min,zMin,zMax,0,500)
-            p2Max = map(p2Max,zMin,zMax,0,500)
-            p3Min = map(p3Min,zMin,zMax,0,500)
-            p3Max = map(p3Max,zMin,zMax,0,500)
+            p1Min = map(p1Min, zMin, zMax, 0, 500)
+            p1Max = map(p1Max, zMin, zMax, 0, 500)
+            p2Min = map(p2Min, zMin, zMax, 0, 500)
+            p2Max = map(p2Max, zMin, zMax, 0, 500)
+            p3Min = map(p3Min, zMin, zMax, 0, 500)
+            p3Max = map(p3Max, zMin, zMax, 0, 500)
 
             if (select1 == "砂岩層") fill(215, 205, 166, 100)
             if (select1 == "泥岩層") fill(156, 154, 143, 100)
