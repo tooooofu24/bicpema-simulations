@@ -51,7 +51,7 @@ function setup() {
 }
 
 function draw() {
-    background(255);
+    background(100);
     if (clicked_count == true) {
         count++;
     }
@@ -235,5 +235,5 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 function fullScreen() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(windowWidth, 9 * windowHeight / 10);
 }
