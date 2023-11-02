@@ -25,8 +25,8 @@ function fullScreen() {
 let cmfTable, osTable;
 // 外部ファイルの読み込み
 function preload() {
-    cmfTable = loadTable("./data/cmf.csv", "csv", "header") // 等色関数のデータ
-    osTable = loadTable("./data/os.csv", "csv", "header") // 偏光板を一枚通したときの波長毎の強度分布
+    cmfTable = loadTable("/simulations/cellophane-color/data/cmf.csv", "csv", "header") // 等色関数のデータ
+    osTable = loadTable("/simulations/cellophane-color/data/os.csv", "csv", "header") // 偏光板を一枚通したときの波長毎の強度分布
 }
 
 
