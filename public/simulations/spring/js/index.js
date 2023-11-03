@@ -1,5 +1,9 @@
-let spring,
-    ball;
+let springImg,
+    ballImg;
+function preload() {
+    springImg = loadImage("/assets/img/springImg.png");
+    ballImg = loadImage("/assets/img/metalBallImg.png");
+}
 
 let startButton,
     stopButton,
@@ -12,33 +16,6 @@ let startButton,
     weightButton2,
     amplitudeButton1,
     amplitudeButton2;
-
-let clickedCount,
-    resetCount;
-
-let fps,
-    count;
-
-let spring1,
-    spring2;
-
-let graph1,
-    graph2,
-    graphCanvas1,
-    graphCanvas2,
-    chart1,
-    chart2;
-
-let countData
-let data1,
-    data2;
-
-
-function preload() {
-    spring = loadImage("https://live.staticflickr.com/65535/51567567161_a3af5e269e_o.png");
-    ball = loadImage("https://live.staticflickr.com/65535/51567551611_daec8ec816_o.png");
-}
-
 function buttonCreation() {
     startButton = select("#startButton")
     stopButton = select("#stopButton")
@@ -53,13 +30,8 @@ function buttonCreation() {
     amplitudeButton2 = select("#amplitudeButton2")
 }
 
-function buttonSettings() {
-    startButton.mousePressed(moveButtonAction)
-    stopButton.mousePressed(moveButtonAction)
-    resetButton.mousePressed(resetButtonAction)
-}
-
-
+let clickedCount,
+    resetCount;
 function moveButtonAction() {
     if (clickedCount == false) {
         clickedCount = true;
@@ -68,27 +40,34 @@ function moveButtonAction() {
         clickedCount = false;
     }
 }
-
 function resetButtonAction() {
     initSettings()
-    clickedCount = false;
-    resetCount = true;
+}
+function buttonSettings() {
+    startButton.mousePressed(moveButtonAction)
+    stopButton.mousePressed(moveButtonAction)
+    resetButton.mousePressed(resetButtonAction)
+}
+
+let countData,
+    data1,
+    data2,
+    fps,
+    count,
+    spring1,
+    spring2;
+function initSettings() {
+    springImg.resize(width / 20, height / 4);
+    ballImg.resize(height / 15, 0);
     countData = new Array();
     countData.push(0)
     data1 = new Array();
     data2 = new Array();
-}
-
-function initSettings() {
-    spring.resize(width / 20, height / 4);
-    ball.resize(height / 15, 0);
     clickedCount = false;
     resetCount = true;
     fps = 60;
     count = 0;
     frameRate(fps);
-    textAlign(CENTER, CENTER);
-    textSize(width / 100);
     spring1 = new Spring(konstantButton1.value(), weightButton1.value(), combiButton1.value(), amplitudeButton1.value(), 1);
     spring2 = new Spring(konstantButton2.value(), weightButton2.value(), combiButton2.value(), amplitudeButton2.value(), 2);
 }
@@ -96,20 +75,14 @@ function initSettings() {
 function setup() {
     fullScreen();
     buttonCreation()
-    initSettings()
     buttonSettings()
+    initSettings()
     graphCreation()
     graphSettings()
-    countData = new Array();
-    countData.push(0)
-    data1 = new Array();
-    data2 = new Array();
 }
 
 function draw() {
-    background(200)
-    spring1 = new Spring(konstantButton1.value(), weightButton1.value(), combiButton1.value(), amplitudeButton1.value(), 1);
-    spring2 = new Spring(konstantButton2.value(), weightButton2.value(), combiButton2.value(), amplitudeButton2.value(), 2);
+    background(255)
     spring1._draw();
     spring2._draw();
     if (clickedCount == true) {
@@ -121,8 +94,16 @@ function draw() {
         }
     }
     graphDraw()
+    line(0, height / 2, width, height / 2)
 }
 
+
+let graph1,
+    graph2,
+    graphCanvas1,
+    graphCanvas2,
+    chart1,
+    chart2;
 function graphCreation() {
     graph1 = createElement("div")
     graph2 = createElement("div")
@@ -204,6 +185,7 @@ class Spring {
         }
         this.posx = this.amplitude * -cos(sqrt(s_konstant / this.weight) * (count / fps) + PI / 2);
         this.posy = this.amplitude * sin(sqrt(s_konstant / this.weight) * (count / fps) + PI / 2) + height / 4;
+        console.log(this.posx)
         let d;
         if (this.number == 1) {
             d = 0;
@@ -213,33 +195,33 @@ class Spring {
         }
         if (this.combination == 1) {
             line(((width / 4)) / 2, d, ((width / 4)) / 2, 10 + d);
-            image(spring, ((width / 4)) / 2 - spring.width / 2, 10 + d, spring.width, this.posy - 20 - ball.height / 2);
-            line(((width / 4)) / 2, this.posy - 10 - ball.height / 2 + d, ((width / 4)) / 2, this.posy - ball.height / 2 + d);
+            image(springImg, ((width / 4)) / 2 - springImg.width / 2, 10 + d, springImg.width, this.posy - 20 - ballImg.height / 2);
+            line(((width / 4)) / 2, this.posy - 10 - ballImg.height / 2 + d, ((width / 4)) / 2, this.posy - ballImg.height / 2 + d);
         }
         if (this.combination == 2) {
             line(((width / 4)) / 2, d, ((width / 4)) / 2, 10 + d);
             line(((width / 4)) / 4, 10 + d, 3 * ((width / 4)) / 4, 10 + d);
             line(((width / 4)) / 4, 10 + d, ((width / 4)) / 4, 15 + d);
             line(3 * ((width / 4)) / 4, 10 + d, 3 * ((width / 4)) / 4, 15 + d);
-            image(spring, ((width / 4)) / 4 - spring.width / 2, 15 + d, spring.width, this.posy - 30 - ball.height / 2);
-            image(spring, 3 * ((width / 4)) / 4 - spring.width / 2, 15 + d, spring.width, this.posy - 30 - ball.height / 2);
-            line(((width / 4)) / 4, this.posy - 15 - ball.height / 2 + d, ((width / 4)) / 4, this.posy - 10 - ball.height / 2 + d);
-            line(3 * ((width / 4)) / 4, this.posy - 15 - ball.height / 2 + d, 3 * ((width / 4)) / 4, this.posy - 10 - ball.height / 2 + d);
-            line(((width / 4)) / 4, this.posy - 10 - ball.height / 2 + d, 3 * ((width / 4)) / 4, this.posy - 10 - ball.height / 2 + d);
-            line(((width / 4)) / 2, this.posy - 10 - ball.height / 2 + d, ((width / 4)) / 2, this.posy - ball.height / 2 + d);
+            image(springImg, ((width / 4)) / 4 - springImg.width / 2, 15 + d, springImg.width, this.posy - 30 - ballImg.height / 2);
+            image(springImg, 3 * ((width / 4)) / 4 - springImg.width / 2, 15 + d, springImg.width, this.posy - 30 - ballImg.height / 2);
+            line(((width / 4)) / 4, this.posy - 15 - ballImg.height / 2 + d, ((width / 4)) / 4, this.posy - 10 - ballImg.height / 2 + d);
+            line(3 * ((width / 4)) / 4, this.posy - 15 - ballImg.height / 2 + d, 3 * ((width / 4)) / 4, this.posy - 10 - ballImg.height / 2 + d);
+            line(((width / 4)) / 4, this.posy - 10 - ballImg.height / 2 + d, 3 * ((width / 4)) / 4, this.posy - 10 - ballImg.height / 2 + d);
+            line(((width / 4)) / 2, this.posy - 10 - ballImg.height / 2 + d, ((width / 4)) / 2, this.posy - ballImg.height / 2 + d);
         }
         if (this.combination == 3) {
             line(((width / 4)) / 2, d, ((width / 4)) / 2, 10 + d);
-            image(spring, ((width / 4)) / 2 - spring.width / 2, 10 + d, spring.width, (this.posy - 30 - ball.height / 2) / 2);
-            line(((width / 4)) / 2, (this.posy - 30 - ball.height / 2) / 2 + 10 + d, ((width / 4)) / 2, (this.posy - 30 - ball.height / 2) / 2 + 20 + d);
-            image(spring, ((width / 4)) / 2 - spring.width / 2, (this.posy - 30 - ball.height / 2) / 2 + 20 + d, spring.width, (this.posy - 30 - ball.height / 2) / 2);
-            line(((width / 4)) / 2, this.posy - 10 - ball.height / 2 + d, ((width / 4)) / 2, this.posy - ball.height / 2 + d);
+            image(springImg, ((width / 4)) / 2 - springImg.width / 2, 10 + d, springImg.width, (this.posy - 30 - ballImg.height / 2) / 2);
+            line(((width / 4)) / 2, (this.posy - 30 - ballImg.height / 2) / 2 + 10 + d, ((width / 4)) / 2, (this.posy - 30 - ballImg.height / 2) / 2 + 20 + d);
+            image(springImg, ((width / 4)) / 2 - springImg.width / 2, (this.posy - 30 - ballImg.height / 2) / 2 + 20 + d, springImg.width, (this.posy - 30 - ballImg.height / 2) / 2);
+            line(((width / 4)) / 2, this.posy - 10 - ballImg.height / 2 + d, ((width / 4)) / 2, this.posy - ballImg.height / 2 + d);
         }
-        image(ball, ((width / 4)) / 2 - ball.width / 2, this.posy - ball.height / 2 + d);
+        image(ballImg, ((width / 4)) / 2 - ballImg.width / 2, this.posy - ballImg.height / 2 + d);
         noFill();
         ellipse((width / 4) + ((width / 4)) / 2, height / 4 + d, this.amplitude * 2, this.amplitude * 2);
         line((width / 4) + ((width / 4)) / 2, height / 4 + d, (width / 4) + ((width / 4)) / 2 + this.posx, this.posy + d);
-        image(ball, (width / 4) + ((width / 4)) / 2 - ball.width / 2 + this.posx, this.posy - ball.height / 2 + d);
+        image(ballImg, (width / 4) + ((width / 4)) / 2 - ballImg.width / 2 + this.posx, this.posy - ballImg.height / 2 + d);
         stroke(0, 100);
     }
 }
