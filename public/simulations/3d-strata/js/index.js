@@ -37,12 +37,14 @@ let placeAddButton,
 let strataAddButton,
     strataRemoveButton;
 
+let loadTestDataButton;
 // DOM要素の生成
 function elCreate() {
     placeAddButton = select("#placeAddButton")
     placeRemoveButton = select("#placeRemoveButton")
     strataAddButton = select("#strataAddButton")
     strataRemoveButton = select("#strataRemoveButton")
+    loadTestDataButton = select("#loadTestDataButton")
 }
 
 // 地点のデータを入力するインプットの連想配列
@@ -345,12 +347,96 @@ function strataRemoveButtonFunction() {
     if (strataSelect.childElementCount > 0) strataSelect.removeChild(strataSelect.lastChild);
 }
 
+function loadTestDataButtonFunction() {
+    if (Object.keys(dataInputArr).length == 0) {
+        let name_arr = [
+            "竹ノ塚小",
+            "西保木間小",
+            "伊興中",
+            "伊興小"
+        ]
+        let place_arr = [
+            [
+                35.473517,
+                35.474161,
+                35.475830,
+                35.474613
+            ],
+            [
+                139.471927,
+                139.475633,
+                139.465208,
+                139.465656
+            ]
+        ]
+        let test_data = {
+            "地点1": [
+                [-2.6, - 1.5, "泥岩層"],
+                [- 1.5, 2.83, "砂岩層"],
+                [2.83, 20.65, "泥岩層"],
+                [20.65, 21.2, "砂岩層"],
+                [21.2, 23.4, "泥岩層"],
+                [23.4, 28.3, "れき岩層"],
+                [28.3, 37.02, "砂岩層"],
+            ],
+            "地点2": [
+                [-3, - 2.6, "泥岩層"],
+                [- 2.6, 0.9, "砂岩層"],
+                [0.9, 15.6, "泥岩層"],
+                [15.6, 19.1, "砂岩層"],
+                [19.1, 21.5, "泥岩層"],
+                [21.5, 24.8, "砂岩層"],
+                [24.8, 27.1, "れき岩層"],
+                [27.1, 32.2, "砂岩層"]
+            ],
+            "地点3": [
+                [-2.3, - 0.4, "砂岩層"],
+                [- 0.4, 2.8, "泥岩層"],
+                [2.8, 4.6, "砂岩層"],
+                [4.6, 9, "泥岩層"],
+                [9, 13.7, "砂岩層"],
+                [13.7, 16.7, "泥岩層"],
+                [16.7, 30.6, "砂岩層"],
+                [30.6, 31.9, "泥岩層"],
+                [31.9, 41.44, "砂岩層"]
+
+            ],
+            "地点4": [
+                [-3.86, - 2.76, "泥岩層"],
+                [- 2.76, 0.69, "砂岩層"],
+                [0.69, 6.44, "泥岩層"],
+                [6.44, 8.24, "砂岩層"],
+                [8.24, 20.54, "泥岩層"],
+                [20.54, 26.19, "れき岩層"],
+                [26.19, 30.04, "砂岩層"],
+                [30.04, 30.44, "泥岩層"],
+                [30.44, 41.02, "砂岩層"]
+
+            ]
+        }
+        for (let i = 0; i < 4; i++) {
+            placeAddButtonFunction()
+            let el = document.getElementById("placeNameInput" + (i + 1))
+            let pa1 = el.children[0];
+            let pl = pa1.children[1]
+            pl.value = name_arr[i]
+            let pa2 = el.children[1];
+            let vl = pa2.children
+            vl[1].value = place_arr[0][i]
+            vl[3].value = place_arr[1][i]
+            dataInputArr["地点" + (i + 1)].layer = test_data["地点" + (i + 1)]
+        }
+        placeNameInputFunction()
+    }
+}
+
 // DOM要素の設定
 function elInit() {
     placeAddButton.mousePressed(placeAddButtonFunction)
     placeRemoveButton.mousePressed(placeRemoveButtonFunction)
     strataAddButton.mousePressed(strataAddButtonFunction)
     strataRemoveButton.mousePressed(strataRemoveButtonFunction)
+    loadTestDataButton.mousePressed(loadTestDataButtonFunction)
 }
 
 // 初期値やシミュレーションの設定
@@ -380,12 +466,12 @@ function calculateValue() {
         let latitude = data.y.value()
         let longitude = data.x.value()
         if (latitude != "") {
-            latitudeArr.push(int(latitude))
+            latitudeArr.push(latitude)
         } else {
             latitudeArr.push(0)
         }
         if (longitude != "") {
-            longitudeArr.push(int(longitude))
+            longitudeArr.push(longitude)
         } else {
             longitudeArr.push(0)
         }
@@ -437,7 +523,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
             translate(-500, 0, 500)
             let xMap = map(x, 0, 1000, xMin, xMax)
             if (xMin == xMax) xMap = x / 100
-            text(nf(xMap, 1, 2), x, -10)
+            text(nf(xMap, 1, 4), x, -10)
             pop()
         }
     }
@@ -454,9 +540,9 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
         if (z % 100 == 0) {
             push()
             translate(0, 0, -500)
-            let zMap = map(z, 0, 500, zMin, zMax)
+            let zMap = map(z, 0, 500, 0, zMax)
             if (zMin == zMax) zMap = z
-            text(nf(zMap, 1, 2), -500, z)
+            text(nf(zMap, 1, 4), -500, z)
             pop()
         }
     }
@@ -474,7 +560,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
             if (yMin == yMax) yMap = (1000 - y) / 100
             rotateY(PI / 2)
             translate(-y + 500, 0, 500)
-            text(nf(yMap, 1, 2), 0, -10)
+            text(nf(yMap, 1, 4), 0, -10)
             pop()
         }
     }
@@ -576,8 +662,8 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
         if (kind == "ローム層") fill(112, 58, 21, 200)
         if (kind == "その他の層") fill(0, 200)
         push()
-        translate(x, map(int(z) + zLength / 2, zMin, zMax, 0, 500), y)
-        box(50, map(zLength, zMin, zMax, 0, 500), 50)
+        translate(x, map(z, 0, zMax, 0, 500) + map(zLength, 0, zMax, 0, 500) / 2, y)
+        box(50, map(zLength, 0, zMax, 0, 500), 50)
         pop()
     }
     fill(0)
@@ -585,11 +671,12 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     translate(x, 0, y)
     rotateY(radians(rotateTime))
     if (min(zArr) < 0) {
-        translate(0, min(zArr), 0)
+        translate(0, map(min(zArr), 0, zMax, 0, 500) - 25, 0)
+    } else {
+        translate(0, -25, 0)
     }
     text(name, 0, -55)
     fill(255, 0, 0)
-    translate(0, -25, 0)
     cone(10, 50, 10, 3, true);
     pop()
 }
@@ -623,7 +710,6 @@ function draw() {
     if (zMin == Infinity) zMin = 0
     let zMax = coordinateData.z.max
     if (zMax == -Infinity) zMax = 0
-
     backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax)
     drawDirMark(-600, -600)
 
@@ -733,3 +819,4 @@ class DOM {
         this.placeDataInput = createA("javascript:void(0)", "地点" + str(this.n) + "のデータを編集").class("btn btn-outline-primary mb-2").parent("placePointDataInput").id("placeDataInput" + str(this.n))
     }
 }
+
