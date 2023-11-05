@@ -769,12 +769,12 @@ function draw() {
             let p3Max = select4.substr(select4.indexOf('m-') + 2);
             p3Max = p3Max.substr(0, p3Max.indexOf('m'))
 
-            p1Min = map(p1Min, zMin, zMax, 0, 500)
-            p1Max = map(p1Max, zMin, zMax, 0, 500)
-            p2Min = map(p2Min, zMin, zMax, 0, 500)
-            p2Max = map(p2Max, zMin, zMax, 0, 500)
-            p3Min = map(p3Min, zMin, zMax, 0, 500)
-            p3Max = map(p3Max, zMin, zMax, 0, 500)
+            p1Min = map(p1Min, 0, zMax, 0, 500)
+            p1Max = map(p1Max, 0, zMax, 0, 500)
+            p2Min = map(p2Min, 0, zMax, 0, 500)
+            p2Max = map(p2Max, 0, zMax, 0, 500)
+            p3Min = map(p3Min, 0, zMax, 0, 500)
+            p3Max = map(p3Max, 0, zMax, 0, 500)
 
             if (select1 == "砂岩層") fill(215, 205, 166, 100)
             if (select1 == "泥岩層") fill(156, 154, 143, 100)
