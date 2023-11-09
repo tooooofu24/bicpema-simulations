@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Unity WebGL Player | Mineral 3D PB</title>
-  <link rel="shortcut icon" href="/simulations/Min3DPBuild_Dal/TemplateData/DiamondFavicon.png">
-  <link rel="stylesheet" href="/simulations/Min3DPBuild_Dal/TemplateData/style.css">
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="TemplateData/style.css">
 </head>
 
 <body>
@@ -18,11 +18,11 @@
         <div id="unity-progress-bar-full"></div>
       </div>
     </div>
-    <div id="unity-warning"></div>
+    <div id="unity-warning"> </div>
     <div id="unity-footer">
       <div id="unity-webgl-logo"></div>
       <div id="unity-fullscreen-button"></div>
-      <div id="unity-build-title"></div>
+      <div id="unity-build-title">Mineral 3D PB</div>
     </div>
   </div>
   <script>
@@ -58,11 +58,11 @@
     }
 
     var buildUrl = "/simulations/Min3DPBuild_Dal/Build/";
-    var loaderUrl = buildUrl + "/Min3DPBuild.loader.js";
+    var loaderUrl = buildUrl + "/Min3DPBuild_Dal.loader.js";
     var config = {
-      dataUrl: buildUrl + "/Min3DPBuild.data",
-      frameworkUrl: buildUrl + "/Min3DPBuild.framework.js",
-      codeUrl: buildUrl + "/Min3DPBuild.wasm",
+      dataUrl: buildUrl + "/Min3DPBuild_Dal.data",
+      frameworkUrl: buildUrl + "/Min3DPBuild_Dal.framework.js",
+      codeUrl: buildUrl + "/Min3DPBuild_Dal.wasm",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "Mineral 3D PB",
@@ -79,7 +79,7 @@
 
     config.devicePixelRatio = 1;
 
-    canvas.style.background = "url('" + buildUrl + "/Min3DPBuild.jpg') center / cover";
+    canvas.style.background = "url('" + buildUrl + "/Min3DPBuild_Dal.jpg') center / cover";
     loadingBar.style.display = "block";
 
     var script = document.createElement("script");
