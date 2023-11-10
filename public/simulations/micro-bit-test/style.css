@@ -1,0 +1,17 @@
+#colBox {
+    height: 45%;
+}
+
+#realTimeGraph {
+    background-color: blueviolet;
+    height: 45%;
+}
+
+#plotGraph {
+    background-color: aqua;
+    height: 100%;
+}
+
+#p5Canvas {
+    height: 45%;
+}
