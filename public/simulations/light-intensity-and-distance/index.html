@@ -3,7 +3,7 @@
 <html lang="ja">
 
 <head>
-    <title>マイクロビットの動作テスト</title>
+    <title>光の強度と距離の関係</title>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <!-- p5.min.js -->
@@ -11,14 +11,20 @@
     <!-- p5.dom.min.js -->
     <script language="javascript" src="/assets/js/p5.dom.min.js" type="text/javascript"></script>
     <!-- {simulation name}.js -->
-    <script language="javascript" src="/simulations/micro-bit-test/js/index.js" type="text/javascript"></script>
+    <script language="javascript" src="/simulations/light-intensity-and-distance/js/index.js"
+        type="text/javascript"></script>
     <!-- chart.js -->
     <script crossorigin="anonymous"
         integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
         referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0/dist/chartjs-plugin-streaming.min.js"></script>
     <!-- Bootstrap CSS -->
     <link crossorigin="anonymous" href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/simulations/micro-bit-test/style.css" rel="stylesheet">
+    <link href="/simulations/light-intensity-and-distance/style.css" rel="stylesheet">
     <style>
         body {
             padding: 0;
@@ -58,7 +64,7 @@
                 </svg>
             </a>
             <div class="col-10 navbar-brand text-center simulation-title m-0">
-                <span class="text-white simulation-title-content" style="font-size: 2.5vw;">マイクロビットの動作テスト</span>
+                <span class="text-white simulation-title-content" style="font-size: 2.5vw;">光の強度と距離の関係</span>
             </div>
             <div class="col text-center">
                 <svg class="bi bi-info-circle text-white" fill="currentColor" height="2.5vw" viewbox="0 0 16 16"
@@ -72,11 +78,15 @@
         </div>
     </div>
 
-    <div class="w-100 row m-0" id="colBox">
+    <!-- <div class="w-100 row m-0" id="colBox">
         <div class="w-50 col p-0" id="p5Canvas"></div>
         <div class="w-50 col p-0" id="plotGraph"></div>
     </div>
-    <div class="w-100 p-0" id="realTimeGraph"></div>
+    <div class="w-100 p-0" id="realTimeGraph"></div> -->
+    <h1>Web Serial（グラフ化）</h1>
+    <button onclick="onStartButtonClick()">接続</button>
+    <br>
+    <canvas id="myChart"></canvas>
     <!-- <a class="btn btn-primary" href="data/microbit-送信用.hex">送信用のhexファイル</a>
     <a class="btn btn-primary" href="data/microbit-受信用.hex">受信用のhexファイル</a>
 

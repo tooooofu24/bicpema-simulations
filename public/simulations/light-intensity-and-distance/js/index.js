@@ -64,3 +64,93 @@ function windowResized() {
     fullScreen()
     initValue()
 }
+
+
+class LineBreakTransformer {
+    constructor() {
+      this.chunks = "";
+    }
+
+    transform(chunk, controller) {
+      this.chunks += chunk;
+      const lines = this.chunks.split("\r\n");
+      this.chunks = lines.pop();
+      lines.forEach((line) => controller.enqueue(line));
+    }
+
+    flush(controller) {
+      controller.enqueue(this.chunks);
+    }
+}
+
+const ctx = document.getElementById("myChart").getContext("2d");
+
+let chart = new Chart(ctx, {
+  type: "line",
+  data: {
+    datasets: [
+      {
+        label: 'name',
+        borderColor: 'rgb(200, 50, 50)',
+        backgroundColor: 'rgba(200, 50, 50, 0.2)',
+        data: [],
+      }
+    ],
+  },
+  options: {
+    scales: {
+      xAxes: [
+        {
+          type: "realtime",
+          realtime: {
+            delay: 500,
+          },
+        },
+      ],
+    },
+  },
+});
+
+async function onStartButtonClick() {
+  try {
+    const port = await navigator.serial.requestPort();
+    await port.open({ baudRate: 115200 });
+
+    while (port.readable) {
+      const textDecoder = new TextDecoderStream();
+      const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+      const reader = textDecoder.readable
+      .pipeThrough(new TransformStream(new LineBreakTransformer()))
+      .getReader();
+
+      try {
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) {
+            console.log("Canceled");
+            break;
+          }
+          console.log(value);
+
+          if(value.slice(0,1)==="name") {
+            chart.data.datasets[1].data.push({
+              x: Date.now(),
+              y: value.slice(1),
+            });
+          }
+          chart.update({
+            preservation: true,
+          });
+        }
+      } catch (error) {
+        console.log("Error: Read");
+        console.log(error);
+      } finally {
+        reader.releaseLock();
+      }
+    }
+  } catch (error) {
+    console.log("Error: Open");
+    console.log(error);
+  }
+}
