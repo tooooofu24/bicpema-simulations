@@ -13,10 +13,6 @@
     <!-- {simulation name}.js -->
     <script language="javascript" src="/simulations/light-intensity-and-distance/js/index.js"
         type="text/javascript"></script>
-    <!-- chart.js -->
-    <script crossorigin="anonymous"
-        integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
-        referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script
@@ -105,18 +101,36 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <button type="button" class="btn btn-primary rounded-pill"
-                        onclick="onStartButtonClick()">micro:bitと同期</button>
-                    <ul>
-                        <li>送信用のmicro:bitをコンピュータと接続する</li>
-                        <li>送信用のhexファイルボタンを押し、ダウンロードする</li>
-                        <li>ダウンロードされたファイルをmicro:bit内にドラッグ＆ドロップする</li>
-                        <li>受信用のmicro:bitをコンピュータと接続する</li>
-                        <li>受信用のhexファイルボタンを押し、ダウンロードする</li>
-                        <li>ダウンロードされたファイルをmicro:bit内にドラッグ＆ドロップする</li>
-                    </ul>
-                    <a class="btn btn-primary" href="data/microbit-送信用.hex">送信用のhexファイル</a>
-                    <a class="btn btn-primary" href="data/microbit-受信用.hex">受信用のhexファイル</a>
+                    <div class="mb-3">
+                        <h2>手順１</h2>
+                        <ul>
+                            <li>送信用のmicro:bit（第一世代）をコンピュータと接続する</li>
+                            <li>送信用のhexファイルボタンを押し、ダウンロードする</li>
+                            <li>ダウンロードされたファイルをmicro:bit内にドラッグ＆ドロップする</li>
+                        </ul>
+                        <a class="btn btn-primary" href="data/microbit-送信用.hex">送信用のhexファイル</a>
+                    </div>
+                    <div class="mb-3">
+                        <h2>手順２</h2>
+                        <ul>
+                            <li>受信用のmicro:bit（第二世代）をコンピュータと接続する</li>
+                            <li>受信用のhexファイルボタンを押し、ダウンロードする</li>
+                            <li>ダウンロードされたファイルをmicro:bit内にドラッグ＆ドロップする</li>
+                        </ul>
+                        <a class="btn btn-primary" href="data/microbit-受信用.hex">受信用のhexファイル</a>
+                    </div>
+                    <div>
+                        <h2>手順３</h2>
+                        <ul>
+                            <li>受信用のmicro:bit（第二世代）をコンピュータと接続したままにする。</li>
+                            <li>送信用のmicro:bit（第一世代）と電池パックを接続する。</li>
+                            <li>電池パックの電源を入れる。</li>
+                            <li>micro:bitと同期ボタンを押してmbed Serial Portを選択する。</li>
+                        </ul>
+                        <button type="button" class="btn btn-primary"
+                            onclick="onStartButtonClick()">micro:bitと同期</button>
+                    </div>
+
                 </div>
 
                 <div class="modal-footer">
@@ -138,10 +152,28 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">実測値のデータ登録</h1>
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
+                    <button class="btn btn-outline-primary mb-3" id="dataAddButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                            class="bi bi-plus-circle pb-1" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                        </svg>
+                        追加
+                    </button>
+                    <button class="btn btn-outline-danger mb-3" id="dataRemoveButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                            class="bi bi-dash-circle pb-1" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                        </svg>
+                        削除
+                    </button>
+                    <div id="dataRedisterParent"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる

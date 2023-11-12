@@ -19,9 +19,9 @@ let chart = new Chart(ctx, {
     data: {
         datasets: [
             {
-                label: '光源の強度',
+                label: '観測した光の強度',
                 borderColor: 'rgb(0, 0, 0)',
-                backgroundColor: 'rgba(50, 50, 50, 0.2)',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
                 data: [],
             }
         ]
@@ -32,7 +32,6 @@ let chart = new Chart(ctx, {
         legend: {
             labels: {
                 fontSize: 16
-
             }
         },
         title: {
@@ -50,7 +49,7 @@ let chart = new Chart(ctx, {
                     },
                     type: "realtime",
                     realtime: {
-                        duration: 15000
+                        duration: 5000
                     }
                 },
             ],
@@ -63,8 +62,8 @@ let chart = new Chart(ctx, {
                     },
                     ticks: {
                         min: 0,
-                        max: 255,
-                        stepSize: 15,
+                        max: 255 * 5,
+                        stepSize: 100,
                         fontSize: 14
                     }
                 },
@@ -91,7 +90,7 @@ async function onStartButtonClick() {
                         console.log("Canceled");
                         break;
                     }
-
+                    console.log(value)
                     if (value.slice(0, 1) === "X") {
                         chart.data.datasets[0].data.push({
                             x: Date.now(),

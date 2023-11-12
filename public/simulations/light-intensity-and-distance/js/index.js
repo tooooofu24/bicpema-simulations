@@ -5,16 +5,41 @@ function fullScreen() {
   canvas.parent(p5Canvas)
 }
 
+
+let dataNum = 0
+let data = []
+
+function dataAddButtonFunctioon() {
+  dataNum++
+  data.push(new DOM(dataNum))
+  inputFunction()
+}
+
+function dataRemoveButtonFunction() {
+  if (dataNum > 0) {
+    let target = select("#data-" + dataNum)
+    target.remove()
+    dataNum--
+  }
+  inputFunction()
+}
+
+
+let dataAddButton
 // DOM要素の生成
 function elCreate() {
+  dataAddButton = select("#dataAddButton").mousePressed(dataAddButtonFunctioon)
+  dataRemoveButton = select("#dataRemoveButton").mousePressed(dataRemoveButtonFunction)
 }
 
 let theoreticalArr = []
 let coordinateArr = []
 // 初期値やシミュレーションの設定
 function initValue() {
-  for (let x = 1; x < 11; x += 0.01) {
-    let y = 255 / sq(x)
+  theoreticalArr = []
+  coordinateArr = []
+  for (let x = 1; x < 41; x += 0.01) {
+    let y = 1275 / sq(x)
     theoreticalArr.push({ "x": x, "y": y })
   }
   for (let i = 0; i < 200; i++) {
@@ -124,21 +149,19 @@ function drawGraph() {
   let mainData = {
     datasets: [
       {
-        label: "理論値",
+        label: "理論値（光源からの距離が1 cmの時の光の強度を1275とした場合）",
         data: theoreticalArr,
         backgroundColor: "rgba(0,0,0,0.5)",
         borderColor: "rgba(0,0,0,1)",
         pointRadius: 0,
-        fill: 'start',
         showLine: true
 
       }, {
-        label: "１枚目の偏光板を透過した時のスペクトル",
-        data: [],
-        backgroundColor: "rgba(0,0,0,0.5)",
-        borderColor: "rgba(0,0,0,1)",
+        label: "実測値",
+        data: dataArr,
+        backgroundColor: "rgba(255,0,0,0.5)",
+        borderColor: "rgba(255,0,0,1)",
         pointRadius: 0,
-        fill: 'start',
         showLine: true
 
       },
@@ -149,61 +172,50 @@ function drawGraph() {
 
   //グラフの表示設定
   let mainOptions = {
-    plugins: {
-      legend: {
-        labels: {
-          font: {
-            size: 16
-          }
-        }
-      },
-      title: {
-        display: true,
-        text: '１枚目の偏光板を透過した後とシミュレーションのスペクトルの比較',
-        font: {
-          size: 20
-        }
+    legend: {
+      labels: {
+        fontSize: 16
       }
+    },
+    title: {
+      display: true,
+      fontSize: 20,
+      text: '光の強度と距離の関係'
+    },
+    scales: {
+      xAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: '光源との距離[cm]',
+            fontSize: 16
+          },
+          ticks: {
+            min: 1,
+            max: 40,
+            fontSize: 14
+          }
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: '光の強度[a.u.]',
+            fontSize: 16
+          },
+          ticks: {
+            min: 0,
+            max: 255 * 5,
+            stepSize: 100,
+            fontSize: 14
+          }
+        },
+      ],
     },
     responsive: true,
     maintainAspectRatio: false,
     animation: false,
-    scales: {
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: '波長(nm)',
-          font: {
-            size: 16
-          }
-        },
-        max: 750,
-        min: 380,
-        ticks: {
-          font: {
-            size: 14
-          }
-        }
-      },
-      y: {
-        display: true,
-        title: {
-          display: true,
-          text: '強度(a.u.)',
-          font: {
-            size: 16
-          }
-        },
-        max: 1,
-        min: 0,
-        ticks: {
-          font: {
-            size: 14
-          }
-        }
-      },
-    },
   };
 
   let mainChartsetup = {
@@ -215,4 +227,30 @@ function drawGraph() {
   let mainCtx = document.getElementById("plotGraph");
   mainChartObj = new Chart(mainCtx, mainChartsetup);
 
+}
+
+let dataArr = []
+function inputFunction() {
+  dataArr = []
+  for (let i = 0; i < dataNum; i++) {
+    let targetInput1 = select("#lengthInput-" + str(i + 1))
+    let targetInput2 = select("#intensityInput-" + str(i + 1))
+    dataArr.push({ "x": targetInput1.value(), "y": targetInput2.value() })
+  }
+  dataArr.sort((a, b) => {
+    return a.x - b.x
+  })
+}
+
+class DOM {
+  constructor(n) {
+    this.number = n
+    let parentDiv = createDiv().parent("#dataRedisterParent").id("data-" + this.number).class("mb-1 pb-1")
+    let inputGroup = createDiv().parent(parentDiv).class("input-group")
+    let numSpan = createSpan("データ" + this.number).parent(inputGroup).class("input-group-text")
+    let lengthSpan = createSpan("光源からの距離[cm]").parent(inputGroup).class("input-group-text")
+    let lengthInput = createInput(1, "number").parent(inputGroup).class("form-control").attribute("min", 0).id("lengthInput-" + this.number).input(inputFunction)
+    let intensitySpan = createSpan("光の強度").parent(inputGroup).class("input-group-text")
+    let intensityInput = createInput(1, "number").parent(inputGroup).class("form-control").id("intensityInput-" + this.number).input(inputFunction)
+  }
 }
