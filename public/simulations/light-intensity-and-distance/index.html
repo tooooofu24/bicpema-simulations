@@ -80,7 +80,9 @@
 
     <div class="w-100 row m-0" id="colBox">
         <div class="w-50 col p-0" id="p5Canvas"></div>
-        <div class="w-50 col p-0" id="plotGraph"></div>
+        <div class="w-50 col p-0">
+            <canvas id="plotGraph"></canvas>
+        </div>
     </div>
     <div id="realTimeGraphParent" class="z-0">
         <canvas id="realTimeGraph"></canvas>
@@ -90,12 +92,12 @@
 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary position-absolute bottom-0 rounded-pill m-3" data-bs-toggle="modal"
-        data-bs-target="#exampleModal">
+        data-bs-target="#settingModal">
         micro:bitの設定
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -119,6 +121,31 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary position-absolute rounded-pill end-0 m-3" data-bs-toggle="modal"
+        data-bs-target="#dataRegisterModal" id="dataRegister">
+        実測値のデータ登録
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="dataRegisterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">実測値のデータ登録</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる
+                    </button>
                 </div>
             </div>
         </div>
