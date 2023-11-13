@@ -24,12 +24,21 @@ function dataRemoveButtonFunction() {
   inputFunction()
 }
 
+function scaleRangeFunction() {
+  theoreticalArr = []
+  for (let x = 1; x < 41; x += 0.01) {
+    let y = scaleRange.value() * 1275 / sq(x)
+    theoreticalArr.push({ "x": x, "y": y })
+  }
+}
 
-let dataAddButton
+let dataAddButton,
+  scaleRange
 // DOM要素の生成
 function elCreate() {
   dataAddButton = select("#dataAddButton").mousePressed(dataAddButtonFunctioon)
   dataRemoveButton = select("#dataRemoveButton").mousePressed(dataRemoveButtonFunction)
+  scaleRange = select("#scaleRange").input(scaleRangeFunction)
 }
 
 let theoreticalArr = []
@@ -39,7 +48,7 @@ function initValue() {
   theoreticalArr = []
   coordinateArr = []
   for (let x = 1; x < 41; x += 0.01) {
-    let y = 1275 / sq(x)
+    let y = 50 * 1275 / sq(x)
     theoreticalArr.push({ "x": x, "y": y })
   }
   for (let i = 0; i < 200; i++) {
@@ -146,7 +155,6 @@ function draw() {
   // }
   // pop()
   drawGraph()
-  console.log(frameRate())
 }
 
 // windowがリサイズされたときの処理
@@ -166,7 +174,7 @@ function drawGraph() {
   let mainData = {
     datasets: [
       {
-        label: "理論値（光源からの距離が1 cmの時の光の強度を1275とした場合）",
+        label: "理論値",
         data: theoreticalArr,
         backgroundColor: "rgba(0,0,0,0.5)",
         borderColor: "rgba(0,0,0,1)",

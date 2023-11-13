@@ -16,6 +16,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"
+        integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0/dist/chartjs-plugin-streaming.min.js"></script>
 
     <!-- Bootstrap CSS -->
@@ -76,8 +80,12 @@
 
     <div class="w-100 row m-0" id="colBox">
         <div class="w-50 col p-0" id="p5Canvas"></div>
-        <div class="w-50 col p-0">
+        <div class="w-50 col p-0" id="plotGraphParent">
             <canvas id="plotGraph"></canvas>
+            <div>
+                <label for="customRange1" class="form-label">理論値のスケールの調整</label>
+                <input type="range" class="form-range" id="scaleRange" min="0" max="100">
+            </div>
         </div>
     </div>
     <div id="realTimeGraphParent" class="z-0">

@@ -2,6 +2,9 @@
     height: 45%;
 }
 
+#plotGraphParent {
+    height: 80%;
+}
 
 #plotGraph {
     height: 100%;
@@ -13,6 +16,10 @@
 
 #test {
     height: 45%;
+}
+
+#scaleRange {
+    width: 75%;
 }
 
 #realTimeGraphParent {
