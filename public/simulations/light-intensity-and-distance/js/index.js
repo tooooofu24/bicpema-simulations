@@ -42,7 +42,7 @@ function initValue() {
     let y = 1275 / sq(x)
     theoreticalArr.push({ "x": x, "y": y })
   }
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 200; i++) {
     coordinateArr.push([random(-180, 180), random(-180, 180), random(-180, 180)])
   }
 }
@@ -63,7 +63,7 @@ function draw() {
   sphere(20)
   stroke(255)
   strokeWeight(0.5)
-  for (i = 0; i < 100; i++) {
+  for (i = 0; i < 200; i++) {
     push()
     rotateX(radians(coordinateArr[i][0]))
     rotateY(radians(coordinateArr[i][1]))
@@ -97,38 +97,54 @@ function draw() {
   line(-400, 0, 0, 400, 0, 0)
   pop()
   pop()
-  strokeWeight(10)
+  strokeWeight(1)
   stroke(100, 100, 100, 10)
   push()
   rotateY(PI / 2)
-  for (let x = -25; x <= 25; x += 6) {
-    for (let y = -25; y <= 25; y += 6) {
-      if (abs(sq(x) + sq(y)) <= 10000) {
-        let z = sqrt(10000 - sq(x) - sq(y))
-        point(x, y, z)
 
-      }
-    }
-  }
-  for (let x = -37.5; x <= 37.5; x += 6) {
-    for (let y = -37.5; y <= 37.5; y += 6) {
-      if (abs(sq(x) + sq(y)) <= 22500) {
-        let z = sqrt(22500 - sq(x) - sq(y))
-        point(x, y, z)
-
-      }
-    }
-  }
-  for (let x = -50; x <= 50; x += 6) {
-    for (let y = -50; y <= 50; y += 6) {
-      if (abs(sq(x) + sq(y)) <= 40000) {
-        let z = sqrt(40000 - sq(x) - sq(y))
-        point(x, y, z)
-
-      }
-    }
-  }
+  fill(100)
+  push()
+  translate(0, 0, 100)
+  plane(55)
   pop()
+
+  push()
+  translate(0, 0, 150)
+  plane(81)
+  pop()
+
+  push()
+  translate(0, 0, 200)
+  plane(108)
+  pop()
+  // for (let x = -25; x <= 25; x += 6) {
+  //   for (let y = -25; y <= 25; y += 6) {
+  //     if (abs(sq(x) + sq(y)) <= 10000) {
+  //       let z = sqrt(10000 - sq(x) - sq(y))
+  //       point(x, y, z)
+
+  //     }
+  //   }
+  // }
+  // for (let x = -37.5; x <= 37.5; x += 6) {
+  //   for (let y = -37.5; y <= 37.5; y += 6) {
+  //     if (abs(sq(x) + sq(y)) <= 22500) {
+  //       let z = sqrt(22500 - sq(x) - sq(y))
+  //       point(x, y, z)
+
+  //     }
+  //   }
+  // }
+  // for (let x = -50; x <= 50; x += 6) {
+  //   for (let y = -50; y <= 50; y += 6) {
+  //     if (abs(sq(x) + sq(y)) <= 40000) {
+  //       let z = sqrt(40000 - sq(x) - sq(y))
+  //       point(x, y, z)
+
+  //     }
+  //   }
+  // }
+  // pop()
   drawGraph()
   console.log(frameRate())
 }
