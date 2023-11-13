@@ -89,6 +89,8 @@ async function onStartButtonClick() {
                         console.log("Canceled");
                         break;
                     }
+                    let target = document.getElementById("realTimeValue")
+                    target.innerHTML = "現在の光強度：" + value.slice(2)
                     console.log(value)
                     if (value.slice(0, 1) === "X") {
                         chart.data.datasets[0].data.push({
