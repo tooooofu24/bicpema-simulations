@@ -42,7 +42,7 @@ function initValue() {
     let y = 1275 / sq(x)
     theoreticalArr.push({ "x": x, "y": y })
   }
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 100; i++) {
     coordinateArr.push([random(-180, 180), random(-180, 180), random(-180, 180)])
   }
 }
@@ -63,7 +63,7 @@ function draw() {
   sphere(20)
   stroke(255)
   strokeWeight(0.5)
-  for (i = 0; i < 200; i++) {
+  for (i = 0; i < 100; i++) {
     push()
     rotateX(radians(coordinateArr[i][0]))
     rotateY(radians(coordinateArr[i][1]))
@@ -97,7 +97,7 @@ function draw() {
   line(-400, 0, 0, 400, 0, 0)
   pop()
   pop()
-  strokeWeight(15)
+  strokeWeight(10)
   stroke(100, 100, 100, 10)
   push()
   rotateY(PI / 2)
@@ -105,6 +105,15 @@ function draw() {
     for (let y = -25; y <= 25; y += 6) {
       if (abs(sq(x) + sq(y)) <= 10000) {
         let z = sqrt(10000 - sq(x) - sq(y))
+        point(x, y, z)
+
+      }
+    }
+  }
+  for (let x = -37.5; x <= 37.5; x += 6) {
+    for (let y = -37.5; y <= 37.5; y += 6) {
+      if (abs(sq(x) + sq(y)) <= 22500) {
+        let z = sqrt(22500 - sq(x) - sq(y))
         point(x, y, z)
 
       }
@@ -119,17 +128,9 @@ function draw() {
       }
     }
   }
-  for (let x = -75; x <= 75; x += 6) {
-    for (let y = -75; y <= 75; y += 6) {
-      if (abs(sq(x) + sq(y)) <= 90000) {
-        let z = sqrt(90000 - sq(x) - sq(y))
-        point(x, y, z)
-
-      }
-    }
-  }
   pop()
   drawGraph()
+  console.log(frameRate())
 }
 
 // windowがリサイズされたときの処理
