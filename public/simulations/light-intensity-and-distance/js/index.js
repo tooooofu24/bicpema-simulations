@@ -224,7 +224,6 @@ function drawGraph() {
           ticks: {
             min: 0,
             max: 255 * 5,
-            stepSize: 100,
             fontSize: 14
           }
         },
