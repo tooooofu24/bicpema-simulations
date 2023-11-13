@@ -49,7 +49,7 @@ let chart = new Chart(ctx, {
                     },
                     type: "realtime",
                     realtime: {
-                        duration: 5000
+                        duration: 30000
                     }
                 },
             ],

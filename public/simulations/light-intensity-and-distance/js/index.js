@@ -97,12 +97,12 @@ function draw() {
   line(-400, 0, 0, 400, 0, 0)
   pop()
   pop()
-  strokeWeight(7.5)
+  strokeWeight(15)
   stroke(100, 100, 100, 10)
   push()
   rotateY(PI / 2)
-  for (let x = -25; x <= 25; x += 3) {
-    for (let y = -25; y <= 25; y += 3) {
+  for (let x = -25; x <= 25; x += 6) {
+    for (let y = -25; y <= 25; y += 6) {
       if (abs(sq(x) + sq(y)) <= 10000) {
         let z = sqrt(10000 - sq(x) - sq(y))
         point(x, y, z)
@@ -110,8 +110,8 @@ function draw() {
       }
     }
   }
-  for (let x = -50; x <= 50; x += 3) {
-    for (let y = -50; y <= 50; y += 3) {
+  for (let x = -50; x <= 50; x += 6) {
+    for (let y = -50; y <= 50; y += 6) {
       if (abs(sq(x) + sq(y)) <= 40000) {
         let z = sqrt(40000 - sq(x) - sq(y))
         point(x, y, z)
@@ -119,8 +119,8 @@ function draw() {
       }
     }
   }
-  for (let x = -75; x <= 75; x += 3) {
-    for (let y = -75; y <= 75; y += 3) {
+  for (let x = -75; x <= 75; x += 6) {
+    for (let y = -75; y <= 75; y += 6) {
       if (abs(sq(x) + sq(y)) <= 90000) {
         let z = sqrt(90000 - sq(x) - sq(y))
         point(x, y, z)
