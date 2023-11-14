@@ -28,6 +28,10 @@ function stopButtonFunction() {
     clickedCount = false
 }
 
+function resetButtonFunction() {
+    initValue()
+}
+
 function gridButtonFunction() {
     if (gridIs == true) {
         gridIs = false
@@ -51,6 +55,7 @@ function elInit() {
     startButton.mousePressed(startButtonFunction)
     stopButton.mousePressed(stopButtonFunction)
     gridButton.mousePressed(gridButtonFunction)
+    resetButton.mousePressed(resetButtonFunction)
 }
 
 function initValue() {
@@ -60,11 +65,10 @@ function initValue() {
     gravity = 9.8;
     count = 0;
     ball.resize(width / 18, 0);
-    b1 = new Ball(500, 8);
+    b1 = new Ball(500, 10);
     b2 = new Ball(500, 12);
     b1.theta = radians(b1.theta0) * cos(sqrt(gravity / (b1.string_length / float(50 * 100))) * count / 60);
     b2.theta = radians(b2.theta0) * cos(sqrt(gravity / (b2.string_length / float(50 * 100))) * count / 60);
-    textSize(width / 100);
 }
 
 function setup() {
@@ -76,7 +80,7 @@ function setup() {
 
 function draw() {
     background(255);
-    if (clickedCount) count++;
+    if (clickedCount) count += 0.1;
     background_setting();
     b1.calculate(0);
     b2.calculate(width / 3);
