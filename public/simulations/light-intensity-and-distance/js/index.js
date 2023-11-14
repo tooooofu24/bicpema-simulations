@@ -1,88 +1,135 @@
-///全画面表示
+// 全画面表示
 function fullScreen() {
-  let p5Canvas = select("#p5Canvas")
-  let canvas = createCanvas(windowWidth / 2, 9 * windowHeight / 20, WEBGL)
-  canvas.parent(p5Canvas)
+
+  // canvasの親要素を取得
+  let p5Canvas = select("#p5Canvas");
+
+  // 取得した親要素内にcanvasを生成し追加
+  let canvas = createCanvas(windowWidth / 2, 9 * windowHeight / 20, WEBGL);
+  canvas.parent(p5Canvas);
+
 }
 
+// データが入力されたときの処理
+function inputFunction() {
+  dataArr = []
+  for (let i = 0; i < dataNum; i++) {
+    let targetInput1 = select("#lengthInput-" + str(i + 1))
+    let targetInput2 = select("#intensityInput-" + str(i + 1))
+    dataArr.push({ "x": targetInput1.value(), "y": targetInput2.value() })
+  }
+  dataArr.sort((a, b) => {
+    return a.x - b.x
+  })
+}
 
-let dataNum = 0
-let data = []
-
+// プロットする実測値データの数
+let dataNum = 0;
+// 実測値の生データ
+let data = [];
+// 実際にグラフにプロットする際の実測値データ
+let dataArr = []
+// 追加ボタンを押したときの処理
 function dataAddButtonFunctioon() {
-  dataNum++
-  data.push(new DOM(dataNum))
-  inputFunction()
+
+  dataNum += 1;
+  data.push(new DOM(dataNum));
+  inputFunction();
+
 }
 
+// 削除ボタンを押したときの処理
 function dataRemoveButtonFunction() {
+
+  // データが存在する場合に実行
   if (dataNum > 0) {
-    let target = select("#data-" + dataNum)
-    target.remove()
-    dataNum--
+
+    let target = select("#data-" + dataNum).remove();
+    dataNum -= 1;
+    inputFunction();
+
   }
-  inputFunction()
 }
 
+// 理論値のスケールを変えるスライダーを動かしたときの処理
 function scaleRangeFunction() {
-  theoreticalArr = []
+
+  // 理論値を格納する配列を初期化
+  theoreticalArr = [];
+
+  // スライダーで指定した倍の理論値を配列に追加
   for (let x = 1; x < 41; x += 0.01) {
-    let y = scaleRange.value() * 1275 / sq(x)
-    theoreticalArr.push({ "x": x, "y": y })
+
+    let y = scaleRange.value() * 1275 / sq(x);
+    theoreticalArr.push({ "x": x, "y": y });
+
   }
 }
+
+
 
 let dataAddButton,
-  scaleRange
+  dataRemoveButton,
+  scaleRange;
 // DOM要素の生成
 function elCreate() {
-  dataAddButton = select("#dataAddButton").mousePressed(dataAddButtonFunctioon)
-  dataRemoveButton = select("#dataRemoveButton").mousePressed(dataRemoveButtonFunction)
-  scaleRange = select("#scaleRange").input(scaleRangeFunction)
+  dataAddButton = select("#dataAddButton").mousePressed(dataAddButtonFunctioon);
+  dataRemoveButton = select("#dataRemoveButton").mousePressed(dataRemoveButtonFunction);
+  scaleRange = select("#scaleRange").input(scaleRangeFunction);
 }
 
-let theoreticalArr = []
-let coordinateArr = []
+let theoreticalArr = [],
+  coordinateArr = [];
 // 初期値やシミュレーションの設定
 function initValue() {
-  theoreticalArr = []
-  coordinateArr = []
+
+  // 配列の初期化
+  theoreticalArr = [];
+  coordinateArr = [];
+
+  // 理論値の計算結果の追加
   for (let x = 1; x < 41; x += 0.01) {
-    let y = 50 * 1275 / sq(x)
-    theoreticalArr.push({ "x": x, "y": y })
+    let y = 50 * 1275 / sq(x);
+    theoreticalArr.push({ "x": x, "y": y });
   }
+
+  // シミュレーションの光線の回転座標系の追加
   for (let i = 0; i < 200; i++) {
-    coordinateArr.push([random(-180, 180), random(-180, 180), random(-180, 180)])
+    coordinateArr.push([random(-180, 180), random(-180, 180), random(-180, 180)]);
   }
 }
 
 // setup関数
 function setup() {
-  fullScreen()
-  elCreate()
-  initValue()
+  fullScreen();
+  elCreate();
+  initValue();
 }
 
-// draw関数
-function draw() {
-  orbitControl(1)
-  background(0);
-  noStroke()
-  fill(200, 200, 0)
-  sphere(20)
-  stroke(255)
-  strokeWeight(0.5)
+function lightDraw() {
+
+  // 中心の光源の描画
+  noStroke();
+  fill(200, 200, 0);
+  sphere(20);
+
+  // 光線の描画
+  stroke(255);
+  strokeWeight(0.5);
   for (i = 0; i < 200; i++) {
-    push()
-    rotateX(radians(coordinateArr[i][0]))
-    rotateY(radians(coordinateArr[i][1]))
-    rotateZ(radians(coordinateArr[i][2]))
-    line(-400, 0, 0, 400, 0, 0)
-    pop()
+    push();
+    rotateX(radians(coordinateArr[i][0]));
+    rotateY(radians(coordinateArr[i][1]));
+    rotateZ(radians(coordinateArr[i][2]));
+    line(-400, 0, 0, 400, 0, 0);
+    pop();
   }
 
+
+  // 光の拡散の目安となる赤線の描画
   strokeWeight(1)
   stroke(255, 0, 0)
+
   push()
   rotateZ(PI / 12)
   push()
@@ -106,6 +153,9 @@ function draw() {
   line(-400, 0, 0, 400, 0, 0)
   pop()
   pop()
+
+
+  // 拡散の目安となる平面の描画
   strokeWeight(1)
   stroke(100, 100, 100, 10)
   push()
@@ -126,51 +176,16 @@ function draw() {
   translate(0, 0, 200)
   plane(108)
   pop()
-  // for (let x = -25; x <= 25; x += 6) {
-  //   for (let y = -25; y <= 25; y += 6) {
-  //     if (abs(sq(x) + sq(y)) <= 10000) {
-  //       let z = sqrt(10000 - sq(x) - sq(y))
-  //       point(x, y, z)
-
-  //     }
-  //   }
-  // }
-  // for (let x = -37.5; x <= 37.5; x += 6) {
-  //   for (let y = -37.5; y <= 37.5; y += 6) {
-  //     if (abs(sq(x) + sq(y)) <= 22500) {
-  //       let z = sqrt(22500 - sq(x) - sq(y))
-  //       point(x, y, z)
-
-  //     }
-  //   }
-  // }
-  // for (let x = -50; x <= 50; x += 6) {
-  //   for (let y = -50; y <= 50; y += 6) {
-  //     if (abs(sq(x) + sq(y)) <= 40000) {
-  //       let z = sqrt(40000 - sq(x) - sq(y))
-  //       point(x, y, z)
-
-  //     }
-  //   }
-  // }
-  // pop()
-  drawGraph()
 }
 
-// windowがリサイズされたときの処理
-function windowResized() {
-  fullScreen()
-  initValue()
-}
-
-
+// 実測値をプロットするグラフの設定
 let mainChartObj
 function drawGraph() {
 
   if (typeof mainChartObj !== 'undefined' && mainChartObj) {
     mainChartObj.destroy();
   }
-  //データ
+
   let mainData = {
     datasets: [
       {
@@ -190,9 +205,7 @@ function drawGraph() {
         showLine: true
 
       },
-
     ],
-
   };
 
   //グラフの表示設定
@@ -253,19 +266,29 @@ function drawGraph() {
 
 }
 
-let dataArr = []
-function inputFunction() {
-  dataArr = []
-  for (let i = 0; i < dataNum; i++) {
-    let targetInput1 = select("#lengthInput-" + str(i + 1))
-    let targetInput2 = select("#intensityInput-" + str(i + 1))
-    dataArr.push({ "x": targetInput1.value(), "y": targetInput2.value() })
-  }
-  dataArr.sort((a, b) => {
-    return a.x - b.x
-  })
+// draw関数
+function draw() {
+
+  // オービットコントロール
+  orbitControl();
+
+  // 背景色の規定
+  background(0);
+
+  // 光源の描画
+  lightDraw();
+
+  // 実測値プロット用のグラフの追加
+  drawGraph();
 }
 
+// windowがリサイズされたときの処理
+function windowResized() {
+  fullScreen()
+  initValue()
+}
+
+// DOM要素のクラス
 class DOM {
   constructor(n) {
     this.number = n
