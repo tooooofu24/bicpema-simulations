@@ -11,7 +11,7 @@ let clicked_count;
 
 function preload() {
     balls = new Array(hm);
-    weight = loadImage("physics/-5release/pendulumWave/img/thisman.jpeg");
+    weight = loadImage("/assets/img/metalBallImg.png");
     // stop_watch = loadImage("https://live.staticflickr.com/65535/51690867829_8f5dbb4793_o.png");
     // stop_button = loadImage("https://live.staticflickr.com/65535/51690183358_0389d79046_o.png");
     // start_button = loadImage("https://live.staticflickr.com/65535/51690597879_33e64e02d9_o.png");
@@ -31,7 +31,6 @@ function setup() {
     count = 0;
     clicked_count = false;
     textSize(width / 25);
-    textAlign(CENTER, CENTER);
 }
 
 function draw() {
@@ -69,7 +68,8 @@ function timer() {
         // image(stop_button, width - 4 * stop_watch.width / 5, height - stop_watch.height + 11 * stop_watch.height / 20);
         count++;
     }
-    text(nf(count / 60, 1, 2) + "s", width - stop_watch.width, height - stop_watch.height, stop_watch.width, 3 * stop_watch.height / 4);
+    count++;
+    text(nf(count / 60, 1, 2) + "s", 100, 100);
 }
 
 class Ball {
