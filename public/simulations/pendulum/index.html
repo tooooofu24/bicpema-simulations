@@ -63,6 +63,46 @@
             </div>
         </div>
     </div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary position-absolute bottom-0 m-3 rounded-pill" data-bs-toggle="modal"
+        data-bs-target="#exampleModal">
+        シミュレーションの設定
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">シミュレーションの設定</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">振れ角度[°]</span>
+                        <input type="number" class="form-control" placeholder="左の振れ角" aria-label="Angle" value="10">
+                        <span class="input-group-text">紐の長さ[cm]</span>
+                        <input type="number" class="form-control" placeholder="左の紐の長さ" aria-label="Length" value="15">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">振れ角度[°]</span>
+                        <input type="number" class="form-control" placeholder="右の振れ角" aria-label="Angle" value="20">
+                        <span class="input-group-text">紐の長さ[cm]</span>
+                        <input type="number" class="form-control" placeholder="右の紐の長さ" aria-label="Length" value="15">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-secondary position-absolute end-0 m-3" id="gridButton">グリッド線の表示</button>
+    <div class="position-absolute bottom-0 end-0 m-3">
+        <button class="btn btn-primary me-2" id="startButton">スタート</button>
+        <button class="btn btn-primary me-2" id="stopButton">ストップ</button>
+        <button class="btn btn-danger" id="resetButton">リセット</button>
+    </div>
     <!-- jQuery -->
     <script language="javascript" type="text/javascript" src="/assets/js/jquery-3.6.4.min.js"></script>
     <!-- Bootstrap JS -->
