@@ -78,17 +78,31 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">振れ角度[°]</span>
-                        <input type="number" class="form-control" placeholder="左の振れ角" aria-label="Angle" value="10">
-                        <span class="input-group-text">紐の長さ[cm]</span>
-                        <input type="number" class="form-control" placeholder="左の紐の長さ" aria-label="Length" value="15">
+                    <div class="mb-3">
+                        <h2>左の振り子の設定</h2>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">振れ角度[°]</span>
+                            <input type="number" class="form-control" id="leftAngleInput" placeholder="左の振れ角"
+                                aria-label="Angle" value="10">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text">紐の長さ[cm]</span>
+                            <input type="number" class="form-control" id="leftLengthInput" placeholder="左の紐の長さ"
+                                aria-label="Length" value="10">
+                        </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">振れ角度[°]</span>
-                        <input type="number" class="form-control" placeholder="右の振れ角" aria-label="Angle" value="20">
-                        <span class="input-group-text">紐の長さ[cm]</span>
-                        <input type="number" class="form-control" placeholder="右の紐の長さ" aria-label="Length" value="15">
+                    <div class="mb-3">
+                        <h2>右の振り子の設定</h2>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">振れ角度[°]</span>
+                            <input type="number" class="form-control" id="rightAngleInput" placeholder="右の振れ角"
+                                aria-label="Angle" value="20">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text">紐の長さ[cm]</span>
+                            <input type="number" class="form-control" id="rightLengthInput" placeholder="右の紐の長さ"
+                                aria-label="Length" value="10">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -3,18 +3,15 @@ let clickedCount;
 let gridIs;
 let gravity = 0;
 let count = 0;
-let ball;
-let remort_controller;
-let start_button;
-let stop_button;
-let reset_button;
-let b1;
-let b2;
+
+let leftPendulum;
+let rightPendulum;
 
 function fullScreen() {
     createCanvas(windowWidth, 9 * windowHeight / 10);
 }
 
+let ball;
 function preload() {
     ball = loadImage("/assets/img/metalBallImg.png");
 }
@@ -40,15 +37,30 @@ function gridButtonFunction() {
     }
 }
 
+function inputFunction() {
+    leftPendulum.theta0 = leftAngleInput.value()
+    leftPendulum.stringLength = leftLengthInput.value() * 50
+    rightPendulum.theta0 = rightAngleInput.value()
+    rightPendulum.stringLength = rightLengthInput.value() * 50
+}
+
 let startButton,
     stopButton,
     resetButton,
     gridButton;
+let leftAngleInput,
+    leftLengthInput,
+    rightAngleInput,
+    rightLengthInput;
 function elCreate() {
     startButton = select("#startButton")
     stopButton = select("#stopButton")
     resetButton = select("#resetButton")
     gridButton = select("#gridButton")
+    leftAngleInput = select("#leftAngleInput")
+    leftLengthInput = select("#leftLengthInput")
+    rightAngleInput = select("#rightAngleInput")
+    rightLengthInput = select("#rightLengthInput")
 }
 
 function elInit() {
@@ -56,6 +68,10 @@ function elInit() {
     stopButton.mousePressed(stopButtonFunction)
     gridButton.mousePressed(gridButtonFunction)
     resetButton.mousePressed(resetButtonFunction)
+    leftAngleInput.input(inputFunction)
+    leftLengthInput.input(inputFunction)
+    rightAngleInput.input(inputFunction)
+    rightLengthInput.input(inputFunction)
 }
 
 function initValue() {
@@ -65,10 +81,8 @@ function initValue() {
     gravity = 9.8;
     count = 0;
     ball.resize(width / 18, 0);
-    b1 = new Ball(500, 10);
-    b2 = new Ball(500, 12);
-    b1.theta = radians(b1.theta0) * cos(sqrt(gravity / (b1.string_length / float(50 * 100))) * count / 60);
-    b2.theta = radians(b2.theta0) * cos(sqrt(gravity / (b2.string_length / float(50 * 100))) * count / 60);
+    leftPendulum = new Ball(500, 10);
+    rightPendulum = new Ball(500, 15);
 }
 
 function setup() {
@@ -80,20 +94,19 @@ function setup() {
 
 function draw() {
     background(255);
-    if (clickedCount) count += 0.1;
+    if (clickedCount) count += 1;
     background_setting();
-    b1.calculate(0);
-    b2.calculate(width / 3);
-    b1.display(0);
-    b2.display(width / 3);
-    b1.calculate(2 * width / 3);
-    b2.calculate(2 * width / 3);
+    leftPendulum.calculate(0);
+    rightPendulum.calculate(width / 3);
+    leftPendulum.display(0);
+    rightPendulum.display(width / 3);
+    leftPendulum.calculate(2 * width / 3);
+    rightPendulum.calculate(2 * width / 3);
     tint(255, 150);
     stroke(0, 150);
-    b1.display(2 * width / 3);
-    b2.display(2 * width / 3);
+    leftPendulum.display(2 * width / 3);
+    rightPendulum.display(2 * width / 3);
     tint(255);
-    console.log(gridIs)
 }
 
 function background_setting() {
@@ -134,15 +147,16 @@ class Ball {
         this.theta = 0;
         this.material = 0;
         this.panelCount = 0;
-        this.string_length = s_l;
+        this.stringLength = s_l;
         this.theta0 = t_0;
+        this.theta = radians(this.theta0) * cos(sqrt(gravity / (this.stringLength / float(50 * 100))) * count / 60);
     }
 
 
     calculate(n) {
-        this.posx = n + width / 6 + this.string_length * sin(this.theta);
-        this.posy = 100 + this.string_length * cos(this.theta);
-        this.theta = radians(this.theta0) * cos(sqrt(gravity / (this.string_length / float(50 * 100))) * count / 60);
+        this.posx = n + width / 6 + this.stringLength * sin(this.theta);
+        this.posy = 100 + this.stringLength * cos(this.theta);
+        this.theta = radians(this.theta0) * cos(sqrt(gravity / (this.stringLength / float(50 * 100))) * count / 60);
     }
 
     display(n) {
