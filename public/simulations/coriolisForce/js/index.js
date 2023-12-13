@@ -1,7 +1,7 @@
 var x0, y0, x, y, xx, yy, xr, xr2, xr3, xr4, yr, yr2, yr3, yr4, r, v, vv, vx, vy, s, w, wv, ww, x1, y1, xk, yk, R, d;
 var locate, way, start, reset;
 function setup() {
-    createCanvas(1500, 800);
+    createCanvas(750, 400);
     background(150);
     initialvalue();
     bottans();
@@ -23,18 +23,18 @@ function draw() {
 
 function initialvalue() {
 
-    x0 = 300;                        //左側の円の中心x座標
-    y0 = 300;                        //左側の円の中心y座標
-    x = 300;                         //左側直進する球の初期x
-    xx = 400;
-    y = 550;                         //左側直進する球の初期y
-    yy = 650;
-    r = 250;                         //左側円の半径
+    x0 = 150;                        //左側の円の中心x座標
+    y0 = 150;                        //左側の円の中心y座標
+    x = 150;                         //左側直進する球の初期x
+    xx = 200;
+    y = 275;                         //左側直進する球の初期y
+    yy = 325;
+    r = 125;                         //左側円の半径
     xr = x0;                         //左側回転する球の初期x
     yr = r + y0;                       //左側回転する球の初期y
 
-    x1 = 900;                        //右側円の中心x
-    y1 = 300;                        //右側円の中心y
+    x1 = 450;                        //右側円の中心x
+    y1 = 150;                        //右側円の中心y
     xk = x1;                         //右側コリオリ球の初期x
     yk = r + y1;                       //右側コリオリ球の初期y
 
@@ -58,9 +58,9 @@ function initialvalue() {
 function firstdisplay() {
     fill(255);
     noStroke();
-    ellipse(300, 300, 2 * r, 2 * r);       //左側の円
+    ellipse(150, 150, 2 * r, 2 * r);       //左側の円
     stroke(0);
-    ellipse(900, 300, 2 * r, 2 * r);       //右側の円
+    ellipse(450, 150, 2 * r, 2 * r);       //右側の円
     stroke(255, 0, 0);
     xr = r * sin(0) + x0;                                //台の回転
     yr = r * cos(0) + y0;
@@ -87,16 +87,16 @@ function firstdisplay() {
     line(x1, y1, x1, y1 + r);
     stroke(0);
 
-    line(300 - r, 600, 300 + r, 600);     //サイズ感
-    line(300 - r, 580, 300 - r, 620);
-    line(300 + r, 580, 300 + r, 620);
-    text("500m", 300, 630);
+    line(150 - r, 300, 150 + r, 300);     //サイズ感
+    line(150 - r, 290, 150 - r, 310);
+    line(150 + r, 290, 150 + r, 310);
+    text("500m", 150, 315);
 }
 
 function display() {
     noStroke();
     fill(150);
-    rect(0, 0, 600, 600);           //左側リセット
+    rect(0, 0, 300, 300);           //左側リセット
     fill(255);
     ellipse(x0, y0, 2 * r, 2 * r);     //新規左円
 
@@ -109,8 +109,8 @@ function display() {
     stroke(0);
     line(xr4, yr4, x0, y0);
 
-    ellipse(x, y, 20, 20);          //左側直進する球
-    ellipse(xk, yk, 20, 20);        //右側コリオリによる球の働き
+    ellipse(x, y, 10, 10);          //左側直進する球
+    ellipse(xk, yk, 10, 10);        //右側コリオリによる球の働き
 
 }
 
@@ -128,8 +128,9 @@ function move() {                                       //球の動きの制御
     yk = (x - x0) * sin(s) + (y - y0) * cos(s) + y1;
 
 
-    x = x + vx;                                        //直進する球の動きの制御
+    x = x + vx;
     y = y + vy;
+
     w = ww * wv / 20;
     s = s + w;                                         //回転速度の制御
 
@@ -155,9 +156,10 @@ function mousePressed() {                           //マウスクリック判�
         y = mouseY;
 
         fill(255);
-        ellipse(x, y, 20, 20);
+        ellipse(x, y, 10, 10);
         locate = false;
         way = true;
+        d = dist(x, y, x0, y0);
     }
     else if (way == true && dist(mouseX, mouseY, x0, y0) <= r) {     //直進する玉の方向性決定
         xx = mouseX;
@@ -168,206 +170,214 @@ function mousePressed() {                           //マウスクリック判�
         vy = (yy - y) * v / R;
         stroke(255, 0, 0);
         strokeWeight(5);
-        line((xx - x) * 40 / R + x, (yy - y) * 40 / R + y, x, y);
-        translate((xx - x) * 20 / R + x, (yy - y) * 20 / R + y);
+        line((xx - x) * 20 / R + x, (yy - y) * 20 / R + y, x, y);
+        translate((xx - x) * 10 / R + x, (yy - y) * 10 / R + y);
         rotate(atan2(yy - y, xx - x) + PI / 2);
-        line(10, 0, 0, -20);
-        line(-10, 0, 0, -20);
+        line(5, 0, 0, -10);
+        line(-5, 0, 0, -10);
         stroke(0);
         strokeWeight(1);
         resetMatrix();
+        way = false;
     }
 
-    if (dist(mouseX, mouseY, 1250, 600) < 75) {//start判定
+    if (dist(mouseX, mouseY, 625, 300) < 37) {//start判定
         start = true;
         reset = false;
     }
-    if (dist(mouseX, mouseY, 1400, 600) < 75) {//reset判定
+    if (dist(mouseX, mouseY, 700, 300) < 37) {//reset判定
         reset = true;
         start = false;
     }
-    if (dist(mouseX, mouseY, 1325, 750) < 65) {//一時停止判定
+    if (dist(mouseX, mouseY, 662, 375) < 32) {//一時停止判定
         start = false;
     }
 
     //球の速度変化
-    if (dist(mouseX, mouseY, 1232, 210) < 25) {
+    if (dist(mouseX, mouseY, 616, 105) < 12) {
         vv += -10;
         v = vv / 20;
         vx = (xx - x) * v / R;
         vy = (yy - y) * v / R;
         fill(230);
-        rect(1275, 140, 100, 40);
+        rect(637, 70, 50, 20);
         fill(0);
-        textSize(20);
-        text(vv, 1325, 160);
+        textSize(10);
+        text(vv, 662, 80);
     }
-    if (dist(mouseX, mouseY, 1294, 210) < 25) {
+    if (dist(mouseX, mouseY, 647, 105) < 12) {
         vv += -1;
         v = vv / 20;
         vx = (xx - x) * v / R;
         vy = (yy - y) * v / R;
         fill(230);
-        rect(1275, 140, 100, 40);
+        rect(637, 70, 50, 20);
         fill(0);
-        textSize(20);
-        text(vv, 1325, 160);
+        textSize(10);
+        text(vv, 662, 80);
     }
-    if (dist(mouseX, mouseY, 1356, 210) < 25) {
+    if (dist(mouseX, mouseY, 678, 105) < 12) {
         vv += +1;
         v = vv / 20;
         vx = (xx - x) * v / R;
         vy = (yy - y) * v / R;
         fill(230);
-        rect(1275, 140, 100, 40);
+        rect(637, 70, 50, 20);
         fill(0);
-        textSize(20);
-        text(vv, 1325, 160);
+        textSize(10);
+        text(vv, 662, 80);
     }
-    if (dist(mouseX, mouseY, 1418, 210) < 25) {
+    if (dist(mouseX, mouseY, 709, 105) < 12) {
         vv += +10;
         v = vv / 20;
         vx = (xx - x) * v / R;
         vy = (yy - y) * v / R;
         fill(230);
-        rect(1275, 140, 100, 40);
+        rect(637, 70, 50, 20);
         fill(0);
-        textSize(20);
-        text(vv, 1325, 160);
+        textSize(10);
+        text(vv, 662, 80);
     }
 
     //回転速度の変化
-    if (dist(mouseX, mouseY, 1232, 370) < 25) {
+    if (dist(mouseX, mouseY, 616, 185) < 12) {
         wv += -1;
         fill(230);
-        rect(1275, 300, 100, 40);
+        rect(637, 150, 50, 20);
         fill(0);
-        textSize(20);
-        text(wv, 1325, 320);
+        textSize(10);
+        text(wv, 662, 160);
     }
-    if (dist(mouseX, mouseY, 1294, 370) < 25) {
+    if (dist(mouseX, mouseY, 647, 185) < 12) {
         wv += -0.1;
+        wv *= 10;
+        wv = Math.round(wv);
+        wv /= 10;
         fill(230);
-        rect(1275, 300, 100, 40);
+        rect(637, 150, 50, 20);
         fill(0);
-        textSize(20);
-        text(wv, 1325, 320);
+        textSize(10);
+        text(wv, 662, 160);
     }
-    if (dist(mouseX, mouseY, 1356, 370) < 25) {
+    if (dist(mouseX, mouseY, 678, 185) < 12) {
         wv += +0.1;
+        wv *= 10;
+        wv = Math.round(wv);
+        wv /= 10;
         fill(230);
-        rect(1275, 300, 100, 40);
+        fill(230);
+        rect(637, 150, 50, 20);
         fill(0);
-        textSize(20);
-        text(wv, 1325, 320);
+        textSize(10);
+        text(wv, 662, 160);
     }
-    if (dist(mouseX, mouseY, 1418, 370) < 25) {
+    if (dist(mouseX, mouseY, 709, 185) < 12) {
         wv += +1;
         fill(230);
-        rect(1275, 300, 100, 40);
+        rect(637, 150, 50, 20);
         fill(0);
-        textSize(20);
-        text(wv, 1325, 320);
+        textSize(10);
+        text(wv, 662, 160);
     }
 
     //回転方向の決定
-    if (1210 <= mouseX && mouseX <= 1310 && 445 <= mouseY && mouseY <= 495) {
+    if (605 <= mouseX && mouseX <= 655 && 222 <= mouseY && mouseY <= 247) {
         ww = -1;
         spinwaybottans();
         fill(0, 255, 0, 100);
-        rect(1210, 445, 100, 50);
+        rect(605, 222, 50, 25);
         fill(0);
-        textSize(20);
-        text("時計回り", 1260, 470);
+        textSize(10);
+        text("時計回り", 630, 235);
     }
-    if (1340 <= mouseX && mouseX <= 1440 && 445 <= mouseY && mouseY <= 495) {
+    if (670 <= mouseX && mouseX <= 720 && 222 <= mouseY && mouseY <= 247) {
         ww = 1;
         spinwaybottans();
         fill(0, 255, 0, 100);
-        rect(1340, 445, 100, 50);
+        rect(670, 222, 50, 25);
         fill(0);
-        textSize(20);
-        text("反時計回り", 1390, 470);
+        textSize(10);
+        text("反時計回り", 695, 235);
     }
 
 }
 
 function bottans() {              //ボタンの生成
     textFont("Meiryo");
-    textSize(40);
+    textSize(20);
     textAlign(CENTER, CENTER);//文字の中央ぞろえ
     fill(0, 0, 255);
-    ellipse(1250, 600, 150, 150);//startボタン
+    ellipse(625, 300, 75, 75);//startボタン
     fill(255);
-    text("Start", 1250, 600);
+    text("Start", 625, 300);
     fill(255, 0, 0);
-    ellipse(1400, 600, 150, 150);//resetボタン
+    ellipse(700, 300, 75, 75);//resetボタン
     fill(255);
-    text("Reset", 1400, 600);
+    text("Reset", 700, 300);
     fill(0, 255, 0);
-    ellipse(1325, 720, 130, 130);//一時停止ボタン
-    textSize(30);
+    ellipse(662, 360, 65, 65);//一時停止ボタン
+    textSize(15);
     fill(255);
-    text("一時停止", 1325, 720);
+    text("一時停止", 662, 360);
     fill(0);
-    text("静止系から見た球の動き", x0, y0 + 400);
-    text("回転系から見た球の軌跡", x1, y1 + 400);
+    text("静止系から見た球の動き", x0, y0 + 200);
+    text("回転系から見た球の軌跡", x1, y1 + 200);
 
 }
 
 function spinwaybottans() {                     //回転方向のボタン
     fill(255);
-    rect(1200, 410, 250, 90);
+    rect(600, 205, 125, 45);
     fill(230);
-    rect(1210, 445, 100, 50);
-    rect(1340, 445, 100, 50);
+    rect(605, 222, 50, 25);
+    rect(670, 222, 50, 25);
     fill(0);
-    textSize(20);
-    text("回転方向", 1325, 425);
-    text("時計回り", 1260, 470);
-    text("反時計回り", 1390, 470);
+    textSize(10);
+    text("回転方向", 662, 212);
+    text("時計回り", 630, 235);
+    text("反時計回り", 695, 235);
 }
 
 function spinspeedbottans() {                 //回転速度のボタン
     fill(255);
-    rect(1200, 260, 250, 140);
+    rect(600, 130, 125, 70);
     fill(230);
-    rect(1275, 300, 100, 40);
+    rect(637, 150, 50, 20);
     fill(255, 0, 0, 100);
-    ellipse(1232, 370, 50, 50);
-    ellipse(1294, 370, 50, 50);
+    ellipse(616, 185, 25, 25);
+    ellipse(647, 185, 25, 25);
     fill(0, 0, 255, 100);
-    ellipse(1356, 370, 50, 50);
-    ellipse(1418, 370, 50, 50);
+    ellipse(678, 185, 25, 25);
+    ellipse(709, 185, 25, 25);
     fill(0);
-    textSize(20);
-    text("回転速度", 1325, 280);
-    text(wv, 1325, 320);
-    text("rad/s", 1410, 320);
-    text("-1", 1232, 370);
-    text("-0,1", 1294, 370);
-    text("+0,1", 1356, 370);
-    text("+1", 1418, 370);
+    textSize(10);
+    text("回転速度", 662, 140);
+    text(wv, 662, 160);
+    text("rad/s", 705, 160);
+    text("-1", 616, 185);
+    text("-0,1", 647, 185);
+    text("+0,1", 678, 185);
+    text("+1", 709, 185);
 }
 
 function speedbottans() {                       //球の速度
     fill(255);
-    rect(1200, 100, 250, 140);
+    rect(600, 50, 125, 70);
     fill(230);
-    rect(1275, 140, 100, 40);
+    rect(637, 70, 50, 20);
     fill(255, 0, 0, 100);
-    ellipse(1232, 210, 50, 50);
-    ellipse(1294, 210, 50, 50);
+    ellipse(616, 105, 25, 25);
+    ellipse(647, 105, 25, 25);
     fill(0, 0, 255, 100);
-    ellipse(1356, 210, 50, 50);
-    ellipse(1418, 210, 50, 50);
+    ellipse(678, 105, 25, 25);
+    ellipse(709, 105, 25, 25);
     fill(0);
-    textSize(20);
-    text("球の速度", 1325, 120);
-    text(vv, 1325, 160);
-    text("m/s", 1410, 160);
-    text("-10", 1232, 210);
-    text("-1", 1294, 210);
-    text("+1", 1356, 210);
-    text("+10", 1418, 210);
+    textSize(10);
+    text("球の速度", 662, 60);
+    text(vv, 662, 80);
+    text("m/s", 705, 80);
+    text("-10", 616, 105);
+    text("-1", 647, 105);
+    text("+1", 678, 105);
+    text("+10", 709, 105);
 }
