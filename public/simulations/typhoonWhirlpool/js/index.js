@@ -187,7 +187,7 @@ function normalvalue() {
     x = 0;
     y = 250 * sc;
     vx = 0;
-    vy = 5 * sc;
+    vy = 5;
     w = 0;
     d = 0;
     g = 0;
