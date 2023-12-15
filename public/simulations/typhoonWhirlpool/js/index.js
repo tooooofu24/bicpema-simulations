@@ -1,16 +1,17 @@
-var x, y, vx, vy, g, w, d, wa, ga, gb, r, wb, cha, ko, fps;
-var x2, x3, x4, x5, y2, y3, y4, y5;
+var sc;
+var x2, x3, x4, x5, y2, y3, y4, y5, p;
 var i, n = 100;                     //ボールの個数
-var start, reset, change, locus, radr;
+var start, reset, change, change0, locus, radr;
 let balls = [];
 
 function setup() {
-    createCanvas(750, 400);
+    wscale();
+    createCanvas(1500 * sc, 800 * sc);
     background(200);
-    translate(250, 175);
+    translate(500 * sc, 350 * sc);
     noStroke();
     fill(162, 231, 255, 230);
-    ellipse(0, 0, 300, 300);
+    ellipse(0, 0, 600 * sc, 600 * sc);
     for (i = 0; i < n; i++) {
         balls[i] = new Ball(i);
     }
@@ -26,11 +27,11 @@ function setup() {
 }
 
 function draw() {
-    translate(250, 175);
+    translate(500 * sc, 350 * sc);
     if (start == true && locus == false) {
         noStroke();
         fill(162, 231, 255, 230);
-        ellipse(0, 0, 300, 300);
+        ellipse(0, 0, 600 * sc, 600 * sc);
 
     }
 
@@ -64,12 +65,12 @@ class Ball {
         if (start == true) {
             fill(255);
             noStroke();
-            ellipse(x, y, 5, 5);
+            ellipse(x, y, 10 * sc, 10 * sc);
             if (locus == false) {
-                ellipse(x2, y2, 5, 5);
-                ellipse(x3, y3, 5, 5);
-                ellipse(x4, y4, 5, 5);
-                ellipse(x5, y5, 5, 5);
+                ellipse(x2, y2, 10 * sc, 10 * sc);
+                ellipse(x3, y3, 10 * sc, 10 * sc);
+                ellipse(x4, y4, 10 * sc, 10 * sc);
+                ellipse(x5, y5, 10 * sc, 10 * sc);
             }
             stroke(0);
             rotate(this.r * 2 * PI / n);
@@ -82,9 +83,9 @@ class Ball {
             normalvalue();
             noStroke();
             fill(162, 231, 255, 255);
-            ellipse(0, 0, 300, 300);
+            ellipse(0, 0, 600 * sc, 600 * sc);
             fill(162, 231, 255, 230);
-            ellipse(0, 0, 300, 300);
+            ellipse(0, 0, 600 * sc, 600 * sc);
             kiatubottans();
             korioribottans();
             numberbottans();
@@ -94,7 +95,14 @@ class Ball {
     }
 }
 
-
+function wscale() {
+    if (windowWidth / 1500 <= windowHeight / 800) {
+        sc = windowWidth / 1500;
+    }
+    if (windowWidth / 1500 > windowHeight / 800) {
+        sc = windowHeight / 800;
+    }
+}
 
 function move() {
     if (start == true) {
@@ -106,32 +114,43 @@ function move() {
         y3 = y2;
         x2 = x - (y2 - y) * cos(w * PI / 180);
         y2 = y;
-
-        if (x > 1 || y > 1 && vy > 0 && change == true) {                   //初期コリオリ y速度の減少と回転角度の増加
-
-
-            w += wb;
+        if (x > 1 || y > 1 && vy > 0 && change0 == false) {
+            w += 0;
             wb = wb + 0.3;
             d = dist(x, y, 0, 0);
             g = ga / d;
+            vy = vy;
+            y = y - vy * sc;
+            if (wb > 1) {
+                change0 = true;
+                wb = 0;
+            }
+        }
+        else if (x > 1 || y > 1 && vy > 0 && change == true && change0 == true) {                   //初期コリオリ y速度の減少と回転角度の増加
+
+
+            w += wb;
+            wb = wb + 0.1;
+            d = dist(x, y, 0, 0);
+            g = ga / d;
             vy = vy - g;
-            y = y - vy;
-            if (vy < 2) {
+            y = y - vy * sc;
+            if (w > 40 * p) {
                 change = false;
             }
-        } else if (x > 15 || y > 15) {                             //渦巻状に変化後の動作
+        } else if (x > 30 * sc || y > 30 * sc) {                             //渦巻状に変化後の動作
             w += wb;
             d = dist(x, y, 0, 0);
             g = gb / d;
             vy = vy + g;
-            y = y - vy;
+            y = y - vy * sc;
         }
-        else if (x <= 15 && y <= 15 && locus == false) {
+        else if (x <= 30 * sc && y <= 30 && locus == false) {
             noStroke();
             fill(162, 231, 255, 230);
-            ellipse(0, 0, 300, 300);
+            ellipse(0, 0, 600 * sc, 600 * sc);
             fill(162, 231, 255, 230);
-            ellipse(0, 0, 300, 300);
+            ellipse(0, 0, 600 * sc, 600 * sc);
             normalvalue();
             start = true;
         }
@@ -145,11 +164,11 @@ function allspin() {
 
 function notcori() {
     if (start == true) {
-        if (x > 15 || y > 15) {
+        if (x > 30 * sc || y > 30 * sc) {
             d = dist(x, y, 0, 0);
             g = gb / d;
             vy = vy + g;
-            y = y - (vy / 2);
+            y = y - (vy / 2 * sc);
         }
     }
 }
@@ -157,17 +176,18 @@ function notcori() {
 function initialvalue() {  //初期値設定
     n = 16;
     fps = 20;
-    ga = 20;//気圧傾度力
-    gb = 20;
+    ga = 10 * sc;//気圧傾度力
+    gb = 50 * sc;
+    p = 1;
     ko = 5;
     wa = ko;//コリオリの力
 }
 
 function normalvalue() {
     x = 0;
-    y = 125;
+    y = 250 * sc;
     vx = 0;
-    vy = 5;
+    vy = 5 * sc;
     w = 0;
     d = 0;
     g = 0;
@@ -175,6 +195,7 @@ function normalvalue() {
     start = false;
     reset = false;
     change = true;
+    change0 = false;
     locus = true;
     x2 = 10000;
     x3 = 10000;
@@ -192,331 +213,380 @@ function normalvalue() {
 
 function bottans() {              //ボタンの生成
     textFont("Meiryo");
-    textSize(17);
+    textSize(35 * sc);
     textAlign(CENTER, CENTER);//文字の中央ぞろえ
     resetMatrix();
     stroke(0);
     fill(0, 0, 255);
-    ellipse(612, 330, 55, 55);//startボタン
+    ellipse(1225 * sc, 660 * sc, 110 * sc, 110 * sc);//startボタン
     fill(255);
-    text("Start", 612, 330);
+    noStroke();
+    text("Start", 1225 * sc, 660 * sc);
     fill(255, 0, 0);
-    ellipse(687, 330, 55, 55);//resetボタン
+    stroke(0);
+    ellipse(1375 * sc, 660 * sc, 110 * sc, 110 * sc);//resetボタン
     fill(255);
-    text("Reset", 687, 330);
+    noStroke();
+    text("Reset", 1375 * sc, 660 * sc);
     fill(0, 255, 0);
-    ellipse(650, 370, 50, 50);//一時停止ボタン
+    stroke(0);
+    ellipse(1300 * sc, 740 * sc, 100 * sc, 100 * sc);//一時停止ボタン
     fill(0);
-    textSize(10);
-    text("一時停止", 650, 370);
+    textSize(20 * sc);
+    noStroke();
+    text("一時停止", 1300 * sc, 740 * sc);
 }
 
 function korioribottans() {
     resetMatrix();
-    textSize(10);
+    textSize(20 * sc);
     stroke(0);
     fill(255);
-    rect(575, 250, 150, 45);//コリオリの力ボックス
+    rect(1150 * sc, 500 * sc, 300 * sc, 90 * sc);//コリオリの力ボックス
     fill(0);
-    text("コリオリの力", 650, 260);
+    noStroke();
+    text("コリオリの力", 1300 * sc, 520 * sc);
 
 
     fill(230);
-    ellipse(600, 275, 30, 30);//コリオリの力あり
+    stroke(0);
+    ellipse(1200 * sc, 550 * sc, 60 * sc, 60 * sc);//コリオリの力あり
     fill(0);
-    text("あり", 600, 275);
+    noStroke();
+    text("あり", 1200 * sc, 550 * sc);
 
     fill(230);
-    ellipse(700, 275, 30, 30);//コリオリの力なし
+    stroke(0);
+    ellipse(1400 * sc, 550 * sc, 60 * sc, 60 * sc);//コリオリの力なし
     fill(0);
-    text("なし", 700, 275);
+    noStroke();
+    text("なし", 1400 * sc, 550 * sc);
 }
 
 function kiatubottans() {
     resetMatrix();
-    textSize(10);
+    textSize(20 * sc);
     stroke(0);
     fill(255);
-    rect(575, 180, 150, 60);//気圧傾度力ボックス
+    rect(1150 * sc, 360 * sc, 300 * sc, 120 * sc);//気圧傾度力ボックス
     fill(0);
-    text("気圧傾度力", 650, 190);
+    noStroke();
+    text("気圧傾度力", 1300 * sc, 380 * sc);
 
-    textSize(25);
+    textSize(50 * sc);
     fill(230);
-    ellipse(600, 217, 40, 40);//気圧傾度力小
+    stroke(0);
+    ellipse(1200 * sc, 435 * sc, 80 * sc, 80 * sc);//気圧傾度力小
     fill(0);
-    text("小", 600, 217);
-
-    fill(230);
-    ellipse(650, 217, 40, 40);//気圧傾度力中
-    fill(0);
-    text("中", 650, 217);
+    noStroke();
+    text("小", 1200 * sc, 435 * sc);
 
     fill(230);
-    ellipse(700, 217, 40, 40);//気圧傾度力大
+    stroke(0);
+    ellipse(1300 * sc, 435 * sc, 80 * sc, 80 * sc);//気圧傾度力中
     fill(0);
-    text("大", 700, 217);
+    noStroke();
+    text("中", 1300 * sc, 435 * sc);
+
+    fill(230);
+    stroke(0);
+    ellipse(1400 * sc, 435 * sc, 80 * sc, 80 * sc);//気圧傾度力大
+    fill(0);
+    noStroke();
+    text("大", 1400 * sc, 435 * sc);
 }
 
 function numberbottans() { //雲の数
     resetMatrix();
-    textSize(10);
+    textSize(20 * sc);
     stroke(0);
     fill(255);
-    rect(575, 105, 150, 70); //フレーム
+    rect(1150 * sc, 210 * sc, 300 * sc, 140 * sc); //フレーム
     fill(230);
-    rect(612, 125, 75, 20);  //表示ウィンドウ
+    rect(1225 * sc, 250 * sc, 150 * sc, 40 * sc);  //表示ウィンドウ
     fill(255, 0, 0, 100);
-    ellipse(597, 160, 25, 25);
-    ellipse(632, 160, 25, 25);
+    ellipse(1195 * sc, 320 * sc, 50 * sc, 50 * sc);
+    ellipse(1265 * sc, 320 * sc, 50 * sc, 50 * sc);
     fill(0, 0, 255, 100);
-    ellipse(667, 160, 25, 25);
-    ellipse(702, 160, 25, 25);
+    ellipse(1335 * sc, 320 * sc, 50 * sc, 50 * sc);
+    ellipse(1405 * sc, 320 * sc, 50 * sc, 50 * sc);
 
     fill(0);
-    textSize(10);
-    text("雲の数", 650, 115);
-    text(n, 650, 135);
-    text("組", 700, 135);
-    text("-10", 597, 160);
-    text("-1", 632, 160);
-    text("+1", 667, 160);
-    text("+10", 702, 160);
+    textSize(20 * sc);
+    noStroke();
+    text("雲の数", 1300 * sc, 230 * sc);
+    text(n, 1300 * sc, 270 * sc);
+    text("組", 1400 * sc, 270 * sc);
+    text("-10", 1195 * sc, 320 * sc);
+    text("-1", 1265 * sc, 320 * sc);
+    text("+1", 1335 * sc, 320 * sc);
+    text("+10", 1405 * sc, 320 * sc);
 }
 
 function locusbottans() {
     resetMatrix();
-    textSize(10);
+    textSize(20 * sc);
     stroke(0);
     fill(255);
-    rect(575, 55, 150, 45);//軌跡ボックス
+    rect(1150 * sc, 110 * sc, 300 * sc, 90 * sc);//軌跡ボックス
     fill(0);
-    text("雲の軌跡", 650, 65);
+    noStroke();
+    text("雲の軌跡", 1300 * sc, 130 * sc);
 
 
     fill(230);
-    ellipse(600, 80, 30, 30);//軌跡あり
+    stroke(0);
+    ellipse(1200 * sc, 160 * sc, 60 * sc, 60 * sc);//軌跡あり
     fill(0);
-    text("あり", 600, 80);
+    noStroke();
+    text("あり", 1200 * sc, 160 * sc);
 
     fill(230);
-    ellipse(700, 80, 30, 30);//軌跡なし
+    stroke(0);
+    ellipse(1400 * sc, 160 * sc, 60 * sc, 60 * sc);//軌跡なし
     fill(0);
-    text("なし", 700, 80);
+    noStroke();
+    text("なし", 1400 * sc, 160 * sc);
 }
 
 function framespeed() {
     resetMatrix();
-    textSize(10);
+    textSize(20 * sc);
     stroke(0);
     fill(255);
-    rect(575, 5, 150, 45); //フレーム
+    rect(1150 * sc, 10 * sc, 300 * sc, 90 * sc); //フレーム
     fill(230);
-    rect(625, 10, 75, 15);  //表示ウィンドウ
+    rect(1250 * sc, 20 * sc, 150 * sc, 30 * sc);  //表示ウィンドウ
     fill(255, 0, 0, 100);
-    ellipse(597, 37, 20, 20);
-    ellipse(632, 37, 20, 20);
+    ellipse(1195 * sc, 75 * sc, 40 * sc, 40 * sc);
+    ellipse(1265 * sc, 75 * sc, 40 * sc, 40 * sc);
     fill(0, 0, 255, 100);
-    ellipse(667, 37, 20, 20);
-    ellipse(702, 37, 20, 20);
+    ellipse(1335 * sc, 75 * sc, 40 * sc, 40 * sc);
+    ellipse(1405 * sc, 75 * sc, 40 * sc, 40 * sc);
 
     fill(0);
-    textSize(8);
-    text("描画速度", 600, 17);
-    text(fps, 662, 17);
-    text("fps", 712, 17);
-    text("-10", 597, 37);
-    text("-1", 632, 37);
-    text("+1", 667, 37);
-    text("+10", 702, 37);
+    textSize(18 * sc);
+    noStroke();
+    text("描画速度", 1200 * sc, 35 * sc);
+    text(fps, 1325 * sc, 35 * sc);
+    text("fps", 1425 * sc, 35 * sc);
+    text("-10", 1195 * sc, 75 * sc);
+    text("-1", 1265 * sc, 75 * sc);
+    text("+1", 1335 * sc, 75 * sc);
+    text("+10", 1405 * sc, 75 * sc);
 
 }
 
 
 
 function mousePressed() {    //マウスリック判定
-    if (dist(mouseX, mouseY, 612, 330) < 27) {//start判定
+    if (dist(mouseX, mouseY, 1225 * sc, 660 * sc) < 55 * sc) {//start判定
         start = true;
         reset = false;
     }
-    if (dist(mouseX, mouseY, 687, 330) < 27) {//reset判定
+    if (dist(mouseX, mouseY, 1375 * sc, 660 * sc) < 55 * sc) {//reset判定
         reset = true;
         start = false;
     }
-    if (dist(mouseX, mouseY, 650, 370) < 25) {//一時停止判定
+    if (dist(mouseX, mouseY, 1300 * sc, 740 * sc) < 50 * sc) {//一時停止判定
         start = false;
     }
 
-    if (dist(mouseX, mouseY, 600, 275) < 15) {//コリオリの力あり判定
+    if (dist(mouseX, mouseY, 1200 * sc, 550 * sc) < 30 * sc) {//コリオリの力あり判定
         ko = 5;
         korioribottans();
         fill(0, 200, 100, 200);
-        ellipse(600, 275, 30, 30);//コリオリの力あり
+        stroke(0);
+        ellipse(1200 * sc, 550 * sc, 60 * sc, 60 * sc);//コリオリの力あり
         fill(0);
-        textSize(10);
-        text("あり", 600, 275);
+        noStroke();
+        textSize(20 * sc);
+        text("あり", 1200 * sc, 550 * sc);
     }
-    if (dist(mouseX, mouseY, 700, 275) < 15) {//コリオリの力なし判定
+    if (dist(mouseX, mouseY, 1400 * sc, 550 * sc) < 30 * sc) {//コリオリの力なし判定
         wa = 0;
         korioribottans();
         fill(0, 200, 100, 200);
-        ellipse(700, 275, 30, 30);//コリオリの力なし
+        stroke(0);
+        ellipse(1400 * sc, 550 * sc, 60 * sc, 60 * sc);//コリオリの力なし
         fill(0);
-        textSize(10);
-        text("なし", 700, 275);
+        noStroke();
+        textSize(20 * sc);
+        text("なし", 1400 * sc, 550 * sc);
     }
-    if (dist(mouseX, mouseY, 600, 217) < 20) {//気圧傾度力小
-        ga = 25;
-        gb = 1;
+    if (dist(mouseX, mouseY, 1200 * sc, 435 * sc) < 40 * sc) {//気圧傾度力小
+        ga = 10 * sc;
+        gb = 0.1 * sc;
+        p = 1;
 
         kiatubottans();
         fill(220, 255, 0, 200);
-        ellipse(600, 217, 40, 40);//気圧傾度力小
+        stroke(0);
+        ellipse(1200 * sc, 435 * sc, 80 * sc, 80 * sc);//気圧傾度力小
         fill(0);
-        textSize(25);
-        text("小", 600, 217);
+        noStroke();
+        textSize(50 * sc);
+        text("小", 1200 * sc, 435 * sc);
     }
-    if (dist(mouseX, mouseY, 650, 217) < 20) {//気圧傾度力中
-        ga = 20;
-        gb = 20;
+    if (dist(mouseX, mouseY, 1300 * sc, 435 * sc) < 40 * sc) {//気圧傾度力中
+        ga = 10 * sc;
+        gb = 50 * sc;
+        p = 1;
 
         kiatubottans();
+        stroke(0);
         fill(220, 255, 0, 200);
-        ellipse(650, 217, 40, 40);//気圧傾度力中
+        ellipse(1300 * sc, 435 * sc, 80 * sc, 80 * sc);//気圧傾度力中
         fill(0);
-        textSize(25);
-        text("中", 650, 217);
+        textSize(50 * sc);
+        noStroke();
+        text("中", 1300 * sc, 435 * sc);
     }
-    if (dist(mouseX, mouseY, 700, 217) < 20) {//気圧傾度力大
-        ga = 5;
-        gb = 30;
+    if (dist(mouseX, mouseY, 1400 * sc, 435 * sc) < 40 * sc) {//気圧傾度力大
+        ga = 10 * sc;
+        gb = 200 * sc;
+        p = 0.2;
 
         kiatubottans();
+        stroke(0);
         fill(220, 255, 0, 200);
-        ellipse(700, 217, 40, 40);//気圧傾度力大
+        ellipse(1400 * sc, 435 * sc, 80 * sc, 80 * sc);//気圧傾度力大
         fill(0);
-        textSize(25);
-        text("大", 700, 217);
+        textSize(50 * sc);
+        noStroke();
+        text("大", 1400 * sc, 435 * sc);
     }
 
-    if (dist(mouseX, mouseY, 597, 160) < 12 && n >= 10) {//雲の数変更
+    if (dist(mouseX, mouseY, 1195 * sc, 320 * sc) < 25 * sc && n >= 10) {//雲の数変更
         n += -10;
         resetMatrix();
         stroke(0);
         fill(230);
-        rect(612, 125, 75, 20);
+        rect(1225 * sc, 250 * sc, 150 * sc, 40 * sc);
         fill(0);
-        textSize(10);
-        text(n, 650, 135);
+        textSize(20 * sc);
+        noStroke();
+        text(n, 1300 * sc, 270 * sc);
         for (i = 0; i < n; i++) {
             balls[i] = new Ball(i);
         }
 
     }
-    if (dist(mouseX, mouseY, 632, 160) < 12 && n >= 1) {
+    if (dist(mouseX, mouseY, 1265 * sc, 320 * sc) < 25 * sc && n >= 1) {
         n += -1;
         resetMatrix();
         stroke(0);
         fill(230);
-        rect(612, 125, 75, 20);
+        rect(1225 * sc, 250 * sc, 150 * sc, 40 * sc);
         fill(0);
-        textSize(10);
-        text(n, 650, 135);
+        textSize(20 * sc);
+        noStroke();
+        text(n, 1300 * sc, 270 * sc);
         for (i = 0; i < n; i++) {
             balls[i] = new Ball(i);
         }
 
     }
-    if (dist(mouseX, mouseY, 667, 160) < 12 && n <= 99) {
+    if (dist(mouseX, mouseY, 1335 * sc, 320 * sc) < 25 * sc && n <= 99) {
         n += 1;
         resetMatrix();
         stroke(0);
         fill(230);
-        rect(612, 125, 75, 20);
+        rect(1225 * sc, 250 * sc, 150 * sc, 40 * sc);
         fill(0);
-        textSize(10);
-        text(n, 650, 135);
+        textSize(20 * sc);
+        noStroke();
+        text(n, 1300 * sc, 270 * sc);
         for (i = 0; i < n; i++) {
             balls[i] = new Ball(i);
         }
 
     }
-    if (dist(mouseX, mouseY, 702, 160) < 12 && n <= 90) {
+    if (dist(mouseX, mouseY, 1405 * sc, 320 * sc) < 25 * sc && n <= 90) {
         n += 10;
         resetMatrix();
         stroke(0);
         fill(230);
-        rect(612, 125, 75, 20);
+        rect(1225 * sc, 250 * sc, 150 * sc, 40 * sc);
         fill(0);
-        textSize(10);
-        text(n, 650, 135);
+        textSize(20 * sc);
+        noStroke();
+        text(n, 1300 * sc, 270 * sc);
         for (i = 0; i < n; i++) {
             balls[i] = new Ball(i);
         }
 
     }
 
-    if (dist(mouseX, mouseY, 600, 80) < 15) {//軌跡あり判定
+    if (dist(mouseX, mouseY, 1200 * sc, 160 * sc) < 30 * sc) {//軌跡あり判定
         locus = true;
         locusbottans();
         fill(0, 200, 100, 200);
-        ellipse(600, 80, 30, 30);//軌跡あり
+        stroke(0);
+        ellipse(1200 * sc, 160 * sc, 60 * sc, 60 * sc);//コリオリの力あり
         fill(0);
-        textSize(10);
-        text("あり", 600, 80);
+        textSize(20 * sc);
+        noStroke();
+        text("あり", 1200 * sc, 160 * sc);
     }
-    if (dist(mouseX, mouseY, 700, 80) < 15) {//軌跡なし判定
+    if (dist(mouseX, mouseY, 1400 * sc, 160 * sc) < 30 * sc) {//軌跡なし判定
         locus = false;
         locusbottans();
+        stroke(0);
         fill(0, 200, 100, 200);
-        ellipse(700, 80, 30, 30);//軌跡なし
+        ellipse(1400 * sc, 160 * sc, 60 * sc, 60 * sc);//コリオリの力なし
         fill(0);
-        textSize(10);
-        text("なし", 700, 80);
+        textSize(20 * sc);
+        noStroke();
+        text("なし", 1400 * sc, 160 * sc);
     }
 
-    if (dist(mouseX, mouseY, 597, 37) < 10 && n >= 10) {//描画速度増減
+    if (dist(mouseX, mouseY, 1195 * sc, 75 * sc) < 20 * sc && n >= 10) {//描画速度増減
         fps += -10;
         frameRate(fps);
         resetMatrix();
         stroke(0);
         fill(230);
-        rect(625, 10, 75, 15);
+        rect(1250 * sc, 20 * sc, 150 * sc, 30 * sc);
         fill(0);
-        textSize(8);
-        text(fps, 662, 17);
+        textSize(20 * sc);
+        noStroke();
+        text(fps, 1325 * sc, 35 * sc);
     }
-    if (dist(mouseX, mouseY, 632, 37) < 10 && n >= 1) {
+    if (dist(mouseX, mouseY, 1265 * sc, 75 * sc) < 20 * sc && n >= 1) {
         fps += -1;
         frameRate(fps);
         resetMatrix();
         stroke(0);
         fill(230);
-        rect(625, 10, 75, 15);
+        rect(1250 * sc, 20 * sc, 150 * sc, 30 * sc);
         fill(0);
-        textSize(8);
-        text(fps, 662, 17);
+        textSize(20 * sc);
+        noStroke();
+        text(fps, 1325 * sc, 35 * sc);
     }
-    if (dist(mouseX, mouseY, 667, 37) < 10) {
+    if (dist(mouseX, mouseY, 1335 * sc, 75 * sc) < 20 * sc) {
         fps += 1;
         frameRate(fps);
         resetMatrix();
         stroke(0);
         fill(230);
-        rect(625, 10, 75, 15);
+        rect(1250 * sc, 20 * sc, 150 * sc, 30 * sc);
         fill(0);
-        textSize(8);
-        text(fps, 662, 17);
+        textSize(20 * sc);
+        noStroke();
+        text(fps, 1325 * sc, 35 * sc);
     }
-    if (dist(mouseX, mouseY, 702, 37) < 10) {
+    if (dist(mouseX, mouseY, 1405 * sc, 75 * sc) < 20 * sc) {
         fps += 10;
         frameRate(fps);
         resetMatrix();
         stroke(0);
         fill(230);
-        rect(625, 10, 75, 15);
+        rect(1250 * sc, 20 * sc, 150 * sc, 30 * sc);
         fill(0);
-        textSize(8);
-        text(fps, 662, 17);
+        textSize(20 * sc);
+        noStroke();
+        text(fps, 1325 * sc, 35 * sc);
     }
 }
