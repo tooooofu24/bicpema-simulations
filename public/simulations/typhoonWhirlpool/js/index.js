@@ -417,7 +417,7 @@ function mousePressed() {    //マウスリック判定
     if (dist(mouseX, mouseY, 1200 * sc, 435 * sc) < 40 * sc) {//気圧傾度力小
         ga = 10 * sc;
         gb = 0.1 * sc;
-        p = 1;
+        p = 1.5;
 
         kiatubottans();
         fill(220, 255, 0, 200);
