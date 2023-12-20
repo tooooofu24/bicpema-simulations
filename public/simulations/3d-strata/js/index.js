@@ -36,15 +36,25 @@ let placeAddButton,
 // 平面を構成する地層の組を追加、削除するボタン
 let strataAddButton,
     strataRemoveButton;
+let aSetButton,
+    bSetButton,
+    cSetButton,
+    dSetButton,
+    eSetButton,
+    fSetButton;
 
-let loadTestDataButton;
 // DOM要素の生成
 function elCreate() {
     placeAddButton = select("#placeAddButton")
     placeRemoveButton = select("#placeRemoveButton")
     strataAddButton = select("#strataAddButton")
     strataRemoveButton = select("#strataRemoveButton")
-    loadTestDataButton = select("#loadTestDataButton")
+    aSetButton = select("#aSetButton")
+    bSetButton = select("#bSetButton")
+    cSetButton = select("#cSetButton")
+    dSetButton = select("#dSetButton")
+    eSetButton = select("#eSetButton")
+    fSetButton = select("#fSetButton")
 }
 
 // 地点のデータを入力するインプットの連想配列
@@ -350,71 +360,105 @@ function strataRemoveButtonFunction() {
 function loadTestDataButtonFunction() {
     if (Object.keys(dataInputArr).length == 0) {
         let name_arr = [
-            "竹ノ塚小",
-            "西保木間小",
-            "伊興中",
-            "伊興小"
+            "伊興小",
+            "鹿浜第一小",
+            "東伊興小",
+            "古千谷小",
+            "梅島小",
+            "平野小",
+            "渕江小"
+
         ]
         let place_arr = [
             [
-                35.473517,
-                35.474161,
-                35.475830,
-                35.474613
+                35.79614722,
+                35.78613889,
+                35.80240278,
+                35.80716389,
+                35.77188611,
+                35.77838333,
+                35.79567222
             ],
             [
-                139.471927,
-                139.475633,
-                139.465208,
-                139.465656
+                139.7823778,
+                139.7674278,
+                139.7849,
+                139.7783111,
+                139.7978972,
+                139.8108306,
+                139.8034306
             ]
         ]
         let test_data = {
             "地点1": [
-                [-2.6, - 1.5, "泥岩層"],
-                [- 1.5, 2.83, "砂岩層"],
-                [2.83, 20.65, "泥岩層"],
-                [20.65, 21.2, "砂岩層"],
-                [21.2, 23.4, "泥岩層"],
-                [23.4, 28.3, "れき岩層"],
-                [28.3, 37.02, "砂岩層"],
+                [0, 1, "その他の層"],
+                [1, 2, "泥岩層"],
+                [2, 4, "砂岩層"],
+                [4, 9, "泥岩層"],
+                [9, 12, "砂岩層"],
+                [12, 24, "泥岩層"],
+                [24, 30, "れき岩層"],
+                [30, 39, "砂岩層"],
             ],
             "地点2": [
-                [-3, - 2.6, "泥岩層"],
-                [- 2.6, 0.9, "砂岩層"],
-                [0.9, 15.6, "泥岩層"],
-                [15.6, 19.1, "砂岩層"],
-                [19.1, 21.5, "泥岩層"],
-                [21.5, 24.8, "砂岩層"],
-                [24.8, 27.1, "れき岩層"],
-                [27.1, 32.2, "砂岩層"]
+                [0, 1, "その他の層"],
+                [1, 3, "泥岩層"],
+                [3, 9, "砂岩層"],
+                [9, 21, "泥岩層"],
+                [21, 28, "砂岩層"],
+                [28, 31, "泥岩層"],
+                [31, 38, "れき岩層"],
+                [38, 39, "砂岩層"]
             ],
             "地点3": [
-                [-2.3, - 0.4, "砂岩層"],
-                [- 0.4, 2.8, "泥岩層"],
-                [2.8, 4.6, "砂岩層"],
-                [4.6, 9, "泥岩層"],
-                [9, 13.7, "砂岩層"],
-                [13.7, 16.7, "泥岩層"],
-                [16.7, 30.6, "砂岩層"],
-                [30.6, 31.9, "泥岩層"],
-                [31.9, 41.44, "砂岩層"]
-
+                [0, 1, "その他の層"],
+                [1, 2, "泥岩層"],
+                [2, 13, "砂岩層"],
+                [13, 26, "泥岩層"],
+                [26, 27, "砂岩層"],
+                [27, 32, "れき岩層"],
+                [32, 37, "砂岩層"],
+                [37, 39, "泥岩層"],
             ],
             "地点4": [
-                [-3.86, - 2.76, "泥岩層"],
-                [- 2.76, 0.69, "砂岩層"],
-                [0.69, 6.44, "泥岩層"],
-                [6.44, 8.24, "砂岩層"],
-                [8.24, 20.54, "泥岩層"],
-                [20.54, 26.19, "れき岩層"],
-                [26.19, 30.04, "砂岩層"],
-                [30.04, 30.44, "泥岩層"],
-                [30.44, 41.02, "砂岩層"]
-
+                [0, 1, "その他の層"],
+                [1, 13, "泥岩層"],
+                [13, 15, "砂岩層"],
+                [15, 26, "泥岩層"],
+                [26, 27, "砂岩層"],
+                [27, 32, "れき岩層"],
+                [32, 36, "砂岩層"],
+                [36, 37, "泥岩層"],
+            ],
+            "地点5": [
+                [0, 1, "その他の層"],
+                [1, 24, "泥岩層"],
+                [24, 32, "砂岩層"],
+                [32, 36, "れき岩層"],
+                [36, 37, "砂岩層"],
+                [37, 39, "泥岩層"],
+            ],
+            "地点6": [
+                [0, 1, "その他の層"],
+                [1, 4, "泥岩層"],
+                [4, 5, "砂岩層"],
+                [5, 27, "泥岩層"],
+                [27, 32, "れき岩層"],
+                [32, 37, "砂岩層"],
+                [37, 38, "泥岩層"],
+                [38, 39, "砂岩層"],
+            ],
+            "地点7": [
+                [0, 1, "その他の層"],
+                [1, 2, "泥岩層"],
+                [2, 4, "砂岩層"],
+                [4, 26, "泥岩層"],
+                [26, 30, "砂岩層"],
+                [30, 33, "れき岩層"],
+                [33, 39, "砂岩層"],
             ]
         }
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < name_arr.length; i++) {
             placeAddButtonFunction()
             let el = document.getElementById("placeNameInput" + (i + 1))
             let pa1 = el.children[0];
@@ -430,13 +474,48 @@ function loadTestDataButtonFunction() {
     }
 }
 
+function aSetButtonFunction() {
+    document.getElementById("firstPlaceSelect").options[1].selected = true;
+    document.getElementById("secondPlaceSelect").options[3].selected = true;
+    document.getElementById("thirdPlaceSelect").options[4].selected = true;
+}
+function bSetButtonFunction() {
+    document.getElementById("firstPlaceSelect").options[1].selected = true;
+    document.getElementById("secondPlaceSelect").options[3].selected = true;
+    document.getElementById("thirdPlaceSelect").options[7].selected = true;
+}
+function cSetButtonFunction() {
+    document.getElementById("firstPlaceSelect").options[1].selected = true;
+    document.getElementById("secondPlaceSelect").options[7].selected = true;
+    document.getElementById("thirdPlaceSelect").options[6].selected = true;
+}
+function dSetButtonFunction() {
+    document.getElementById("firstPlaceSelect").options[1].selected = true;
+    document.getElementById("secondPlaceSelect").options[6].selected = true;
+    document.getElementById("thirdPlaceSelect").options[5].selected = true;
+}
+function eSetButtonFunction() {
+    document.getElementById("firstPlaceSelect").options[1].selected = true;
+    document.getElementById("secondPlaceSelect").options[5].selected = true;
+    document.getElementById("thirdPlaceSelect").options[2].selected = true;
+}
+function fSetButtonFunction() {
+    document.getElementById("firstPlaceSelect").options[1].selected = true;
+    document.getElementById("secondPlaceSelect").options[2].selected = true;
+    document.getElementById("thirdPlaceSelect").options[4].selected = true;
+}
 // DOM要素の設定
 function elInit() {
     placeAddButton.mousePressed(placeAddButtonFunction)
     placeRemoveButton.mousePressed(placeRemoveButtonFunction)
     strataAddButton.mousePressed(strataAddButtonFunction)
     strataRemoveButton.mousePressed(strataRemoveButtonFunction)
-    loadTestDataButton.mousePressed(loadTestDataButtonFunction)
+    aSetButton.mousePressed(aSetButtonFunction)
+    bSetButton.mousePressed(bSetButtonFunction)
+    cSetButton.mousePressed(cSetButtonFunction)
+    dSetButton.mousePressed(dSetButtonFunction)
+    eSetButton.mousePressed(eSetButtonFunction)
+    fSetButton.mousePressed(fSetButtonFunction)
 }
 
 // 初期値やシミュレーションの設定
@@ -453,6 +532,7 @@ function setup() {
     elCreate()
     elInit()
     initValue()
+    loadTestDataButtonFunction()
 }
 
 // 緯度経度、深さの最小値と最大値を計算する関数
