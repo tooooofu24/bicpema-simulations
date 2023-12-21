@@ -56,6 +56,7 @@ function elInit() {
 
 // setup関数
 function setup() {
+    createCanvas(0,0)
     elCreate()
     elInit()
 }
