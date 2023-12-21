@@ -394,8 +394,8 @@ function loadTestDataButtonFunction() {
                 [0, 1, "その他の層"],
                 [1, 2, "泥岩層"],
                 [2, 4, "砂岩層"],
-                [4, 9, "泥岩層"],
-                [9, 12, "砂岩層"],
+                [4, 10, "泥岩層"],
+                [10, 12, "砂岩層"],
                 [12, 24, "泥岩層"],
                 [24, 30, "れき岩層"],
                 [30, 39, "砂岩層"],
@@ -475,34 +475,154 @@ function loadTestDataButtonFunction() {
 }
 
 function aSetButtonFunction() {
+    while (document.getElementById("strataSelect").childElementCount != 0) {
+        strataRemoveButtonFunction()
+    }
     document.getElementById("firstPlaceSelect").options[1].selected = true;
     document.getElementById("secondPlaceSelect").options[3].selected = true;
     document.getElementById("thirdPlaceSelect").options[4].selected = true;
+    firstPlaceSelectFunction()
+    secondPlaceSelectFunction()
+    thirdPlaceSelectFunction()
+    for (let i = 0; i < 3; i++)strataAddButtonFunction()
+    document.getElementById("select1-1").options[1].selected = true;
+    document.getElementById("select1-2").options[2].selected = true;
+    document.getElementById("select1-3").options[0].selected = true;
+    strataSelectFunction()
+    // １層目
+    document.getElementById("select2-1").options[2].selected = true;
+    document.getElementById("select3-1").options[1].selected = true;
+    document.getElementById("select4-1").options[1].selected = true;
+    // ２層目
+    document.getElementById("select2-2").options[0].selected = true;
+    document.getElementById("select3-2").options[0].selected = true;
+    document.getElementById("select4-2").options[0].selected = true;
+    // ３層目
+    document.getElementById("select2-3").options[2].selected = true;
+    document.getElementById("select3-3").options[2].selected = true;
+    document.getElementById("select4-3").options[2].selected = true;
 }
+
 function bSetButtonFunction() {
+    while (document.getElementById("strataSelect").childElementCount != 0) {
+        strataRemoveButtonFunction()
+    }
     document.getElementById("firstPlaceSelect").options[1].selected = true;
     document.getElementById("secondPlaceSelect").options[3].selected = true;
     document.getElementById("thirdPlaceSelect").options[7].selected = true;
+    firstPlaceSelectFunction()
+    secondPlaceSelectFunction()
+    thirdPlaceSelectFunction()
+    for (let i = 0; i < 5; i++)strataAddButtonFunction()
+    document.getElementById("select1-1").options[1].selected = true;
+    document.getElementById("select1-2").options[0].selected = true;
+    document.getElementById("select1-3").options[2].selected = true;
+    document.getElementById("select1-4").options[0].selected = true;
+    strataSelectFunction()
+    // １層目
+    document.getElementById("select2-1").options[0].selected = true;
+    document.getElementById("select3-1").options[0].selected = true;
+    document.getElementById("select4-1").options[0].selected = true;
+    // ２層目
+    document.getElementById("select2-2").options[0].selected = true;
+    document.getElementById("select3-2").options[0].selected = true;
+    document.getElementById("select4-2").options[0].selected = true;
+    // ４層目
+    document.getElementById("select2-3").options[0].selected = true;
+    document.getElementById("select3-3").options[0].selected = true;
+    document.getElementById("select4-3").options[0].selected = true;
+    // ５層目
+    document.getElementById("select2-4").options[2].selected = true;
+    document.getElementById("select3-4").options[2].selected = true;
+    document.getElementById("select4-4").options[2].selected = true;
 }
+
 function cSetButtonFunction() {
+    while (document.getElementById("strataSelect").childElementCount != 0) {
+        strataRemoveButtonFunction()
+    }
     document.getElementById("firstPlaceSelect").options[1].selected = true;
     document.getElementById("secondPlaceSelect").options[7].selected = true;
     document.getElementById("thirdPlaceSelect").options[6].selected = true;
+    firstPlaceSelectFunction()
+    secondPlaceSelectFunction()
+    thirdPlaceSelectFunction()
+    for (let i = 0; i < 4; i++)strataAddButtonFunction()
+    document.getElementById("select1-1").options[1].selected = true;
+    document.getElementById("select1-2").options[0].selected = true;
+    document.getElementById("select1-3").options[2].selected = true;
+    document.getElementById("select1-4").options[0].selected = true;
+    strataSelectFunction()
+    // １層目
+    document.getElementById("select2-1").options[0].selected = true;
+    document.getElementById("select3-1").options[0].selected = true;
+    document.getElementById("select4-1").options[0].selected = true;
+    // ２層目
+    document.getElementById("select2-2").options[0].selected = true;
+    document.getElementById("select3-2").options[0].selected = true;
+    document.getElementById("select4-2").options[0].selected = true;
+    // ３層目
+    document.getElementById("select2-3").options[0].selected = true;
+    document.getElementById("select3-3").options[0].selected = true;
+    document.getElementById("select4-3").options[0].selected = true;
+    // ４層目
+    document.getElementById("select2-4").options[2].selected = true;
+    document.getElementById("select3-4").options[2].selected = true;
+    document.getElementById("select4-4").options[1].selected = true;
 }
 function dSetButtonFunction() {
+    while (document.getElementById("strataSelect").childElementCount != 0) {
+        strataRemoveButtonFunction()
+    }
     document.getElementById("firstPlaceSelect").options[1].selected = true;
     document.getElementById("secondPlaceSelect").options[6].selected = true;
     document.getElementById("thirdPlaceSelect").options[5].selected = true;
+    firstPlaceSelectFunction()
+    secondPlaceSelectFunction()
+    thirdPlaceSelectFunction()
+    for (let i = 0; i < 1; i++)strataAddButtonFunction()
+    document.getElementById("select1-1").options[2].selected = true;
+    strataSelectFunction()
+    // １層目
+    document.getElementById("select2-1").options[0].selected = true;
+    document.getElementById("select3-1").options[0].selected = true;
+    document.getElementById("select4-1").options[0].selected = true;
 }
 function eSetButtonFunction() {
+    while (document.getElementById("strataSelect").childElementCount != 0) {
+        strataRemoveButtonFunction()
+    }
     document.getElementById("firstPlaceSelect").options[1].selected = true;
     document.getElementById("secondPlaceSelect").options[5].selected = true;
     document.getElementById("thirdPlaceSelect").options[2].selected = true;
+    firstPlaceSelectFunction()
+    secondPlaceSelectFunction()
+    thirdPlaceSelectFunction()
+    for (let i = 0; i < 1; i++)strataAddButtonFunction()
+    document.getElementById("select1-1").options[2].selected = true;
+    strataSelectFunction()
+    // １層目
+    document.getElementById("select2-1").options[0].selected = true;
+    document.getElementById("select3-1").options[0].selected = true;
+    document.getElementById("select4-1").options[0].selected = true;
 }
 function fSetButtonFunction() {
+    while (document.getElementById("strataSelect").childElementCount != 0) {
+        strataRemoveButtonFunction()
+    }
     document.getElementById("firstPlaceSelect").options[1].selected = true;
     document.getElementById("secondPlaceSelect").options[2].selected = true;
     document.getElementById("thirdPlaceSelect").options[4].selected = true;
+    firstPlaceSelectFunction()
+    secondPlaceSelectFunction()
+    thirdPlaceSelectFunction()
+    for (let i = 0; i < 1; i++)strataAddButtonFunction()
+    document.getElementById("select1-1").options[2].selected = true;
+    strataSelectFunction()
+    // １層目
+    document.getElementById("select2-1").options[0].selected = true;
+    document.getElementById("select3-1").options[0].selected = true;
+    document.getElementById("select4-1").options[0].selected = true;
 }
 // DOM要素の設定
 function elInit() {
