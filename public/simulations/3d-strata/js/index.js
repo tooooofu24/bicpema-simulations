@@ -52,7 +52,7 @@ function elCreate() {
     bSetButton = select("#bSetButton")
     cSetButton = select("#cSetButton")
     dSetButton = select("#dSetButton")
-    allSetButton = select("allSetButton")
+    allSetButton = select("#allSetButton")
 }
 
 // 地点のデータを入力するインプットの連想配列
@@ -453,6 +453,7 @@ function loadTestDataButtonFunction() {
 }
 
 function aSetButtonFunction() {
+    allSetIs = false
     while (document.getElementById("strataSelect").childElementCount != 0) {
         strataRemoveButtonFunction()
     }
@@ -477,6 +478,7 @@ function aSetButtonFunction() {
 }
 
 function bSetButtonFunction() {
+    allSetIs = false
     while (document.getElementById("strataSelect").childElementCount != 0) {
         strataRemoveButtonFunction()
     }
@@ -501,6 +503,7 @@ function bSetButtonFunction() {
 }
 
 function cSetButtonFunction() {
+    allSetIs = false
     while (document.getElementById("strataSelect").childElementCount != 0) {
         strataRemoveButtonFunction()
     }
@@ -529,6 +532,7 @@ function cSetButtonFunction() {
     document.getElementById("select4-3").options[0].selected = true;
 }
 function dSetButtonFunction() {
+    allSetIs = false
     while (document.getElementById("strataSelect").childElementCount != 0) {
         strataRemoveButtonFunction()
     }
@@ -566,14 +570,18 @@ function elInit() {
     bSetButton.mousePressed(bSetButtonFunction)
     cSetButton.mousePressed(cSetButtonFunction)
     dSetButton.mousePressed(dSetButtonFunction)
+    allSetButton.mousePressed(allSetButtonFunction)
 }
 
+// 全体表示の判定
+let allSetIs;
 // 初期値やシミュレーションの設定
 function initValue() {
     camera(800, -500, 800, 0, 0, 0, 0, 1, 0)
     textSize(25)
     textFont(jaFont);
     textAlign(CENTER);
+    allSetIs = false
 }
 
 // setup関数
@@ -819,6 +827,114 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     pop()
 }
 
+let allSetData = {
+    "aSet": {
+        layers: [
+            "その他の層",
+            "れき岩層"
+        ],
+        coordinates: [
+            [-181.19114367867377, 156.844452508007],
+            [-404.5686259590227, 97.50469680021058],
+            [37.63585604635591, 268.8588969980216]
+        ],
+        ranges: [
+            [
+                [321.42857142857144, 303.57142857142856],
+                [267.85714285714283, 250],
+                [339.2857142857143, 321.42857142857144]
+            ],
+            [
+                [428.57142857142856, 339.2857142857143],
+                [464.2857142857143, 321.42857142857144],
+                [446.42857142857144, 339.2857142857143]
+            ]
+        ]
+    },
+    "bSet": {
+        layers: [
+            "その他の層",
+            "れき岩層"
+        ],
+        coordinates: [
+            [-181.19114367867377, 156.844452508007],
+            [37.63585604635591, 268.8588969980216],
+            [500, 92.95245843091737]
+        ],
+        ranges: [
+            [
+                [321.42857142857144, 303.57142857142856],
+                [339.2857142857143, 321.42857142857144],
+                [250, 232.14285714285714]
+            ],
+            [
+                [428.57142857142856, 339.2857142857143],
+                [446.42857142857144, 339.2857142857143],
+                [375, 303.57142857142856]
+            ]
+        ]
+    },
+    "cSet": {
+        layers: [
+            "その他の層",
+            "ローム層",
+            "れき岩層"
+        ],
+        coordinates: [
+            [-181.19114367867377, 156.844452508007],
+            [-500, -77.50774020991764],
+            [42.756977894317515, -78.48309444525614]
+        ],
+        ranges: [
+            [
+                [321.42857142857144, 303.57142857142856],
+                [71.42857142857143, 53.57142857142857],
+                [160.71428571428572, 125]
+            ],
+            [
+                [339.2857142857143, 321.42857142857144],
+                [89.28571428571429, 71.42857142857143],
+                [196.42857142857142, 160.71428571428572]
+            ],
+            [
+                [428.57142857142856, 339.2857142857143],
+                [160.71428571428572, 89.28571428571429],
+                [285.7142857142857, 196.42857142857142]
+            ]
+        ]
+    },
+    "dSet": {
+        layers: [
+            "その他の層",
+            "ローム層",
+            "れき岩層"
+        ],
+        coordinates: [
+            [-500, -77.50774020991764],
+            [-372.3787172033775, -268.8588969982295],
+            [42.756977894317515, -78.48309444525614]
+        ],
+        ranges: [
+            [
+                [71.42857142857143, 53.57142857142857],
+                [89.28571428571429, 71.42857142857143],
+                [160.71428571428572, 125]
+            ],
+            [
+                [89.28571428571429, 71.42857142857143],
+                [142.85714285714286, 89.28571428571429],
+                [196.42857142857142, 160.71428571428572]
+            ],
+            [
+                [160.71428571428572, 89.28571428571429],
+                [267.85714285714283, 142.85714285714286],
+                [285.7142857142857, 196.42857142857142]
+            ]
+
+        ]
+    }
+}
+
 // draw関数
 let rotateTime = 0;
 function draw() {
@@ -928,6 +1044,41 @@ function draw() {
             createPlane2(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p2[0], p2[1], p2Max, p1[0], p1[1], p1Max)
             createPlane2(p1[0], p1[1], p1Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p1[0], p1[1], p1Max)
             createPlane2(p2[0], p2[1], p2Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p2[0], p2[1], p2Max)
+            console.log(p1Max, p1Min, p2Max, p2Min, p3Max, p3Min)
+
+        }
+    }
+    if (allSetIs) {
+        for (let key in allSetData) {
+            let layers = allSetData[key].layers
+            let coordinates = allSetData[key].coordinates
+            let ranges = allSetData[key].ranges
+            let p1 = coordinates[0]
+            let p2 = coordinates[1]
+            let p3 = coordinates[2]
+            for (let i = 0; i < layers.length; i++) {
+                let layer = layers[i]
+                let range = ranges[i]
+                let p1Max = range[0][0]
+                let p1Min = range[0][1]
+                let p2Max = range[1][0]
+                let p2Min = range[1][1]
+                let p3Max = range[2][0]
+                let p3Min = range[2][1]
+                if (layer == "砂岩層") fill(215, 205, 166, 150)
+                if (layer == "泥岩層") fill(156, 154, 143, 150)
+                if (layer == "れき岩層") fill(252, 180, 172, 150)
+                if (layer == "石灰岩層") fill(120, 170, 170, 150)
+                if (layer == "凝灰岩層・火山灰層") fill(200, 200, 200, 150)
+                if (layer == "ローム層") fill(112, 58, 21, 150)
+                if (layer == "その他の層") fill(0, 150)
+                createPlane1(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p3[0], p3[1], p3Min)
+                createPlane1(p1[0], p1[1], p1Max, p2[0], p2[1], p2Max, p3[0], p3[1], p3Max)
+                createPlane2(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p2[0], p2[1], p2Max, p1[0], p1[1], p1Max)
+                createPlane2(p1[0], p1[1], p1Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p1[0], p1[1], p1Max)
+                createPlane2(p2[0], p2[1], p2Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p2[0], p2[1], p2Max)
+            }
+
         }
     }
 }
@@ -940,7 +1091,16 @@ function windowResized() {
 }
 
 function allSetButtonFunction() {
-
+    allSetIs = true
+    while (document.getElementById("strataSelect").childElementCount != 0) {
+        strataRemoveButtonFunction()
+    }
+    document.getElementById("firstPlaceSelect").options[0].selected = true;
+    document.getElementById("secondPlaceSelect").options[0].selected = true;
+    document.getElementById("thirdPlaceSelect").options[0].selected = true;
+    firstPlaceSelectFunction()
+    secondPlaceSelectFunction()
+    thirdPlaceSelectFunction()
 }
 
 // DOM要素のクラス
