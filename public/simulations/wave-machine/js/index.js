@@ -256,5 +256,7 @@ function windowResized() {
     stopperY = height / 2 - stopper.height / 8;
 }
 function fullScreen() {
-    createCanvas(windowWidth, 9 * windowHeight / 10);
+    let parent = document.getElementById("p5Canvas")
+    let p5Canvas = createCanvas(windowWidth, 8 * windowHeight / 10);
+    p5Canvas.parent(parent)
 }
