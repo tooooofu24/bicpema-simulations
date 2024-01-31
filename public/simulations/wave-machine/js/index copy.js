@@ -2,8 +2,13 @@ let MEDIUM_QUANTITY = 100;
 let speed = 0;
 let stopperX = 0;
 let stopperY = 0;
+let sliderPos = 0;
 let stopper;
+let startButton;
+let stopButton;
+let resetButton;
 let button;
+let slider;
 let clickedCount;
 let fixedCount;
 let incidentWaves;
@@ -11,14 +16,20 @@ let reflectedWaves;
 let mediums;
 function preload() {
     mediums = new Array(MEDIUM_QUANTITY);
-    stopper = loadImage("/assets/img/stopper.png");
-    button = loadImage("/assets/img/redButton.png");
+    stopper = loadImage("https://live.staticflickr.com/65535/51764210494_f754e87f6f_o.png");
+    startButton = loadImage("https://live.staticflickr.com/65535/51673047512_5eeef070b7_o.png");
+    stopButton = loadImage("https://live.staticflickr.com/65535/51674520944_fec8f44a10_o.png");
+    resetButton = loadImage("https://live.staticflickr.com/65535/51674724605_d816b9c9f2_o.png");
+    button = loadImage("https://live.staticflickr.com/65535/51768013151_dc94307cc0_o.png");
 }
 
 function setup() {
     fullScreen();
     speed = 1;
     stopper.resize(100, 0);
+    startButton.resize(5 * width / 72, 0);
+    stopButton.resize(5 * width / 72, 0);
+    resetButton.resize(5 * width / 72, 0);
     button.resize(100, 100);
     clickedCount = true;
     fixedCount = true;
@@ -29,6 +40,9 @@ function setup() {
     }
     stopperX = width - stopper.width - 5 - (width - 200) / MEDIUM_QUANTITY;
     stopperY = height / 2 - stopper.height / 8;
+    slider = createSlider(0, 1, 1, 0.01)
+    slider.size(width / 5);
+    slider.position(100 - button.width / 2, height / 2 + 3 * button.height)
 }
 
 function draw() {
@@ -49,6 +63,7 @@ function draw() {
     }
     clicked_function();
     image_display();
+    speed = slider.value()
 }
 
 function clicked_function() {
@@ -76,9 +91,15 @@ function clicked_function() {
     }
 }
 
-let start
-
 function mousePressed() {
+    if (width - 3 * width / 18 + width / (24 * 6) < mouseX && mouseX < width - 3 * width / 18 + startButton.width + width / (24 * 6) && height - startButton.height - width / (24 * 6) < mouseY && mouseY < height - width / (24 * 6)) {
+        if (clickedCount == true) {
+            clickedCount = false;
+        }
+        else {
+            clickedCount = true;
+        }
+    }
     if (width - 3 * width / 18 + 3 * width / (24 * 6) + startButton.width < mouseX && mouseX < width - 3 * width / 18 + 3 * width / (24 * 6) + startButton.width + resetButton.width && height - resetButton.height - width / (24 * 6) < mouseY && mouseY < height - width / (24 * 6)) {
         clickedCount = true;
         for (let i = 0; i < incidentWaves.length; i++) {
@@ -103,6 +124,13 @@ function image_display() {
     image(button, 100 - button.width / 2, height / 2 + button.height / 2);
     tint(255);
     image(stopper, stopperX, stopperY);
+    if (clickedCount == false) {
+        image(startButton, width - 3 * width / 18 + width / (24 * 6), height - startButton.height - width / (24 * 6));
+    }
+    else {
+        image(stopButton, width - 3 * width / 18 + width / (24 * 6), height - startButton.height - width / (24 * 6));
+    }
+    image(resetButton, width - 3 * width / 18 + 3 * width / (24 * 6) + startButton.width, height - resetButton.height - width / (24 * 6));
 }
 
 class IncidentWave {
@@ -199,6 +227,8 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     speed = 1;
     stopper.resize(100, 0);
+    startButton.resize(5 * width / 72, 0);
+    stopButton.resize(5 * width / 72, 0);
     resetButton.resize(5 * width / 72, 0);
     button.resize(100, 100);
     clickedCount = true;
@@ -211,9 +241,8 @@ function windowResized() {
     stopperX = width - stopper.width - 5 - (width - 200) / MEDIUM_QUANTITY;
     stopperY = height / 2 - stopper.height / 8;
 }
-
 function fullScreen() {
     let parent = document.getElementById("p5Canvas")
-    let p5Canvas = createCanvas(windowWidth, 9 * windowHeight / 10);
+    let p5Canvas = createCanvas(windowWidth, 8 * windowHeight / 10);
     p5Canvas.parent(parent)
 }
