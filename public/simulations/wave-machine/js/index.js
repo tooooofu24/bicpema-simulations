@@ -1,39 +1,139 @@
+// 合成波の点の数
 let MEDIUM_QUANTITY = 100;
-let speed = 0;
-let stopperX = 0;
-let stopperY = 0;
-let stopper;
-let button;
-let clickedCount;
-let fixedCount;
-let incidentWaves;
-let reflectedWaves;
+// 合成波
 let mediums;
+// 器具とボタンの画像を格納する変数
+let stopper,
+    button;
+
 function preload() {
     mediums = new Array(MEDIUM_QUANTITY);
     stopper = loadImage("/assets/img/stopper.png");
     button = loadImage("/assets/img/redButton.png");
 }
 
-function setup() {
-    fullScreen();
-    speed = 1;
+function fullScreen() {
+    let parent = document.getElementById("p5Canvas")
+    let p5Canvas = createCanvas(windowWidth, 9 * windowHeight / 10);
+    p5Canvas.parent(parent)
+}
+
+
+let decelerationButton,
+    startButton,
+    stopButton,
+    accelerationButton;
+function elCreate() {
+    decelerationButton = select("#decelerationButton");
+    startButton = select("#startButton");
+    stopButton = select("#stopButton");
+    accelerationButton = select("#accelerationButton")
+}
+
+function decelerationButtonFunction() {
+    speed -= 1;
+}
+function startButtonFunction() {
+
+}
+function stopButtonFunction() {
+
+}
+function accelerationButtonFunction() {
+    speed += 1;
+}
+
+function elInit() {
+    decelerationButton.mousePressed(decelerationButtonFunction)
+    startButton.mousePressed(startButtonFunction)
+    stopButton.mousePressed(stopButtonFunction)
+    accelerationButton.mousePressed(accelerationButtonFunction)
+}
+
+// 波の射出ボタンが押されているかどうかを判定する二値
+let buttonClickedIs;
+// 器具で固定しているかどうかを判定する二値
+let fixedIs;
+// 波が進行する速度
+let speed = 0;
+// 入射波と反射波
+let incidentWaves;
+let reflectedWaves;
+// 器具のx方向とy方向の長さ
+let stopperX = 0;
+let stopperY = 0;
+function initValue() {
     stopper.resize(100, 0);
-    button.resize(100, 100);
-    clickedCount = true;
-    fixedCount = true;
+    button.resize(50, 50);
+    buttonClickedIs = true;
+    fixedIs = true;
+    speed = 1;
     incidentWaves = new Array();
     reflectedWaves = new Array();
+
     for (let i = 0; i < MEDIUM_QUANTITY; i++) {
+        // mediums[i] = new Medium(x座標, y座標, 番号(0~MEDIUM_QUANTITY))
         mediums[i] = new Medium(i * (width - 200) / MEDIUM_QUANTITY, 0, i);
     }
+
     stopperX = width - stopper.width - 5 - (width - 200) / MEDIUM_QUANTITY;
     stopperY = height / 2 - stopper.height / 8;
 }
 
+function setup() {
+    fullScreen();
+    elCreate();
+    elInit();
+    initValue();
+}
+
+function stopperFunction() {
+
+    // 器具を一定の座標内に位置させると、強制的に位置を整える
+    if (stopperX > width - 100 - stopper.width && stopperY > height / 2 - stopper.height / 4 && stopperY < height / 2 + stopper.height / 4) {
+        stopperX = width - stopper.width - 5 - (width - 200) / MEDIUM_QUANTITY;
+        stopperY = height / 2 - stopper.height / 8;
+        fixedIs = true;
+    }
+    else {
+        fixedIs = false;
+    }
+
+    // 器具の移動
+    if (mouseIsPressed) {
+        if (stopperX < mouseX && mouseX < stopperX + stopper.width && stopperY < mouseY && mouseY < stopperY + stopper.height) {
+            stopperX = mouseX - stopper.width / 2;
+            stopperY = mouseY - stopper.height / 2;
+        }
+    }
+}
+
+function buttonFunction() {
+    if (mouseIsPressed) {
+        if (buttonClickedIs == true && dist(100, height / 2 + button.height, mouseX, mouseY) < button.height / 2) {
+            for (let i = 0; i < MEDIUM_QUANTITY; i++) {
+                incidentWaves.push(new IncidentWave(i * (width - 200) / MEDIUM_QUANTITY, 100, incidentWaves.length, i, true));
+            }
+            for (let i = 0; i < MEDIUM_QUANTITY; i++) {
+                reflectedWaves.push(new ReflectedWave(i * (width - 200) / MEDIUM_QUANTITY, 100, reflectedWaves.length, MEDIUM_QUANTITY - i - 2, true));
+            }
+        }
+    }
+}
+
+function imageFunction() {
+    tint(255);
+    if (mouseIsPressed && dist(100, height / 2 + button.height, mouseX, mouseY) < button.height / 2) {
+        tint(255, 200, 200, 200);
+    }
+    image(button, 100 - button.width / 2, height / 2 + button.height / 2);
+    tint(255);
+    image(stopper, stopperX, stopperY);
+}
+
 function draw() {
     background(100);
-    if (clickedCount == true) {
+    if (buttonClickedIs == true) {
         for (let i = 0; i < incidentWaves.length; i++) {
             incidentWaves[i].calculate();
         }
@@ -47,62 +147,9 @@ function draw() {
     for (let i = 0; i < MEDIUM_QUANTITY; i++) {
         mediums[i].display();
     }
-    clicked_function();
-    image_display();
-}
-
-function clicked_function() {
-    if (stopperX > width - 100 - stopper.width && stopperY > height / 2 - stopper.height / 4 && stopperY < height / 2 + stopper.height / 4) {
-        stopperX = width - stopper.width - 5 - (width - 200) / MEDIUM_QUANTITY;
-        stopperY = height / 2 - stopper.height / 8;
-        fixedCount = true;
-    }
-    else {
-        fixedCount = false;
-    }
-    if (mouseIsPressed) {
-        if (clickedCount == true && dist(100, height / 2 + button.height / 2, mouseX, mouseY) < button.height) {
-            for (let i = 0; i < MEDIUM_QUANTITY; i++) {
-                incidentWaves.push(new IncidentWave(i * (width - 200) / MEDIUM_QUANTITY, 100, incidentWaves.length, i, true));
-            }
-            for (let i = 0; i < MEDIUM_QUANTITY; i++) {
-                reflectedWaves.push(new ReflectedWave(i * (width - 200) / MEDIUM_QUANTITY, 100, reflectedWaves.length, MEDIUM_QUANTITY - i - 2, true));
-            }
-        }
-        if (stopperX < mouseX && mouseX < stopperX + stopper.width && stopperY < mouseY && mouseY < stopperY + stopper.height) {
-            stopperX = mouseX - stopper.width / 2;
-            stopperY = mouseY - stopper.height / 2;
-        }
-    }
-}
-
-let start
-
-function mousePressed() {
-    if (width - 3 * width / 18 + 3 * width / (24 * 6) + startButton.width < mouseX && mouseX < width - 3 * width / 18 + 3 * width / (24 * 6) + startButton.width + resetButton.width && height - resetButton.height - width / (24 * 6) < mouseY && mouseY < height - width / (24 * 6)) {
-        clickedCount = true;
-        for (let i = 0; i < incidentWaves.length; i++) {
-            incidentWaves.length = 0;
-        }
-        for (let i = 0; i < reflectedWaves.length; i++) {
-            reflectedWaves.length = 0;
-        }
-        for (let i = 0; i < MEDIUM_QUANTITY; i++) {
-            mediums[i] = new Medium(i * (width - 200) / MEDIUM_QUANTITY, 0, i);
-        }
-        stopperX = width - stopper.width - 5 - (width - 200) / MEDIUM_QUANTITY;
-        stopperY = height / 2 - stopper.height / 8;
-    }
-}
-
-function image_display() {
-    tint(255);
-    if (mousePressed && dist(100, height / 2 + button.height / 2, mouseX, mouseY) < button.height) {
-        tint(255, 200, 200, 200);
-    }
-    image(button, 100 - button.width / 2, height / 2 + button.height / 2);
-    tint(255);
-    image(stopper, stopperX, stopperY);
+    buttonFunction();
+    stopperFunction();
+    imageFunction();
 }
 
 class IncidentWave {
@@ -142,7 +189,7 @@ class ReflectedWave {
 
     calculate() {
         if (this.number < this.time - MEDIUM_QUANTITY) {
-            if (fixedCount == false) {
+            if (fixedIs == false) {
                 if (this.theta > -30) {
                     this.theta--;
                 }
@@ -196,24 +243,9 @@ class Medium {
 
 }
 function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-    speed = 1;
-    stopper.resize(100, 0);
-    resetButton.resize(5 * width / 72, 0);
-    button.resize(100, 100);
-    clickedCount = true;
-    fixedCount = true;
-    incidentWaves = new Array();
-    reflectedWaves = new Array();
-    for (let i = 0; i < MEDIUM_QUANTITY; i++) {
-        mediums[i] = new Medium(i * (width - 200) / MEDIUM_QUANTITY, 0, i);
-    }
-    stopperX = width - stopper.width - 5 - (width - 200) / MEDIUM_QUANTITY;
-    stopperY = height / 2 - stopper.height / 8;
+    fullScreen();
+    elCreate();
+    elInit();
+    initValue();
 }
 
-function fullScreen() {
-    let parent = document.getElementById("p5Canvas")
-    let p5Canvas = createCanvas(windowWidth, 9 * windowHeight / 10);
-    p5Canvas.parent(parent)
-}
