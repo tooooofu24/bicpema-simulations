@@ -1,0 +1,7 @@
+#parentDiv > label{
+    display:flex;
+    align-items:center;
+}
+#graph{
+    background-color:white;
+}
