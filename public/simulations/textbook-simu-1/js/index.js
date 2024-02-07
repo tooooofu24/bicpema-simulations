@@ -46,14 +46,16 @@ function initValue() {
 }
 
 function setup() {
-    fullScreen()
-    elCreate()
-    elInit()
-    initValue()
+    fullScreen();
+    elCreate();
+    elInit();
+    initValue();
 }
 
 function draw() {
     background(0);
+    image(scale, 0, canvasHeight / 2 - 50);
+    image(scale, 0, canvasHeight - 50);
     redCar._draw();
     yellowCar._draw();
     if (time % 30 == 0) {
@@ -61,9 +63,6 @@ function draw() {
         redCar.arr.push(redCar.posx);
     }
     time += 1;
-    image(scale, 0, canvasHeight / 2 - 50);
-    image(scale, 0, canvasHeight - 50);
-    console.log(frameRate())
 }
 
 function windowResized() {
@@ -82,10 +81,13 @@ class CAR {
     }
     _draw() {
         tint(255, 150);
+        stroke(255,0,0);
+        strokeWeight(3)
         for (let i = 0; i < this.arr.length; i++) {
-            image(this.img, this.arr[i] - this.img.width / 2, this.posy);
+            image(this.img, this.arr[i] - this.img.width / 2-this.arr[0], this.posy);
+            line(this.arr[i]-this.arr[0], this.posy+this.img.height-10, this.arr[i]-this.arr[0], this.posy + this.img.height+10);
         }
-        this.posx += 50 * this.speed / frameRate();
+        this.posx += 50 * this.speed / 30;
         tint(255);
         image(this.img, this.posx - this.img.width / 2, this.posy);
     }
