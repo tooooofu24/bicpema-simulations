@@ -42,7 +42,7 @@
     </style>
 </head>
 
-<body oncontextmenu="return false;">
+<body>
     <div class="container-fluid bg-dark upper-bar">
         <div class="row d-flex align-items-center upper-bar-content">
             <a class="col text-center" href="https://bicpema.com/">
@@ -64,6 +64,45 @@
                     <path
                         d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                 </svg>
+            </div>
+        </div>
+    </div>
+    <div id="p5Canvas"></div>
+    <div id="graph">
+        <div id="upperGraph">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="#upperGraphV-T" class="nav-link active" data-bs-toggle="tab">v-tグラフ</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#upperGraphX-T" class="nav-link" data-bs-toggle="tab">x-tグラフ</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="upperGraphV-T" class="tab-pane active">
+                    上のグラフのv-tグラフ
+                </div>
+                <div id="upperGraphX-T" class="tab-pane">
+                    上のグラフのx-tグラフ
+                </div>
+            </div>
+        </div>
+        <div id="lowerGraph">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="#lowerGraphV-T" class="nav-link active" data-bs-toggle="tab">v-tグラフ</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#lowerGraphX-T" class="nav-link" data-bs-toggle="tab">x-tグラフ</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="lowerGraphV-T" class="tab-pane active">
+                    下のグラフのv-tグラフ
+                </div>
+                <div id="lowerGraphX-T" class="tab-pane">
+                    下のグラフのx-tグラフ
+                </div>
             </div>
         </div>
     </div>

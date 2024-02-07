@@ -1,5 +1,7 @@
 function fullScreen() {
-    createCanvas(2 * windowWidth / 3, 9 * windowHeight / 10);
+    let parent = document.getElementById("p5Canvas");
+    let canvas = createCanvas(2 * windowWidth / 3, 9 * windowHeight / 10);
+    canvas.parent(parent)
 }
 
 function preload() {

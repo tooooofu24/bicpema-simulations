@@ -1,7 +1,27 @@
-#parentDiv > label{
-    display:flex;
-    align-items:center;
+#p5Canvas {
+    width: fit-content;
+    float: left;
 }
-#graph{
-    background-color:white;
+
+#graph {
+    width: 33.333vw;
+    float: left;
+}
+
+#upperGraph,
+#lowerGraph {
+    height: 45vh;
+}
+
+#upperGraphV-T,
+#upperGraphX-T,
+#lowerGraphV-T,
+#lowerGraphX-T {
+    height: 42vh;
+    background-color: rgba(128, 128, 128, 0.166);
+    text-align: center;
+}
+
+.nav-link {
+    height: 3vh;
 }
