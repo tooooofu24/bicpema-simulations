@@ -660,7 +660,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
         if (x % 100 == 0) {
             push()
             translate(-500, 0, 500)
-            let xMap = map(x, 0, 1000, xMin, xMax)
+            let xMap = map(x, 0, 1000, float(xMin), float(xMax))
             if (xMin == xMax) xMap = x / 100
             text(nf(xMap, 1, 4), x, -10)
             pop()
@@ -957,7 +957,9 @@ function draw() {
         xMax += addLenValue
     } else {
         let addLenValue = (unitLen - yLen) / 2
+        yMin = float(yMin)
         yMin -= addLenValue
+        yMax = float(yMax)
         yMax += addLenValue
     }
     let zMin = coordinateData.z.min
@@ -967,7 +969,7 @@ function draw() {
     zMin = -53
     let zMax = coordinateData.z.max
     if (zMax == -Infinity) zMax = 0
-    backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax)
+    backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax);
     drawDirMark(-600, -600)
 
     // データ登録モーダルを開いている時にオービットコントロールを無効化
@@ -1045,7 +1047,6 @@ function draw() {
             createPlane2(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p2[0], p2[1], p2Max, p1[0], p1[1], p1Max)
             createPlane2(p1[0], p1[1], p1Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p1[0], p1[1], p1Max)
             createPlane2(p2[0], p2[1], p2Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p2[0], p2[1], p2Max)
-            console.log(p3)
 
         }
     }
