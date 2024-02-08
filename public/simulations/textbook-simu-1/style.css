@@ -17,11 +17,10 @@
 #upperGraphX-T,
 #lowerGraphV-T,
 #lowerGraphX-T {
-    height: 42vh;
+    height: 35vh;
     background-color: rgba(128, 128, 128, 0.166);
     text-align: center;
 }
 
 .nav-link {
-    height: 3vh;
 }

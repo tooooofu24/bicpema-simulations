@@ -1,3 +1,8 @@
+// #upperGraphV-T,
+// #upperGraphX-T,
+// #lowerGraphV-T,
+// #lowerGraphX-Tのリサイズ処理
+
 function fullScreen() {
     let parent = document.getElementById("p5Canvas");
     let canvas = createCanvas(2 * windowWidth / 3, 9 * windowHeight / 10);
