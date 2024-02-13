@@ -70,6 +70,7 @@ function draw() {
         redCar.arr.push(redCar.posx);
     }
     time += 1;
+    graphDraw();
 }
 
 function windowResized() {
@@ -98,4 +99,26 @@ class CAR {
         tint(255);
         image(this.img, this.posx - this.img.width / 2, this.posy);
     }
+}
+
+function graphDraw() {
+    // if (typeof graphChart !== 'undefined' && graphChart) {
+    //     graphChart.destroy();
+    // }
+    // let ctx1 = document.getElementById('upperGraphV-T').getContext('2d');
+    // let data1 = {
+    //     datasets: [{
+    //     }
+    //     ]
+    // }
+    // let options1 = {
+    //     plugins: {
+    //     },
+    //     animation: false
+    // }
+    // graphChart = new Chart(ctx1, {
+    //     type: 'line',
+    //     data: data1,
+    //     options: options1
+    // });
 }
