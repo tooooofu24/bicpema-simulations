@@ -26,6 +26,7 @@ let yellowCar,
     redCar;
 let time;
 let scale;
+let countArray;
 
 function initValue() {
     canvasWidth = 2 * windowWidth / 3;
@@ -50,6 +51,7 @@ function initValue() {
             scale.line(x, 0, x, 15);
         }
     }
+    countArray = [];
 }
 
 function setup() {
@@ -68,9 +70,11 @@ function draw() {
     if (time % 30 == 0) {
         yellowCar.arr.push(yellowCar.posx);
         redCar.arr.push(redCar.posx);
+        countArray.push(int(time / 30))
     }
     time += 1;
     graphDraw();
+    console.log(yellowCar.arr)
 }
 
 function windowResized() {
@@ -89,11 +93,11 @@ class CAR {
     }
     _draw() {
         tint(255, 150);
-        stroke(255,0,0);
+        stroke(255, 0, 0);
         strokeWeight(3)
         for (let i = 0; i < this.arr.length; i++) {
-            image(this.img, this.arr[i] - this.img.width / 2-this.arr[0], this.posy);
-            line(this.arr[i]-this.arr[0], this.posy+this.img.height-10, this.arr[i]-this.arr[0], this.posy + this.img.height+10);
+            image(this.img, this.arr[i] - this.img.width / 2 - this.arr[0], this.posy);
+            line(this.arr[i] - this.arr[0], this.posy + this.img.height - 10, this.arr[i] - this.arr[0], this.posy + this.img.height + 10);
         }
         this.posx += 50 * this.speed / 30;
         tint(255);
@@ -101,24 +105,62 @@ class CAR {
     }
 }
 
+
+// upperGraphV-TをgraphChart1、ctx1、data1、option1とする
+// upperGraphX-TをgraphChart2、ctx2、data2、option2とする
+// lowerGraphV-TをgraphChart3、ctx3、data3、option3とする
+// lowerGraphX-TをgraphChart4、ctx4、data4、option4とする
+
 function graphDraw() {
-    // if (typeof graphChart !== 'undefined' && graphChart) {
-    //     graphChart.destroy();
+    if (typeof graphChart1 !== 'undefined' && graphChart1) {
+        graphChart1.destroy();
+    }
+    let ctx1 = document.getElementById('upperGraphV-T').getContext('2d');
+    let data1 = {
+        labels: countArray,
+        datasets: [{
+            label: 'Dataset1',
+            data: yellowCar.arr
+        }
+        ]
+    }
+    let options1 = {
+        plugins: {
+            title: {
+                display: true,
+                text: 'v-tグラフ'
+            },
+        },
+        animation: false
+    }
+    graphChart1 = new Chart(ctx1, {
+        type: 'line',
+        data: data1,
+        options: options1
+    });
+
+
+    // if (typeof graphChart2 !== 'undefined' && graphChart2) {
+    //     graphChart2.destroy();
     // }
-    // let ctx1 = document.getElementById('upperGraphV-T').getContext('2d');
-    // let data1 = {
+    // let ctx2 = document.getElementById('upperGraphX-T').getContext('2d');
+    // let data2 = {
     //     datasets: [{
     //     }
     //     ]
     // }
-    // let options1 = {
+    // let options2 = {
     //     plugins: {
+    //         title: {
+    //             display: true,
+    //             text: 'v-tグラフ'
+    //         },
     //     },
     //     animation: false
     // }
-    // graphChart = new Chart(ctx1, {
+    // graphChart2 = new Chart(ctx2, {
     //     type: 'line',
-    //     data: data1,
-    //     options: options1
+    //     data: data2,
+    //     options: options2
     // });
 }
