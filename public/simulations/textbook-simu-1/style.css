@@ -12,17 +12,3 @@
 #lowerGraph {
     height: 45vh;
 }
-
-.canvasParent{
-    height: 35vh;
-    background-color: rgba(128, 128, 128, 0.166);
-    text-align: center;
-}
-
-.canvasParent > canvas{
-    height: 100%;
-    background-color: rgba(128, 128, 128, 0.166);
-}
-
-.nav-link {
-}

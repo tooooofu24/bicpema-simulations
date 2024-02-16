@@ -14,10 +14,24 @@ function preload() {
     redCarImg = loadImage("/assets/img/redCar.png");
 }
 
+let upperGraphV_T,
+    upperGraphX_T,
+    lowerGraphV_T,
+    lowerGraphX_T;
 function elCreate() {
+    upperGraphV_T = document.getElementById("upperGraphV-T")
+    upperGraphX_T = document.getElementById("upperGraphX-T")
+    lowerGraphV_T = document.getElementById("lowerGraphV-T")
+    lowerGraphX_T = document.getElementById("lowerGraphX-T")
 }
 
 function elInit() {
+    let navTabHeight = document.getElementsByClassName("nav-tabs")[0].clientHeight;
+    let graphHeight = (9 * windowHeight / (10 * 2)) - navTabHeight
+    upperGraphV_T.height = graphHeight
+    upperGraphX_T.height = graphHeight
+    lowerGraphV_T.height = graphHeight
+    lowerGraphX_T.height = graphHeight
 }
 
 let canvasWidth,
@@ -74,7 +88,6 @@ function draw() {
     }
     time += 1;
     graphDraw();
-    console.log(yellowCar.arr)
 }
 
 function windowResized() {
@@ -112,6 +125,9 @@ class CAR {
 // lowerGraphX-TをgraphChart4、ctx4、data4、option4とする
 
 function graphDraw() {
+
+    // upperGraphV-T
+
     if (typeof graphChart1 !== 'undefined' && graphChart1) {
         graphChart1.destroy();
     }
@@ -131,7 +147,8 @@ function graphDraw() {
                 text: 'v-tグラフ'
             },
         },
-        animation: false
+        animation: false,
+        maintainAspectRatio: false
     }
     graphChart1 = new Chart(ctx1, {
         type: 'line',
@@ -140,27 +157,93 @@ function graphDraw() {
     });
 
 
-    // if (typeof graphChart2 !== 'undefined' && graphChart2) {
-    //     graphChart2.destroy();
-    // }
-    // let ctx2 = document.getElementById('upperGraphX-T').getContext('2d');
-    // let data2 = {
-    //     datasets: [{
-    //     }
-    //     ]
-    // }
-    // let options2 = {
-    //     plugins: {
-    //         title: {
-    //             display: true,
-    //             text: 'v-tグラフ'
-    //         },
-    //     },
-    //     animation: false
-    // }
-    // graphChart2 = new Chart(ctx2, {
-    //     type: 'line',
-    //     data: data2,
-    //     options: options2
-    // });
+    // upperGraphX-T
+
+    if (typeof graphChart2 !== 'undefined' && graphChart2) {
+        graphChart2.destroy();
+    }
+    let ctx2 = document.getElementById('upperGraphX-T').getContext('2d');
+    let data2 = {
+        labels: countArray,
+        datasets: [{
+            label: 'Dataset2',
+            data: yellowCar.arr
+        }
+        ]
+    }
+    let options2 = {
+        plugins: {
+            title: {
+                display: true,
+                text: 'v-tグラフ'
+            },
+        },
+        animation: false,
+        maintainAspectRatio: false
+    }
+    graphChart2 = new Chart(ctx2, {
+        type: 'line',
+        data: data2,
+        options: options2
+    });
+
+    // lowerGraphV_T
+
+    if (typeof graphChart3 !== 'undefined' && graphChart3) {
+        graphChart3.destroy();
+    }
+    let ctx3 = document.getElementById('lowerGraphV-T').getContext('2d');
+    let data3 = {
+        labels: countArray,
+        datasets: [{
+            label: 'Dataset3',
+            data: yellowCar.arr
+        }
+        ]
+    }
+    let options3 = {
+        plugins: {
+            title: {
+                display: true,
+                text: 'v-tグラフ'
+            },
+        },
+        animation: false,
+        maintainAspectRatio: false
+    }
+    graphChart3 = new Chart(ctx3, {
+        type: 'line',
+        data: data3,
+        options: options3
+    });
+
+     // lowerGraphV_T
+
+     if (typeof graphChart4 !== 'undefined' && graphChart4) {
+        graphChart4.destroy();
+    }
+    let ctx4 = document.getElementById('lowerGraphX-T').getContext('2d');
+    let data4 = {
+        labels: countArray,
+        datasets: [{
+            label: 'Dataset4',
+            data: yellowCar.arr
+        }
+        ]
+    }
+    let options4 = {
+        plugins: {
+            title: {
+                display: true,
+                text: 'v-tグラフ'
+            },
+        },
+        animation: false,
+        maintainAspectRatio: false
+    }
+    graphChart4 = new Chart(ctx4, {
+        type: 'line',
+        data: data4,
+        options: options4
+    });
 }
