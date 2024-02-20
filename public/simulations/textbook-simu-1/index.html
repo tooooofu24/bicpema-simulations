@@ -67,42 +67,25 @@
     </div>
     <div id="p5Canvas"></div>
     <div id="graph">
-        <div id="upperGraph">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a href="#upperGraphV-T" class="nav-link active" data-bs-toggle="tab">x-tグラフ</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#upperGraphX-T" class="nav-link" data-bs-toggle="tab">v-tグラフ</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active canvasParent">
-                    <canvas id="upperGraphV-T"></canvas>
-                </div>
-                <div class="tab-pane canvasParent">
-                    <canvas id="upperGraphX-T"></canvas>
-                </div>
-            </div>
+
+        <div id="upperGraphParent">
+            <canvas id="upperGraph"></canvas>
         </div>
-        <div id="lowerGraph">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a href="#lowerGraphV-T" class="nav-link active" data-bs-toggle="tab">x-tグラフ</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#lowerGraphX-T" class="nav-link" data-bs-toggle="tab">v-tグラフ</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active canvasParent">
-                    <canvas id="lowerGraphV-T"></canvas>
-                </div>
-                <div class="tab-pane">
-                    <canvas id="lowerGraphX-T"></canvas>
-                </div>
-            </div>
+        
+        <div id="upperGraphButton">
+            <button type="button" class="btn btn-primary">x-tグラフ</button>
+            <button type="button" class="btn btn-primary">v-tグラフ</button>
         </div>
+
+        <div id="lowerGraphParent">
+            <canvas id="lowerGraph"></canvas>
+        </div>
+
+        <div id="lowerGraphButton">
+            <button type="button" class="btn btn-primary">x-tグラフ</button>
+            <button type="button" class="btn btn-primary">v-tグラフ</button>
+        </div>
+    
     </div>
     <!-- jQuery -->
     <script language="javascript" type="text/javascript" src="/assets/js/jquery-3.6.4.min.js"></script>

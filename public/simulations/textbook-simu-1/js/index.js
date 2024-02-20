@@ -14,24 +14,25 @@ function preload() {
     redCarImg = loadImage("/assets/img/redCar.png");
 }
 
-let upperGraphV_T,
-    upperGraphX_T,
-    lowerGraphV_T,
-    lowerGraphX_T;
+let upperGraphParent,
+    lowerGraphParent;
+let upperGraph,
+    lowerGraph;
+let upperGraphButton,
+    lowerGraphButton;
 function elCreate() {
-    upperGraphV_T = document.getElementById("upperGraphV-T")
-    upperGraphX_T = document.getElementById("upperGraphX-T")
-    lowerGraphV_T = document.getElementById("lowerGraphV-T")
-    lowerGraphX_T = document.getElementById("lowerGraphX-T")
+    upperGraphParent = select("#upperGraphParent")
+    lowerGraphParent = select("#lowerGraphParent")
+    upperGraph = select("#upperGraph")
+    lowerGraph = select("#lowerGraph")
+    upperGraphButton = select("#upperGraphButton")
+    lowerGraphButton = select("#lowerGraphButton")
 }
 
 function elInit() {
-    let navTabHeight = document.getElementsByClassName("nav-tabs")[0].clientHeight;
-    let graphHeight = (9 * windowHeight / (10 * 2)) - navTabHeight
-    upperGraphV_T.height = graphHeight
-    upperGraphX_T.height = graphHeight
-    lowerGraphV_T.height = graphHeight
-    lowerGraphX_T.height = graphHeight
+    lowerGraphParent.position(width, 55 * windowHeight / 100).size(windowWidth/3,4*windowHeight/10);
+    upperGraphButton.position(width, 5 * windowHeight / 10)
+    lowerGraphButton.position(width, 9.5 * windowHeight / 10)
 }
 
 let canvasWidth,
@@ -126,12 +127,12 @@ class CAR {
 
 function graphDraw() {
 
-    // upperGraphV-T
+    // upperGraph
 
     if (typeof graphChart1 !== 'undefined' && graphChart1) {
         graphChart1.destroy();
     }
-    let ctx1 = document.getElementById('upperGraphV-T').getContext('2d');
+    let ctx1 = document.getElementById('upperGraph').getContext('2d');
     let data1 = {
         labels: countArray,
         datasets: [{
@@ -156,43 +157,12 @@ function graphDraw() {
         options: options1
     });
 
-
-    // upperGraphX-T
-
-    if (typeof graphChart2 !== 'undefined' && graphChart2) {
-        graphChart2.destroy();
-    }
-    let ctx2 = document.getElementById('upperGraphX-T').getContext('2d');
-    let data2 = {
-        labels: countArray,
-        datasets: [{
-            label: 'Dataset2',
-            data: yellowCar.arr
-        }
-        ]
-    }
-    let options2 = {
-        plugins: {
-            title: {
-                display: true,
-                text: 'v-tグラフ'
-            },
-        },
-        animation: false,
-        maintainAspectRatio: false
-    }
-    graphChart2 = new Chart(ctx2, {
-        type: 'line',
-        data: data2,
-        options: options2
-    });
-
-    // lowerGraphV_T
+    // lowerGraph
 
     if (typeof graphChart3 !== 'undefined' && graphChart3) {
         graphChart3.destroy();
     }
-    let ctx3 = document.getElementById('lowerGraphV-T').getContext('2d');
+    let ctx3 = document.getElementById('lowerGraph').getContext('2d');
     let data3 = {
         labels: countArray,
         datasets: [{
@@ -215,35 +185,5 @@ function graphDraw() {
         type: 'line',
         data: data3,
         options: options3
-    });
-
-     // lowerGraphV_T
-
-     if (typeof graphChart4 !== 'undefined' && graphChart4) {
-        graphChart4.destroy();
-    }
-    let ctx4 = document.getElementById('lowerGraphX-T').getContext('2d');
-    let data4 = {
-        labels: countArray,
-        datasets: [{
-            label: 'Dataset4',
-            data: yellowCar.arr
-        }
-        ]
-    }
-    let options4 = {
-        plugins: {
-            title: {
-                display: true,
-                text: 'v-tグラフ'
-            },
-        },
-        animation: false,
-        maintainAspectRatio: false
-    }
-    graphChart4 = new Chart(ctx4, {
-        type: 'line',
-        data: data4,
-        options: options4
     });
 }
