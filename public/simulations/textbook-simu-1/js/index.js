@@ -70,10 +70,10 @@ let yellowCar,
     redCar;
 let time;
 let scaleImg;
-let countArray;
 let upperGraphData,
     lowerGraphData;
-
+let yellowCarCorrection,
+    redCarCorrection;
 function initValue() {
     canvasWidth = 2 * windowWidth / 3;
     canvasHeight = 9 * windowHeight / 10;
@@ -97,7 +97,6 @@ function initValue() {
             scaleImg.line(x, 0, x, 15);
         }
     }
-    countArray = [];
     // graphのデータはtrueのときにはX-T、falseの時にはV-T
     upperGraphData = true
     lowerGraphData = true
@@ -118,12 +117,16 @@ function draw() {
     yellowCar._draw();
 
     // time <= 300により１０秒間の計測を実装
+
+    if (time == 0) {
+        yellowCarCorrection = yellowCar.posx
+        redCarCorrection = redCar.posx
+    }
     if (time % 30 == 0 && time <= 300) {
-        yellowCar.xarr.push(yellowCar.posx);
-        redCar.xarr.push(redCar.posx);
-        yellowCar.varr.push(yellowCar.speed);
-        redCar.varr.push(redCar.speed);
-        countArray.push(int(time / 30))
+        yellowCar.xarr.push({ x: int(time / 30), y: (yellowCar.posx - yellowCarCorrection) / 50 });
+        redCar.xarr.push({ x: int(time / 30), y: (redCar.posx - redCarCorrection) / 50 });
+        yellowCar.varr.push({ x: int(time / 30), y: yellowCar.speed });
+        redCar.varr.push({ x: int(time / 30), y: redCar.speed });
     }
     time += 1;
     graphDraw();
@@ -149,8 +152,8 @@ class CAR {
         stroke(255, 0, 0);
         strokeWeight(3)
         for (let i = 0; i < this.xarr.length; i++) {
-            image(this.img, this.xarr[i] - this.img.width / 2 - this.xarr[0], this.posy);
-            line(this.xarr[i] - this.xarr[0], this.posy + this.img.height - 10, this.xarr[i] - this.xarr[0], this.posy + this.img.height + 10);
+            image(this.img, (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 - this.img.width / 2, this.posy);
+            line((this.xarr[i]["y"] - this.xarr[0]["y"]) * 50, this.posy + this.img.height - 10, (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50, this.posy + this.img.height + 10);
         }
         this.posx += 50 * this.speed / 30;
         tint(255);
@@ -169,46 +172,85 @@ function graphDraw() {
     // upperGraph
 
     let upperData,
-        upperText;
+        upperText,
+        upperYMax;
     if (upperGraphData) {
         upperData = yellowCar.xarr
         upperText = "黄色い車のx-tグラフ"
+        upperYMax = 30
     } else {
         upperData = yellowCar.varr
         upperText = "黄色い車のv-tグラフ"
+        upperYMax = 10
     }
     if (typeof graphChart1 !== 'undefined' && graphChart1) {
         graphChart1.destroy();
     }
     let ctx1 = document.getElementById('upperGraph').getContext('2d');
     let data1 = {
-        labels: countArray,
-        datasets: [{
-            data: upperData
-        }
+        datasets: [
+            {
+                showLine: true,
+                data: upperData,
+                pointRadius: 0,
+            }
         ]
     }
     let options1 = {
+
         plugins: {
             title: {
                 display: true,
-                text: upperText
+                text: upperText,
+                font: {
+                    size: 25
+                }
             },
             legend: {
                 display: false
             }
         },
         scales: {
+            x: {
+                min: 0,
+                max: 10,
+                ticks: {
+                    display: true,
+                    font: {
+                        size: 16
+                    }
+                },
+                title: {
+                    display: true,
+                    text: "経過時間 t [s]",
+                    font: {
+                        size: 20
+                    }
+                }
+            },
             y: {
                 min: 0,
-                max: 10
+                max: upperYMax,
+                ticks: {
+                    display: true,
+                    font: {
+                        size: 16
+                    }
+                },
+                title: {
+                    display: true,
+                    text: "移動距離 x [cm]",
+                    font: {
+                        size: 20
+                    }
+                }
             }
         },
         animation: false,
         maintainAspectRatio: false
     }
     graphChart1 = new Chart(ctx1, {
-        type: 'line',
+        type: 'scatter',
         data: data1,
         options: options1
     });
@@ -216,22 +258,26 @@ function graphDraw() {
     // lowerGraph
 
     let lowerData,
-        lowerText;
+        lowerText,
+        lowerYMax;
     if (lowerGraphData) {
         lowerData = redCar.xarr
         lowerText = "赤い車のx-tグラフ"
+        lowerYMax = 30
     } else {
         lowerData = redCar.varr
         lowerText = "赤い車のv-tグラフ"
+        lowerYMax = 10
     }
     if (typeof graphChart3 !== 'undefined' && graphChart3) {
         graphChart3.destroy();
     }
     let ctx3 = document.getElementById('lowerGraph').getContext('2d');
     let data3 = {
-        labels: countArray,
         datasets: [{
-            data: lowerData
+            data: lowerData,
+            showLine: true,
+            pointRadius: 0
         }
         ]
     }
@@ -239,23 +285,56 @@ function graphDraw() {
         plugins: {
             title: {
                 display: true,
-                text: lowerText
+                text: lowerText,
+                font: {
+                    size: 25
+                }
             },
             legend: {
                 display: false
             }
         },
         scales: {
+            x: {
+                min: 0,
+                max: 10,
+                ticks: {
+                    display: true,
+                    font: {
+                        size: 16
+                    }
+                },
+                title: {
+                    display: true,
+                    text: "経過時間 t [s]",
+                    font: {
+                        size: 20
+                    }
+                }
+            },
             y: {
                 min: 0,
-                max: 10
+                max: lowerYMax,
+                ticks: {
+                    display: true,
+                    font: {
+                        size: 16
+                    }
+                },
+                title: {
+                    display: true,
+                    text: "移動距離 x [cm]",
+                    font: {
+                        size: 20
+                    }
+                }
             }
         },
         animation: false,
         maintainAspectRatio: false
     }
     graphChart3 = new Chart(ctx3, {
-        type: 'line',
+        type: 'scatter',
         data: data3,
         options: options3
     });
