@@ -1,12 +1,12 @@
-#parentDiv > label{
-    display:flex;
-    align-items:center;
+#parentDiv > label {
+  display: flex;
+  align-items: center;
 }
 
-#graph{
-    background-color:white;
+#graph {
+  background-color: white;
 }
 
-#p5Container{
-    text-align: center;
+#p5Container {
+  text-align: center;
 }

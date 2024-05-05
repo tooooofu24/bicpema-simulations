@@ -132,7 +132,15 @@ function draw() {
 }
 
 function windowResized() {
-  fullScreen();
+  let navBar = select("#navBar");
+  let ratio = 9 / 16;
+  let w = windowWidth;
+  let h = w * ratio;
+  if (h > windowHeight - navBar.height) {
+    h = windowHeight - navBar.height;
+    w = h / ratio;
+  }
+  resizeCanvas(w, h);
   elInit();
   initValue();
 }
