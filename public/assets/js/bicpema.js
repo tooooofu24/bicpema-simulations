@@ -16,6 +16,30 @@ $(function () {
   });
 });
 
+// Responsive full screen function
+function fullScreen() {
+  let p5Canvas = select("#p5Canvas");
+  let navBar = select("#navBar");
+  let canvas = "";
+  let w = 0;
+  let h = 0;
+  let ratio = 9 / 16;
+  let ua = navigator.userAgent;
+  if (!(ua.indexOf("iPhone") > 0 || ua.indexOf("iPad") > 0 || ua.indexOf("Android") > 0 || ua.indexOf("Mobile") > 0)) {
+    w = windowWidth;
+    h = w * ratio;
+    if (h > windowHeight - navBar.height) {
+      h = windowHeight - navBar.height;
+      w = h / ratio;
+    }
+  } else {
+    w = windowWidth;
+    h = w * ratio;
+  }
+  canvas = createCanvas(w, h);
+  canvas.parent(p5Canvas).class("rounded border border-1");
+}
+
 // class for car images
 // instance name = new Car(x-coordinate, y-coordinate, x-speed, y-speed, car-color, car-width, x-acceleration, y-acceleration);
 // Default color of the car is red("r"), others are yellow("y").
