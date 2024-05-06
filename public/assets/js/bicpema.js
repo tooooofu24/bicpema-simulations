@@ -12,14 +12,9 @@ $(function () {
         location.reload();
       }
       prewidth = nowWidth;
-    }, 100);
+    }, 500);
   });
 });
-
-function preload() {
-  rCar = loadImage("/assets/img/rCar.png");
-  yCar = loadImage("/assets/img/yCar.png");
-}
 
 // class for car images
 // instance name = new Car(x-coordinate, y-coordinate, x-speed, y-speed, car-color, car-width, x-acceleration, y-acceleration);
@@ -36,6 +31,8 @@ class Car {
     this.acceY = ay;
     this.carWidth = w;
     this.carHeight;
+    this.rCar = loadImage("/assets/img/rCar.png");
+    this.yCar = loadImage("/assets/img/yCar.png");
   }
   carDraw() {
     this.speedX += this.acceX / frameRate();
@@ -45,16 +42,16 @@ class Car {
     let img = "";
     switch (this.kind) {
       case "r":
-        img = rCar;
-        this.carHeight = this.carWidth * (rCar.height / rCar.width);
+        img = this.rCar;
+        this.carHeight = this.carWidth * (this.rCar.height / this.rCar.width);
         break;
       case "y":
-        img = yCar;
-        this.carHeight = this.carWidth * (yCar.height / yCar.width);
+        img = this.yCar;
+        this.carHeight = this.carWidth * (this.yCar.height / this.yCar.width);
         break;
       default:
-        img = rCar;
-        this.carHeight = this.carWidth * (rCar.height / rCar.width);
+        img = this.rCar;
+        this.carHeight = this.carWidth * (this.rCar.height / this.rCar.width);
     }
     image(img, this.posX - this.carWidth / 2, this.posY - this.carHeight / 2, this.carWidth, this.carHeight);
   }
