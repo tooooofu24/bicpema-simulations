@@ -1,17 +1,3 @@
-function fullScreen() {
-  let p5Canvas = select("#p5Canvas");
-  let navBar = select("#navBar");
-  let ratio = 9 / 16;
-  let w = windowWidth;
-  let h = w * ratio;
-  if (h > windowHeight - navBar.height) {
-    h = windowHeight - navBar.height;
-    w = h / ratio;
-  }
-  let canvas = createCanvas(w, h);
-  canvas.parent(p5Canvas).class("rounded border border-1");
-}
-
 let fbWeightSlider,
   fbWeightSliderLabel,
   vbWeightSlider,
