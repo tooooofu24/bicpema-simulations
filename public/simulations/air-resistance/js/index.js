@@ -1,12 +1,7 @@
-let fbWeightSlider,
-  fbWeightSliderLabel,
-  vbWeightSlider,
-  vbWeightSliderLabel,
-  ibWeightSlider,
-  ibWeightSliderLabel,
-  graph,
-  graphCanvas,
-  graphChart;
+let fbWeightSlider, fbWeightSliderLabel;
+let vbWeightSlider, vbWeightSliderLabel;
+let ibWeightSlider, ibWeightSliderLabel;
+let graph, graphCanvas, graphChart;
 
 function elCreate() {
   fbWeightSlider = select("#fbWeightSlider");
@@ -19,14 +14,31 @@ function elCreate() {
   graphCanvas = select("#graphChart");
 }
 
-function htmlRewrite() {
-  fbWeightSliderLabel.html("抵抗なし玉の質量:" + fbWeightSlider.value());
-  vbWeightSliderLabel.html("粘性抵抗ありの玉の質量:" + vbWeightSlider.value());
-  ibWeightSliderLabel.html("慣性抵抗ありの玉の質量:" + ibWeightSlider.value());
+let count;
+let fps;
+let freeBall, viscosityBall, inertiaBall;
+let fbtrajectry, vbtrajectory, ibtrajectory;
+let countArray;
+
+function initValue() {
+  count = 0;
+  fps = 30;
+  freeBall = new FallBall((1 * 333.333) / 2, fbWeightSlider.value(), "free");
+  viscosityBall = new FallBall((3 * 333.333) / 2, vbWeightSlider.value(), "viscosity");
+  inertiaBall = new FallBall((5 * 333.333) / 2, ibWeightSlider.value(), "inertia");
+  fbtrajectry = [0];
+  vbtrajectory = [0];
+  ibtrajectory = [0];
+  countArray = [0];
+  frameRate(fps);
+  textAlign(CENTER, CENTER);
+  textSize(16);
 }
 
 function sliderInputFunc() {
-  htmlRewrite();
+  fbWeightSliderLabel.html("抵抗なし玉の質量:" + fbWeightSlider.value());
+  vbWeightSliderLabel.html("粘性抵抗ありの玉の質量:" + vbWeightSlider.value());
+  ibWeightSliderLabel.html("慣性抵抗ありの玉の質量:" + ibWeightSlider.value());
   initValue();
 }
 
@@ -45,199 +57,143 @@ function elInit() {
       if (i % 2 == 1) elArr[i].input(sliderInputFunc);
     }
     graph.size(width, width).position((windowWidth - width) / 2, 60 + height + 25 * 7);
-    graphCanvas.size(0, 0).position(0, 0);
   } else {
     for (let i = 0; i < elArr.length; i++) {
       elArr[i].size(width / 2, 25).position((windowWidth - width) / 2, 25 * i);
       if (i % 2 == 1) elArr[i].input(sliderInputFunc);
     }
     graph.size(width / 2, width / 2).position(windowWidth / 2, 60 + height);
-    graphCanvas.size(0, 0).position(0, 0);
   }
-}
-
-let count;
-let gravity;
-let fps;
-let freeBall, viscosityBall, inertiaBall;
-let fbtrajectry, vbtrajectory, ibtrajectory;
-let countArray;
-function initValue() {
-  gravity = 9.8;
-  count = 0;
-  fps = 30;
-  freeBall = new freeBallClass(width / 6 - width / 100, 0, 0, fbWeightSlider.value(), width / 100);
-  viscosityBall = new viscosityBallClass((3 * width) / 6 - width / 100, 0, 0, vbWeightSlider.value(), width / 100);
-  inertiaBall = new inertiaBallClass((5 * width) / 6 - width / 100, 0, 0, ibWeightSlider.value(), width / 100);
-  fbtrajectry = [];
-  vbtrajectory = [];
-  ibtrajectory = [];
-  countArray = [];
-  frameRate(fps);
-  textAlign(CENTER, CENTER);
-  textSize(width / 50);
+  graphCanvas.size(0, 0).position(0, 0);
 }
 
 function setup() {
   fullScreen();
   elCreate();
-  elInit();
   initValue();
+  elInit();
 }
 
 function draw() {
   scale(width / 1000);
-  count++;
   background(0);
-  fill(255);
-  freeBall._draw();
-  viscosityBall._draw();
-  inertiaBall._draw();
-  if (count % 5 == 0) {
-    if (freeBall.posy < height) fbtrajectry.push(freeBall.posy);
-    if (viscosityBall.posy < height) vbtrajectory.push(viscosityBall.posy);
-    if (inertiaBall.posy < height) ibtrajectory.push(inertiaBall.posy);
-    if (freeBall.posy < height && viscosityBall.posy < height && inertiaBall.posy < height) countArray.push(count);
-  }
-  for (let i = 0; i < fbtrajectry.length; i++) {
-    fill(255, 0, 0);
-    stroke(0);
-    ellipse(width / 6 - width / 100, fbtrajectry[i], (width / 100) * 2, (width / 100) * 2);
-    // stroke(255, 0, 0, 100)
-    // line(0, fbtrajectry[i], width, fbtrajectry[i])
-  }
-  for (let i = 0; i < vbtrajectory.length; i++) {
-    fill(0, 255, 0);
-    stroke(0);
-    ellipse((3 * width) / 6 - width / 100, vbtrajectory[i], (width / 100) * 2, (width / 100) * 2);
-    // stroke(0, 255, 0, 100)
-    // line(0, vbtrajectory[i], width, vbtrajectory[i])
-  }
-  for (let i = 0; i < ibtrajectory.length; i++) {
-    fill(0, 0, 255);
-    stroke(0);
-    ellipse((5 * width) / 6 - width / 100, ibtrajectory[i], (width / 100) * 2, (width / 100) * 2);
-    // stroke(0, 0, 255, 100)
-    // line(0, ibtrajectory[i], width, ibtrajectory[i])
+  stroke(0);
+  count++;
+  freeBall.fallBallDraw();
+  freeBall.trajectoryDraw();
+  viscosityBall.fallBallDraw();
+  viscosityBall.trajectoryDraw();
+  inertiaBall.fallBallDraw();
+  inertiaBall.trajectoryDraw();
+  if (count % fps == 0) {
+    fbtrajectry.push(freeBall.posY);
+    vbtrajectory.push(viscosityBall.posY);
+    ibtrajectory.push(inertiaBall.posY);
+    if (count % fps == 0) countArray.push(count / fps);
   }
   graphDraw();
 }
 
 function windowResized() {
-  let navBar = select("#navBar");
-  let ratio = 9 / 16;
-  let w = windowWidth;
-  let h = w * ratio;
-  if (h > windowHeight - navBar.height) {
-    h = windowHeight - navBar.height;
-    w = h / ratio;
-  }
-  resizeCanvas(w, h);
+  resizeFullScreen();
   elInit();
   initValue();
 }
 
-class freeBallClass {
-  constructor(x, y, s, w, r) {
-    this.posx = x;
-    this.posy = y;
-    this.speed = s;
-    this.weight = w;
-    this.radi = r;
+class FallBall {
+  constructor(x, m, t) {
+    this.posX = x;
+    this.posY = 0;
+    this.velocity = 0;
+    this.mass = m;
+    this.type = t;
+    this.gravity = 9.8;
+    this.arr = [];
   }
-  _draw() {
+
+  fallBallDraw() {
     fill(255);
-    text("抵抗なし", width / 12, width / 50);
-    this.speed = gravity * count;
-    this.posy += this.speed / fps;
-    fill(255, 0, 0);
-    ellipse(this.posx, this.posy, this.radi * 2, this.radi * 2);
+    switch (this.type) {
+      case "free":
+        text("抵抗なし", this.posX, width / 50);
+        this.velocity = (this.gravity * count) / fps;
+        this.posY += this.velocity;
+        fill(255, 0, 0);
+        break;
+
+      case "viscosity":
+        text("粘性抵抗あり", this.posX, width / 50);
+        this.velocity = (this.mass * this.gravity * (1 - exp(-count / this.mass))) / fps;
+        this.posY += this.velocity;
+        fill(0, 255, 0);
+        break;
+
+      case "inertia":
+        text("慣性抵抗あり", this.posX, width / 50);
+        this.velocity = (sqrt(this.mass * this.gravity) * Math.tanh(sqrt(this.gravity / this.mass) * count)) / fps;
+        this.posY += this.velocity;
+        fill(0, 0, 255);
+        break;
+
+      default:
+        text("抵抗なし（無指定）", width / 12, width / 50);
+        this.velocity = (this.gravity * count) / fps;
+        this.posY = (1 / 2) * this.gravity * sq(count / fps);
+        fill(255, 0, 0);
+        break;
+    }
+    ellipse(this.posX, this.posY, 20, 20);
+  }
+
+  trajectoryDraw() {
+    if (count % 5 == 0) {
+      this.arr.push(this.posY);
+    }
+    for (let i = 0; i < this.arr.length; i++) {
+      ellipse(this.posX, this.arr[i], 20, 20);
+    }
   }
 }
 
-class viscosityBallClass {
-  constructor(x, y, s, w, r) {
-    this.posx = x;
-    this.posy = y;
-    this.speed = s;
-    this.weight = w;
-    this.radi = r;
-  }
-
-  _draw() {
-    fill(255);
-    text("粘性抵抗あり", (5 * width) / 12, width / 50);
-    this.speed = this.weight * gravity * (1 - exp(-count / this.weight));
-    this.posy += this.speed / fps;
-    fill(0, 255, 0);
-    ellipse(this.posx, this.posy, this.radi * 2, this.radi * 2);
-  }
-}
-
-class inertiaBallClass {
-  constructor(x, y, s, w, r) {
-    this.posx = x;
-    this.posy = y;
-    this.speed = s;
-    this.weight = w;
-    this.radi = r;
-  }
-  tanh(x) {
-    let a = exp(x) - exp(-x);
-    let b = exp(x) + exp(-x);
-    return a / b;
-  }
-  _draw() {
-    fill(255);
-    text("慣性抵抗あり", (9 * width) / 12, width / 50);
-    this.speed = sqrt(this.weight * gravity) * Math.tanh(sqrt(gravity / this.weight) * count);
-    this.posy += this.speed / fps;
-    fill(0, 0, 255);
-    ellipse(this.posx, this.posy, this.radi * 2, this.radi * 2);
-  }
-}
 //グラフを描画する手続き
 function graphDraw() {
   if (typeof graphChart !== "undefined" && graphChart) {
     graphChart.destroy();
   }
-  let ctx1 = document.getElementById("graphChart").getContext("2d");
-  let data1 = {
+  let ctx = document.getElementById("graphChart").getContext("2d");
+  let data = {
     labels: countArray,
     datasets: [
       {
         label: "抵抗なし",
         data: fbtrajectry,
         borderColor: "rgba(255, 0, 0)",
-        // fill: true,
-        // backgroundColor: 'rgba(255, 0, 0,0.5)',
         lineTension: 0.3,
       },
       {
         label: "粘性抵抗あり",
         data: vbtrajectory,
         borderColor: "rgba(0, 255, 0)",
-        // fill: true,
-        // backgroundColor: 'rgba(0, 255, 0,0.5)',
         lineTension: 0.3,
       },
       {
         label: "慣性抵抗あり",
         data: ibtrajectory,
         borderColor: "rgba(0, 0, 255)",
-        // fill: true,
-        // backgroundColor: 'rgba(0, 0, 255,0.5)',
         lineTension: 0.3,
       },
     ],
   };
-  let options1 = {
+  let options = {
     scales: {
       x: {
         display: true,
         title: {
           display: true,
-          text: "経過フレーム数[frames]",
+          text: "経過時間[s]",
+          font: {
+            size: 14,
+          },
         },
       },
       y: {
@@ -245,21 +201,35 @@ function graphDraw() {
         title: {
           display: true,
           text: "位置[px]",
+          font: {
+            size: 14,
+          },
         },
+
         min: 0,
       },
     },
     plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 12,
+          },
+        },
+      },
       title: {
         display: true,
         text: "x-tグラフ",
+        font: {
+          size: 16,
+        },
       },
     },
     animation: false,
   };
-  graphChart = new Chart(ctx1, {
+  graphChart = new Chart(ctx, {
     type: "line",
-    data: data1,
-    options: options1,
+    data: data,
+    options: options,
   });
 }
