@@ -1,5 +1,5 @@
 function fullScreen() {
-  let p5Container = select("#p5Container");
+  let p5Canvas = select("#p5Canvas");
   let navBar = select("#navBar");
   let ratio = 9 / 16;
   let w = windowWidth;
@@ -8,12 +8,11 @@ function fullScreen() {
     h = windowHeight - navBar.height;
     w = h / ratio;
   }
-  let p5Canvas = createCanvas(w, h);
-  p5Canvas.parent(p5Container);
+  let canvas = createCanvas(w, h);
+  canvas.parent(p5Canvas).class("rounded border border-1");
 }
 
-let parentDiv,
-  fbWeightSlider,
+let fbWeightSlider,
   fbWeightSliderLabel,
   vbWeightSlider,
   vbWeightSliderLabel,
@@ -24,15 +23,14 @@ let parentDiv,
   graphChart;
 
 function elCreate() {
-  parentDiv = createDiv().id("parentDiv");
-  fbWeightSlider = createSlider(1, 100, 50, 1).class("form-range");
-  fbWeightSliderLabel = createElement("label", "抵抗なし玉の質量:" + fbWeightSlider.value());
-  vbWeightSlider = createSlider(1, 100, 50, 1).class("form-range");
-  vbWeightSliderLabel = createElement("label", "粘性抵抗ありの玉の質量:" + vbWeightSlider.value());
-  ibWeightSlider = createSlider(1, 100, 50, 1).class("form-range");
-  ibWeightSliderLabel = createElement("label", "慣性抵抗ありの玉の質量:" + ibWeightSlider.value());
-  graph = createDiv().id("graph");
-  graphCanvas = createElement("canvas").id("graphChart");
+  fbWeightSlider = select("#fbWeightSlider");
+  fbWeightSliderLabel = select("#fbWeightSliderLabel");
+  vbWeightSlider = select("#vbWeightSlider");
+  vbWeightSliderLabel = select("#vbWeightSliderLabel");
+  ibWeightSlider = select("#ibWeightSlider");
+  ibWeightSliderLabel = select("#ibWeightSliderLabel");
+  graph = select("#graph");
+  graphCanvas = select("#graphChart");
 }
 
 function htmlRewrite() {
@@ -47,7 +45,6 @@ function sliderInputFunc() {
 }
 
 function elInit() {
-  parentDiv.size(windowWidth / 3, height / 4).position((2 * windowWidth) / 3, windowHeight / 10);
   elArr = [
     fbWeightSliderLabel,
     fbWeightSlider,
@@ -56,12 +53,21 @@ function elInit() {
     ibWeightSliderLabel,
     ibWeightSlider,
   ];
-  for (let i = 0; i < elArr.length; i++) {
-    elArr[i].size(windowWidth / 3, height / 24).parent(parentDiv);
-    if (i % 2 == 1) elArr[i].input(sliderInputFunc);
+  if (width < 992) {
+    for (let i = 0; i < elArr.length; i++) {
+      elArr[i].size(width, 25).position((windowWidth - width) / 2, 25 * i);
+      if (i % 2 == 1) elArr[i].input(sliderInputFunc);
+    }
+    graph.size(width, width).position((windowWidth - width) / 2, 60 + height + 25 * 7);
+    graphCanvas.size(0, 0).position(0, 0);
+  } else {
+    for (let i = 0; i < elArr.length; i++) {
+      elArr[i].size(width / 2, 25).position((windowWidth - width) / 2, 25 * i);
+      if (i % 2 == 1) elArr[i].input(sliderInputFunc);
+    }
+    graph.size(width / 2, width / 2).position(windowWidth / 2, 60 + height);
+    graphCanvas.size(0, 0).position(0, 0);
   }
-  graph.size(windowWidth / 3, (3 * height) / 4).position((2 * windowWidth) / 3, windowHeight - (3 * height) / 4);
-  graphCanvas.size(0, 0).position(0, 0).parent(graph);
 }
 
 let count;
