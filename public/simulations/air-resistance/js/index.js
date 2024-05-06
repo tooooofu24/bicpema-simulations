@@ -86,9 +86,9 @@ function draw() {
   inertiaBall.fallBallDraw();
   inertiaBall.trajectoryDraw();
   if (count % fps == 0) {
-    fbtrajectry.push(freeBall.posY);
-    vbtrajectory.push(viscosityBall.posY);
-    ibtrajectory.push(inertiaBall.posY);
+    fbtrajectry.push(freeBall.posY - 50);
+    vbtrajectory.push(viscosityBall.posY - 50);
+    ibtrajectory.push(inertiaBall.posY - 50);
     if (count % fps == 0) countArray.push(count / fps);
   }
   graphDraw();
@@ -103,7 +103,7 @@ function windowResized() {
 class FallBall {
   constructor(x, m, t) {
     this.posX = x;
-    this.posY = 0;
+    this.posY = 50;
     this.velocity = 0;
     this.mass = m;
     this.type = t;
