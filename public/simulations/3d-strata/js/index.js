@@ -17,7 +17,9 @@ window.onload = function () {
 
 //全画面表示
 function fullScreen() {
-  createCanvas(windowWidth, (9 * windowHeight) / 10, WEBGL);
+  let p5Canvas = select("#p5Canvas");
+  let canvas = createCanvas(windowWidth, windowHeight - 60, WEBGL);
+  canvas.parent(p5Canvas).class("rounded border border-1");
 }
 
 // 外部ファイルの読み込み
@@ -1047,7 +1049,7 @@ function draw() {
 
 // windowがリサイズされたときの処理
 function windowResized() {
-  fullScreen();
+  resizeCanvas(windowWidth, windowHeight - 60);
   elInit();
   initValue();
 }
