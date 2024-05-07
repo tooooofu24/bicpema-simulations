@@ -69,6 +69,7 @@ function elInit() {
 
 function setup() {
   fullScreen();
+  deviceIs = deviceJudge();
   elCreate();
   initValue();
   elInit();
@@ -92,6 +93,7 @@ function draw() {
     if (count % fps == 0) countArray.push(count / fps);
   }
   graphDraw();
+  if (deviceIs) rotateInstruction();
 }
 
 function windowResized() {
