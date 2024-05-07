@@ -1,20 +1,13 @@
+#p5Container {
+  padding: 0px;
+  margin-top: 60px;
+}
+
 #p5Canvas {
-    width: fit-content;
-    float: left;
+  text-align: center;
 }
-
-#graph {
-    width: 33.333vw;
-    float: left;
-}
-
 
 #upperGraphParent,
 #lowerGraphParent {
-    height: 40vh;
-}
-
-.btn{
-    height:4vh;
-    margin-top: 1vh;
+  background-color: white;
 }

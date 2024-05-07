@@ -1,17 +1,6 @@
-// #upperGraphV-T,
-// #upperGraphX-T,
-// #lowerGraphV-T,
-// #lowerGraphX-Tのリサイズ処理
-
-function fullScreen() {
-  let parent = document.getElementById("p5Canvas");
-  let canvas = createCanvas((2 * windowWidth) / 3, (9 * windowHeight) / 10);
-  canvas.parent(parent);
-}
-
 function preload() {
-  yellowCarImg = loadImage("/assets/img/yCar.png");
-  redCarImg = loadImage("/assets/img/rCar.png");
+  yCarImg = loadImage("/assets/img/yCar.png");
+  rCarImg = loadImage("/assets/img/rCar.png");
 }
 
 let upperGraphParent, lowerGraphParent;
@@ -49,30 +38,37 @@ function lowerGraphButtonV_TFunction() {
 }
 
 function elInit() {
-  lowerGraphParent.position(width, (55 * windowHeight) / 100).size(windowWidth / 3, (4 * windowHeight) / 10);
-  upperGraphButton.position(width, (5 * windowHeight) / 10);
-  lowerGraphButton.position(width, (9.5 * windowHeight) / 10);
+  if (width <= 992) {
+    upperGraphParent.position((windowWidth - width) / 2, height + 125).size(width, width);
+    lowerGraphParent.position((windowWidth - width) / 2, height + 190 + width).size(width, width);
+    upperGraphButton.position((windowWidth - width) / 2, height + 75);
+    lowerGraphButton.position((windowWidth - width) / 2, height + 140 + width);
+  } else {
+    upperGraphParent.position((windowWidth - width) / 2, height + 125).size(width / 2, width / 2);
+    lowerGraphParent.position(windowWidth / 2, height + 125).size(width / 2, width / 2);
+    upperGraphButton.position((windowWidth - width) / 2, height + 75);
+    lowerGraphButton.position(windowWidth / 2, height + 75);
+  }
   upperGraphButtonX_T.mousePressed(upperGraphButtonX_TFunction);
   upperGraphButtonV_T.mousePressed(upperGraphButtonV_TFunction);
   lowerGraphButtonX_T.mousePressed(lowerGraphButtonX_TFunction);
   lowerGraphButtonV_T.mousePressed(lowerGraphButtonV_TFunction);
 }
 
-let canvasWidth, canvasHeight;
-let yellowCar, redCar;
+const canvasWidth = 1000;
+const canvasHeight = 562.5;
+let yCar, rCar;
 let time;
 let scaleImg;
 let upperGraphData, lowerGraphData;
-let yellowCarCorrection, redCarCorrection;
+let yCarCorrection, rCarCorrection;
 function initValue() {
-  canvasWidth = (2 * windowWidth) / 3;
-  canvasHeight = (9 * windowHeight) / 10;
-  yellowCarImg.resize(150, 0);
-  redCarImg.resize(150, 0);
-  yellowCar = new CAR(0, canvasHeight / 2 - yellowCarImg.height - 50, yellowCarImg, 3, [], []);
-  redCar = new CAR(0, canvasHeight - redCarImg.height - 50, redCarImg, 2, [], []);
+  yCarImg.resize(100, 0);
+  rCarImg.resize(100, 0);
+  yCar = new CAR(0, canvasHeight / 2 - yCarImg.height - 50, yCarImg, 3, [], []);
+  rCar = new CAR(0, canvasHeight - rCarImg.height - 50, rCarImg, 2, [], []);
   time = 0;
-  textSize(15);
+  textSize(16);
   textAlign(CENTER);
   frameRate(30);
   scaleImg = createGraphics(canvasWidth, 50);
@@ -91,38 +87,42 @@ function initValue() {
   lowerGraphData = true;
 }
 
+let deviceIs;
 function setup() {
   fullScreen();
+  deviceIs = deviceJudge();
   elCreate();
   elInit();
   initValue();
 }
 
 function draw() {
+  scale(width / 1000);
   background(0);
   image(scaleImg, 0, canvasHeight / 2 - 50);
   image(scaleImg, 0, canvasHeight - 50);
-  redCar._draw();
-  yellowCar._draw();
+  rCar._draw();
+  yCar._draw();
 
   // time <= 300により１０秒間の計測を実装
 
   if (time == 0) {
-    yellowCarCorrection = yellowCar.posx;
-    redCarCorrection = redCar.posx;
+    yCarCorrection = yCar.posx;
+    rCarCorrection = rCar.posx;
   }
   if (time % 30 == 0 && time <= 300) {
-    yellowCar.xarr.push({ x: int(time / 30), y: (yellowCar.posx - yellowCarCorrection) / 50 });
-    redCar.xarr.push({ x: int(time / 30), y: (redCar.posx - redCarCorrection) / 50 });
-    yellowCar.varr.push({ x: int(time / 30), y: yellowCar.speed });
-    redCar.varr.push({ x: int(time / 30), y: redCar.speed });
+    yCar.xarr.push({ x: int(time / 30), y: (yCar.posx - yCarCorrection) / 50 });
+    rCar.xarr.push({ x: int(time / 30), y: (rCar.posx - rCarCorrection) / 50 });
+    yCar.varr.push({ x: int(time / 30), y: yCar.speed });
+    rCar.varr.push({ x: int(time / 30), y: rCar.speed });
   }
   time += 1;
   graphDraw();
+  if (deviceIs) rotateInstruction();
 }
 
 function windowResized() {
-  fullScreen();
+  resizeFullScreen();
   elInit();
   initValue();
 }
@@ -163,14 +163,16 @@ class CAR {
 function graphDraw() {
   // upperGraph
 
-  let upperData, upperText, upperYMax;
+  let upperData, upperText, upperLabel, upperYMax;
   if (upperGraphData) {
-    upperData = yellowCar.xarr;
+    upperData = yCar.xarr;
     upperText = "黄色い車のx-tグラフ";
+    upperLabel = "移動距離 x [cm]";
     upperYMax = 30;
   } else {
-    upperData = yellowCar.varr;
+    upperData = yCar.varr;
     upperText = "黄色い車のv-tグラフ";
+    upperLabel = "速度 v [cm/s]";
     upperYMax = 10;
   }
   if (typeof graphChart1 !== "undefined" && graphChart1) {
@@ -183,6 +185,8 @@ function graphDraw() {
         showLine: true,
         data: upperData,
         pointRadius: 0,
+        fill: true,
+        borderColor: "rgb(200, 200, 50)",
       },
     ],
   };
@@ -192,7 +196,7 @@ function graphDraw() {
         display: true,
         text: upperText,
         font: {
-          size: 25,
+          size: 20,
         },
       },
       legend: {
@@ -206,14 +210,14 @@ function graphDraw() {
         ticks: {
           display: true,
           font: {
-            size: 16,
+            size: 14,
           },
         },
         title: {
           display: true,
           text: "経過時間 t [s]",
           font: {
-            size: 20,
+            size: 16,
           },
         },
       },
@@ -223,14 +227,14 @@ function graphDraw() {
         ticks: {
           display: true,
           font: {
-            size: 16,
+            size: 14,
           },
         },
         title: {
           display: true,
-          text: "移動距離 x [cm]",
+          text: upperLabel,
           font: {
-            size: 20,
+            size: 16,
           },
         },
       },
@@ -246,14 +250,16 @@ function graphDraw() {
 
   // lowerGraph
 
-  let lowerData, lowerText, lowerYMax;
+  let lowerData, lowerText, lowerLabel, lowerYMax;
   if (lowerGraphData) {
-    lowerData = redCar.xarr;
+    lowerData = rCar.xarr;
     lowerText = "赤い車のx-tグラフ";
+    lowerLabel = "移動距離 x [cm]";
     lowerYMax = 30;
   } else {
-    lowerData = redCar.varr;
+    lowerData = rCar.varr;
     lowerText = "赤い車のv-tグラフ";
+    lowerLabel = "速度 v [cm/s]";
     lowerYMax = 10;
   }
   if (typeof graphChart3 !== "undefined" && graphChart3) {
@@ -266,6 +272,8 @@ function graphDraw() {
         data: lowerData,
         showLine: true,
         pointRadius: 0,
+        fill: true,
+        borderColor: "rgb(255, 0, 0)",
       },
     ],
   };
@@ -275,7 +283,7 @@ function graphDraw() {
         display: true,
         text: lowerText,
         font: {
-          size: 25,
+          size: 20,
         },
       },
       legend: {
@@ -289,14 +297,14 @@ function graphDraw() {
         ticks: {
           display: true,
           font: {
-            size: 16,
+            size: 14,
           },
         },
         title: {
           display: true,
           text: "経過時間 t [s]",
           font: {
-            size: 20,
+            size: 16,
           },
         },
       },
@@ -306,14 +314,14 @@ function graphDraw() {
         ticks: {
           display: true,
           font: {
-            size: 16,
+            size: 14,
           },
         },
         title: {
           display: true,
-          text: "移動距離 x [cm]",
+          text: lowerLabel,
           font: {
-            size: 20,
+            size: 16,
           },
         },
       },
