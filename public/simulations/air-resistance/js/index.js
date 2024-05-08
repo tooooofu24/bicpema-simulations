@@ -1,7 +1,7 @@
 let fbWeightSlider, fbWeightSliderLabel;
 let vbWeightSlider, vbWeightSliderLabel;
 let ibWeightSlider, ibWeightSliderLabel;
-let graph, graphCanvas, graphChart;
+let graph, graphCanvas;
 
 function elCreate() {
   fbWeightSlider = select("#fbWeightSlider");
@@ -11,7 +11,7 @@ function elCreate() {
   ibWeightSlider = select("#ibWeightSlider");
   ibWeightSliderLabel = select("#ibWeightSliderLabel");
   graph = select("#graph");
-  graphCanvas = select("#graphChart");
+  graphCanvas = select("#graphCanvas");
 }
 
 let count;
@@ -162,7 +162,7 @@ function graphDraw() {
   if (typeof graphChart !== "undefined" && graphChart) {
     graphChart.destroy();
   }
-  let ctx = document.getElementById("graphChart").getContext("2d");
+  let ctx = document.getElementById("graphCanvas").getContext("2d");
   let data = {
     labels: countArray,
     datasets: [
