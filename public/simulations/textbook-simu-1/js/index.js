@@ -6,12 +6,15 @@ function preload() {
 let graph, graphCanvas;
 let graphButton;
 let graphButtonX_T, graphButtonV_T;
+let scaleCheckBoxParent, scaleCheckBox;
 function elCreate() {
   graph = select("#graph");
   graphCanvas = select("#graphCanvas");
   graphButton = select("#graphButton");
   graphButtonX_T = select("#graphButtonX_T");
   graphButtonV_T = select("#graphButtonV_T");
+  scaleCheckBoxParent = select("#scaleCheckBoxParent");
+  scaleCheckBox = select("#scaleCheckBox");
 }
 
 function graphButtonX_TFunction() {
@@ -24,11 +27,13 @@ function graphButtonV_TFunction() {
 
 function elInit() {
   if (width <= 992) {
-    graph.position((windowWidth - width) / 2, height + 125).size(width, width);
-    graphButton.position((windowWidth - width) / 2, height + 75);
+    graph.position((windowWidth - width) / 2, height + 175).size(width, width);
+    graphButton.position((windowWidth - width) / 2, height + 125);
+    scaleCheckBoxParent.position((windowWidth - width) / 2, height + 75);
   } else {
-    graph.position(windowWidth / 2 - width / 4, height + 125).size(width / 2, width / 2);
-    graphButton.position(windowWidth / 2 - width / 4, height + 75);
+    graph.position(windowWidth / 2 - width / 4, height + 175).size(width / 2, width / 2);
+    graphButton.position(windowWidth / 2 - width / 4, height + 125);
+    scaleCheckBoxParent.position(windowWidth / 2 - width / 4, height + 75);
   }
   graphButtonX_T.mousePressed(graphButtonX_TFunction);
   graphButtonV_T.mousePressed(graphButtonV_TFunction);
@@ -77,8 +82,14 @@ function setup() {
 function draw() {
   scale(width / 1000);
   background(0);
-  image(scaleImg, 0, canvasHeight / 2 - 50);
-  image(scaleImg, 0, canvasHeight - 50);
+  fill(30);
+  noStroke();
+  rect(0, canvasHeight / 2 - 50, 1000, 25);
+  rect(0, canvasHeight - 50, 1000, 25);
+  if (scaleCheckBox.checked()) {
+    image(scaleImg, 0, canvasHeight / 2 - 50);
+    image(scaleImg, 0, canvasHeight - 50);
+  }
   rCar._draw();
   yCar._draw();
 
