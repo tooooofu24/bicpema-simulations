@@ -3,56 +3,35 @@ function preload() {
   rCarImg = loadImage("/assets/img/rCar.png");
 }
 
-let upperGraphParent, lowerGraphParent;
-let upperGraph, lowerGraph;
-let upperGraphButton, lowerGraphButton;
-let upperGraphButtonX_T, upperGraphButtonV_T;
-let lowerGraphButtonX_T, lowerGraphButtonV_T;
+let graph, graphCanvas;
+let graphButton;
+let graphButtonX_T, graphButtonV_T;
 function elCreate() {
-  upperGraphParent = select("#upperGraphParent");
-  lowerGraphParent = select("#lowerGraphParent");
-  upperGraph = select("#upperGraph");
-  lowerGraph = select("#lowerGraph");
-  upperGraphButton = select("#upperGraphButton");
-  lowerGraphButton = select("#lowerGraphButton");
-  upperGraphButtonX_T = select("#upperGraphButtonX_T");
-  upperGraphButtonV_T = select("#upperGraphButtonV_T");
-  lowerGraphButtonX_T = select("#lowerGraphButtonX_T");
-  lowerGraphButtonV_T = select("#lowerGraphButtonV_T");
+  graph = select("#graph");
+  graphCanvas = select("#graphCanvas");
+  graphButton = select("#graphButton");
+  graphButtonX_T = select("#graphButtonX_T");
+  graphButtonV_T = select("#graphButtonV_T");
 }
 
-function upperGraphButtonX_TFunction() {
-  upperGraphData = true;
+function graphButtonX_TFunction() {
+  graphData = true;
 }
 
-function upperGraphButtonV_TFunction() {
-  upperGraphData = false;
-}
-
-function lowerGraphButtonX_TFunction() {
-  lowerGraphData = true;
-}
-
-function lowerGraphButtonV_TFunction() {
-  lowerGraphData = false;
+function graphButtonV_TFunction() {
+  graphData = false;
 }
 
 function elInit() {
   if (width <= 992) {
-    upperGraphParent.position((windowWidth - width) / 2, height + 125).size(width, width);
-    lowerGraphParent.position((windowWidth - width) / 2, height + 190 + width).size(width, width);
-    upperGraphButton.position((windowWidth - width) / 2, height + 75);
-    lowerGraphButton.position((windowWidth - width) / 2, height + 140 + width);
+    graph.position((windowWidth - width) / 2, height + 125).size(width, width);
+    graphButton.position((windowWidth - width) / 2, height + 75);
   } else {
-    upperGraphParent.position((windowWidth - width) / 2, height + 125).size(width / 2, width / 2);
-    lowerGraphParent.position(windowWidth / 2, height + 125).size(width / 2, width / 2);
-    upperGraphButton.position((windowWidth - width) / 2, height + 75);
-    lowerGraphButton.position(windowWidth / 2, height + 75);
+    graph.position(windowWidth / 2 - width / 4, height + 125).size(width / 2, width / 2);
+    graphButton.position(windowWidth / 2 - width / 4, height + 75);
   }
-  upperGraphButtonX_T.mousePressed(upperGraphButtonX_TFunction);
-  upperGraphButtonV_T.mousePressed(upperGraphButtonV_TFunction);
-  lowerGraphButtonX_T.mousePressed(lowerGraphButtonX_TFunction);
-  lowerGraphButtonV_T.mousePressed(lowerGraphButtonV_TFunction);
+  graphButtonX_T.mousePressed(graphButtonX_TFunction);
+  graphButtonV_T.mousePressed(graphButtonV_TFunction);
 }
 
 const canvasWidth = 1000;
@@ -60,7 +39,7 @@ const canvasHeight = 562.5;
 let yCar, rCar;
 let time;
 let scaleImg;
-let upperGraphData, lowerGraphData;
+let graphData;
 let yCarCorrection, rCarCorrection;
 function initValue() {
   yCarImg.resize(100, 0);
@@ -74,7 +53,7 @@ function initValue() {
   scaleImg = createGraphics(canvasWidth, 50);
   scaleImg.background(255);
   scaleImg.textAlign(CENTER);
-  for (let x = 0; x < canvasWidth; x += 5) {
+  for (let x = 0; x <= canvasWidth; x += 5) {
     if (x % 50 == 0) {
       scaleImg.line(x, 0, x, 25);
       scaleImg.text(x / 50, x, 40);
@@ -83,8 +62,7 @@ function initValue() {
     }
   }
   // graphのデータはtrueのときにはX-T、falseの時にはV-T
-  upperGraphData = true;
-  lowerGraphData = true;
+  graphData = true;
 }
 
 let deviceIs;
@@ -123,6 +101,7 @@ function draw() {
 
 function windowResized() {
   resizeFullScreen();
+  deviceIs = deviceJudge();
   elInit();
   initValue();
 }
@@ -155,121 +134,40 @@ class CAR {
   }
 }
 
-// upperGraphV-TをgraphChart1、ctx1、data1、option1とする
-// upperGraphX-TをgraphChart2、ctx2、data2、option2とする
-// lowerGraphV-TをgraphChart3、ctx3、data3、option3とする
-// lowerGraphX-TをgraphChart4、ctx4、data4、option4とする
-
 function graphDraw() {
-  // upperGraph
-
-  let upperData, upperText, upperLabel, upperYMax;
-  if (upperGraphData) {
-    upperData = yCar.xarr;
-    upperText = "黄色い車のx-tグラフ";
-    upperLabel = "移動距離 x [cm]";
-    upperYMax = 30;
+  let yCarData, rCarData;
+  let title, verticalAxisLabel, yMax;
+  if (graphData) {
+    yCarData = yCar.xarr;
+    rCarData = rCar.xarr;
+    title = "x-tグラフ";
+    verticalAxisLabel = "移動距離 x [cm]";
+    yMax = 30;
   } else {
-    upperData = yCar.varr;
-    upperText = "黄色い車のv-tグラフ";
-    upperLabel = "速度 v [cm/s]";
-    upperYMax = 10;
+    yCarData = yCar.varr;
+    rCarData = rCar.varr;
+    title = "v-tグラフ";
+    verticalAxisLabel = "速度 v [cm/s]";
+    yMax = 10;
   }
-  if (typeof graphChart1 !== "undefined" && graphChart1) {
-    graphChart1.destroy();
+
+  if (typeof graphChart !== "undefined" && graphChart) {
+    graphChart.destroy();
   }
-  let ctx1 = document.getElementById("upperGraph").getContext("2d");
-  let data1 = {
+  let ctx = document.getElementById("graphCanvas").getContext("2d");
+  let data = {
     datasets: [
       {
+        label: "黄色い車のデータ",
         showLine: true,
-        data: upperData,
+        data: yCarData,
         pointRadius: 0,
         fill: true,
         borderColor: "rgb(200, 200, 50)",
       },
-    ],
-  };
-  let options1 = {
-    plugins: {
-      title: {
-        display: true,
-        text: upperText,
-        font: {
-          size: 20,
-        },
-      },
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        min: 0,
-        max: 10,
-        ticks: {
-          display: true,
-          font: {
-            size: 14,
-          },
-        },
-        title: {
-          display: true,
-          text: "経過時間 t [s]",
-          font: {
-            size: 16,
-          },
-        },
-      },
-      y: {
-        min: 0,
-        max: upperYMax,
-        ticks: {
-          display: true,
-          font: {
-            size: 14,
-          },
-        },
-        title: {
-          display: true,
-          text: upperLabel,
-          font: {
-            size: 16,
-          },
-        },
-      },
-    },
-    animation: false,
-    maintainAspectRatio: false,
-  };
-  graphChart1 = new Chart(ctx1, {
-    type: "scatter",
-    data: data1,
-    options: options1,
-  });
-
-  // lowerGraph
-
-  let lowerData, lowerText, lowerLabel, lowerYMax;
-  if (lowerGraphData) {
-    lowerData = rCar.xarr;
-    lowerText = "赤い車のx-tグラフ";
-    lowerLabel = "移動距離 x [cm]";
-    lowerYMax = 30;
-  } else {
-    lowerData = rCar.varr;
-    lowerText = "赤い車のv-tグラフ";
-    lowerLabel = "速度 v [cm/s]";
-    lowerYMax = 10;
-  }
-  if (typeof graphChart3 !== "undefined" && graphChart3) {
-    graphChart3.destroy();
-  }
-  let ctx3 = document.getElementById("lowerGraph").getContext("2d");
-  let data3 = {
-    datasets: [
       {
-        data: lowerData,
+        label: "赤い車のデータ",
+        data: rCarData,
         showLine: true,
         pointRadius: 0,
         fill: true,
@@ -277,17 +175,21 @@ function graphDraw() {
       },
     ],
   };
-  let options3 = {
+  let options = {
     plugins: {
       title: {
         display: true,
-        text: lowerText,
+        text: title,
         font: {
           size: 20,
         },
       },
       legend: {
-        display: false,
+        labels: {
+          font: {
+            size: 16,
+          },
+        },
       },
     },
     scales: {
@@ -310,7 +212,7 @@ function graphDraw() {
       },
       y: {
         min: 0,
-        max: lowerYMax,
+        max: yMax,
         ticks: {
           display: true,
           font: {
@@ -319,7 +221,7 @@ function graphDraw() {
         },
         title: {
           display: true,
-          text: lowerLabel,
+          text: verticalAxisLabel,
           font: {
             size: 16,
           },
@@ -329,9 +231,9 @@ function graphDraw() {
     animation: false,
     maintainAspectRatio: false,
   };
-  graphChart3 = new Chart(ctx3, {
+  graphChart = new Chart(ctx, {
     type: "scatter",
-    data: data3,
-    options: options3,
+    data: data,
+    options: options,
   });
 }
