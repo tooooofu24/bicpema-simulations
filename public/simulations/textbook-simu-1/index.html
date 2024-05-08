@@ -29,18 +29,36 @@
     <div class="container-fluid" id="p5Container">
         <div id="p5Canvas">
         </div>
-        <div class="form-check" id="scaleCheckBoxParent">
-            <input class="form-check-input" type="checkbox" value="" id="scaleCheckBox">
-            <label class="form-check-label text-light" for="scaleCheckBox">
-                スケールの表示・非表示
-            </label>
-        </div>
         <div id="graphButton">
-            <button type="button" class="btn btn-primary" id="graphButtonX_T">x-tグラフ</button>
-            <button type="button" class="btn btn-primary" id="graphButtonV_T">v-tグラフ</button>
+            <button type="button" class="btn btn-secondary" id="graphButtonX_T">x-tグラフ</button>
+            <button type="button" class="btn btn-secondary" id="graphButtonV_T">v-tグラフ</button>
         </div>
-        <div id="graph">
+        <div id="graph" class="rounded border border-1">
             <canvas id="graphCanvas"></canvas>
+        </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal"
+            id="modalButton">シミュレーション設定</button>
+        <!-- Modal -->
+        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-check" id="scaleCheckBoxParent">
+                            <input class="form-check-input" type="checkbox" value="" id="scaleCheckBox">
+                            <label class="form-check-label" for="scaleCheckBox">
+                                スケールの表示・非表示
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- jQuery -->

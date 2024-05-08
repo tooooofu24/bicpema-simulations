@@ -7,6 +7,7 @@ let graph, graphCanvas;
 let graphButton;
 let graphButtonX_T, graphButtonV_T;
 let scaleCheckBoxParent, scaleCheckBox;
+let modalButton;
 function elCreate() {
   graph = select("#graph");
   graphCanvas = select("#graphCanvas");
@@ -15,6 +16,7 @@ function elCreate() {
   graphButtonV_T = select("#graphButtonV_T");
   scaleCheckBoxParent = select("#scaleCheckBoxParent");
   scaleCheckBox = select("#scaleCheckBox");
+  modalButton = select("#modalButton");
 }
 
 function graphButtonX_TFunction() {
@@ -27,23 +29,21 @@ function graphButtonV_TFunction() {
 
 function elInit() {
   if (width <= 992) {
-    graph.position((windowWidth - width) / 2, height + 175).size(width, width);
-    graphButton.position((windowWidth - width) / 2, height + 125);
-    scaleCheckBoxParent.position((windowWidth - width) / 2, height + 75);
+    graph.position((windowWidth - width) / 2, height + 125).size(width, width);
+    graphButton.position((windowWidth - width) / 2, height + width + 140);
   } else {
-    graph.position(windowWidth / 2 - width / 4, height + 175).size(width / 2, width / 2);
-    graphButton.position(windowWidth / 2 - width / 4, height + 125);
-    scaleCheckBoxParent.position(windowWidth / 2 - width / 4, height + 75);
+    graph.position(windowWidth / 2 - width / 4, height + 125).size(width / 2, width / 2);
+    graphButton.position(windowWidth / 2 - width / 4, height + width / 2 + 140);
   }
   graphButtonX_T.mousePressed(graphButtonX_TFunction);
   graphButtonV_T.mousePressed(graphButtonV_TFunction);
+  modalButton.position(windowWidth / 2 + width / 2 - modalButton.width, 60 + height + 10);
 }
 
 const canvasWidth = 1000;
 const canvasHeight = 562.5;
 let yCar, rCar;
 let time;
-let scaleImg;
 let graphData;
 let yCarCorrection, rCarCorrection;
 function initValue() {
@@ -52,20 +52,9 @@ function initValue() {
   yCar = new CAR(0, canvasHeight / 2 - yCarImg.height - 50, yCarImg, 3, [], []);
   rCar = new CAR(0, canvasHeight - rCarImg.height - 50, rCarImg, 2, [], []);
   time = 0;
-  textSize(16);
+  textSize(14);
   textAlign(CENTER);
   frameRate(30);
-  scaleImg = createGraphics(canvasWidth, 50);
-  scaleImg.background(255);
-  scaleImg.textAlign(CENTER);
-  for (let x = 0; x <= canvasWidth; x += 5) {
-    if (x % 50 == 0) {
-      scaleImg.line(x, 0, x, 25);
-      scaleImg.text(x / 50, x, 40);
-    } else {
-      scaleImg.line(x, 0, x, 15);
-    }
-  }
   // graphのデータはtrueのときにはX-T、falseの時にはV-T
   graphData = true;
 }
@@ -87,12 +76,26 @@ function draw() {
   rect(0, canvasHeight / 2 - 50, 1000, 25);
   rect(0, canvasHeight - 50, 1000, 25);
   if (scaleCheckBox.checked()) {
-    image(scaleImg, 0, canvasHeight / 2 - 50);
-    image(scaleImg, 0, canvasHeight - 50);
+    fill(255);
+    rect(0, canvasHeight / 2 - 50, canvasWidth, 50);
+    rect(0, canvasHeight - 50, canvasWidth, 50);
+    fill(0);
+    stroke(0);
+    strokeWeight(1);
+    for (let x = 0; x <= canvasWidth; x += 5) {
+      if (x % 50 == 0) {
+        line(x, canvasHeight / 2 - 50, x, canvasHeight / 2 - 30);
+        text(x / 50, x, canvasHeight / 2 - 10);
+        line(x, canvasHeight - 50, x, canvasHeight - 30);
+        text(x / 50, x, canvasHeight - 10);
+      } else {
+        line(x, canvasHeight / 2 - 50, x, canvasHeight / 2 - 40);
+        line(x, canvasHeight - 50, x, canvasHeight - 40);
+      }
+    }
   }
   rCar._draw();
   yCar._draw();
-
   // time <= 300により１０秒間の計測を実装
 
   if (time == 0) {
