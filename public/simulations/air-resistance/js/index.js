@@ -53,16 +53,16 @@ function elInit() {
   ];
   if (width < 992) {
     for (let i = 0; i < elArr.length; i++) {
-      elArr[i].size(width, 25).position((windowWidth - width) / 2, 25 * i);
+      elArr[i].size(width, 25).position((windowWidth - width) / 2, 25 * i + 5);
       if (i % 2 == 1) elArr[i].input(sliderInputFunc);
     }
-    graph.size(width, width).position((windowWidth - width) / 2, 60 + height + 25 * 7);
+    graph.size(width, width).position((windowWidth - width) / 2, 60 + height + 25 * 7 + 5);
   } else {
     for (let i = 0; i < elArr.length; i++) {
-      elArr[i].size(width / 2, 25).position((windowWidth - width) / 2, 25 * i);
+      elArr[i].size(width / 2, 25).position((windowWidth - width) / 2, 25 * i + 5);
       if (i % 2 == 1) elArr[i].input(sliderInputFunc);
     }
-    graph.size(width / 2, width / 2).position(windowWidth / 2, 60 + height);
+    graph.size(width / 2, width / 2).position(windowWidth / 2, 60 + height + 5);
   }
 }
 
