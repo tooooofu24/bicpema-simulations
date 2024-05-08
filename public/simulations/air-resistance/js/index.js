@@ -64,7 +64,6 @@ function elInit() {
     }
     graph.size(width / 2, width / 2).position(windowWidth / 2, 60 + height);
   }
-  graphCanvas.size(0, 0).position(0, 0);
 }
 
 function setup() {
@@ -98,6 +97,7 @@ function draw() {
 
 function windowResized() {
   resizeFullScreen();
+  deviceIs = deviceJudge();
   elInit();
   initValue();
 }
@@ -228,6 +228,7 @@ function graphDraw() {
       },
     },
     animation: false,
+    maintainAspectRatio: false,
   };
   graphChart = new Chart(ctx, {
     type: "line",
