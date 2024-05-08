@@ -33,23 +33,23 @@ function deviceJudge() {
     smartPhone = loadImage("/assets/img/smartPhone.png");
     return true;
   } else {
-    // // Reload function when the screen is rotated.
-    // $(function () {
-    //   var timer = false;
-    //   var prewidth = $(window).width();
-    //   $(window).resize(function () {
-    //     if (timer !== false) {
-    //       clearTimeout(timer);
-    //     }
-    //     timer = setTimeout(function () {
-    //       var nowWidth = $(window).width();
-    //       if (prewidth !== nowWidth) {
-    //         location.reload();
-    //       }
-    //       prewidth = nowWidth;
-    //     }, 200);
-    //   });
-    // });
+    // Reload function when the screen is rotated.
+    $(function () {
+      var timer = false;
+      var prewidth = $(window).width();
+      $(window).resize(function () {
+        if (timer !== false) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(function () {
+          var nowWidth = $(window).width();
+          if (prewidth !== nowWidth) {
+            location.reload();
+          }
+          prewidth = nowWidth;
+        }, 200);
+      });
+    });
     return false;
   }
 }
