@@ -59,10 +59,13 @@ function initValue() {
   graphData = true;
 }
 
-let deviceIs;
+let canvasController;
+let deviceJudge;
 function setup() {
-  fullScreen();
-  deviceIs = deviceJudge();
+  canvasController = new BicpemaCanvasController(true, false);
+  deviceJudge = new BicpemaDeviceJudge();
+  canvasController.fullScreen();
+  deviceJudge.judge();
   elCreate();
   elInit();
   initValue();
@@ -110,12 +113,11 @@ function draw() {
   }
   time += 1;
   graphDraw();
-  if (deviceIs) rotateInstruction();
+  deviceJudge.rotateInstruction();
 }
 
 function windowResized() {
-  resizeFullScreen();
-  deviceIs = deviceJudge();
+  canvasController.resizeScreen();
   elInit();
   initValue();
 }

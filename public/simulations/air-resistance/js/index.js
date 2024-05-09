@@ -2,6 +2,8 @@ let fbWeightSlider, fbWeightSliderLabel;
 let vbWeightSlider, vbWeightSliderLabel;
 let ibWeightSlider, ibWeightSliderLabel;
 let graph, graphCanvas;
+let canvasController;
+let deviceJudge;
 
 function elCreate() {
   fbWeightSlider = select("#fbWeightSlider");
@@ -67,8 +69,10 @@ function elInit() {
 }
 
 function setup() {
-  fullScreen();
-  deviceIs = deviceJudge();
+  canvasController = new BicpemaCanvasController(true, false);
+  deviceJudge = new BicpemaDeviceJudge();
+  canvasController.fullScreen();
+  deviceJudge.judge();
   elCreate();
   initValue();
   elInit();
@@ -92,12 +96,11 @@ function draw() {
     if (count % fps == 0) countArray.push(count / fps);
   }
   graphDraw();
-  if (deviceIs) rotateInstruction();
+  deviceJudge.rotateInstruction();
 }
 
 function windowResized() {
-  resizeFullScreen();
-  deviceIs = deviceJudge();
+  canvasController.resizeScreen();
   elInit();
   initValue();
 }
