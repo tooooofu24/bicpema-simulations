@@ -46,7 +46,7 @@ class BicpemaCanvasController {
   }
 }
 
-class DeviceJudge {
+class BicpemaDeviceJudge {
   constructor() {
     this.r = 0;
     this.smartPhone;
