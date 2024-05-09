@@ -82,19 +82,33 @@ class BicpemaDeviceJudge {
       this.deviceIs = false;
     }
   }
-  rotateInstruction() {
+  rotateInstruction(direction = "vertical") {
+    function smartPhoneDisplay(r, img) {
+      let m = 1.4 * map(r, 0, 90, 0, 1);
+      let t = 255 - 255 * abs(0.5 - m);
+      push();
+      translate(500, 562.5 / 2);
+      rotate((r * PI) / 180);
+      tint(255, t);
+      image(img, -img.width / 2, -img.height / 2);
+      pop();
+    }
     if (this.deviceIs) {
-      if (windowWidth > windowHeight) {
-        this.r += 1.5;
-        if (this.r >= 90) this.r = 0;
-        let m = 1.4 * map(this.r, 0, 90, 0, 1);
-        let t = 255 - 255 * abs(0.5 - m);
-        push();
-        translate(500, 562.5 / 2);
-        rotate((this.r * PI) / 180);
-        tint(255, t);
-        image(this.smartPhone, -this.smartPhone.width / 2, -this.smartPhone.height / 2);
-        pop();
+      switch (direction) {
+        case "vertical":
+          if (windowWidth > windowHeight) {
+            this.r += 1.5;
+            if (this.r >= 90) this.r = 0;
+            smartPhoneDisplay(this.r, this.smartPhone);
+          }
+          break;
+        case "horizontal":
+          if (windowWidth < windowHeight) {
+            this.r -= 1.5;
+            if (this.r < 0) this.r = 90;
+            smartPhoneDisplay(this.r, this.smartPhone);
+          }
+          break;
       }
     }
   }
