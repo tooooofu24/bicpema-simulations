@@ -9,7 +9,7 @@ function setup() {
 function draw() {
   scale(width / 1000);
   background(255);
-  deviceJudge.rotateInstruction();
+  deviceJudge.rotateInstruction("horizontal");
   if (moveIs) {
     // 波の数だけ繰り返す
     for (let num = 0; num < waveNum; num++) {
