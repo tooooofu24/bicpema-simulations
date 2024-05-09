@@ -4,7 +4,7 @@ function settingInit() {
   frameRate(fps);
   textAlign(CENTER, CENTER);
   textSize(16);
-  deviceJudge = new DeviceJudge();
+  deviceJudge = new BicpemaDeviceJudge();
   canvasController = new BicpemaCanvasController(true, false);
 }
 

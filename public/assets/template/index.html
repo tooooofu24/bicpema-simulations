@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-    <title>simulationTitle</title>
+    <title>{% title %}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- p5.min.js -->
@@ -10,14 +10,14 @@
     <!-- p5.dom.min.js -->
     <script language="javascript" type="text/javascript" src="/assets/js/p5.dom.min.js"></script>
     <!-- {simulation name}.js -->
-    <script language="javascript" type="text/javascript" src="js/init.js"></script>
-    <script language="javascript" type="text/javascript" src="js/index.js"></script>
-    <script language="javascript" type="text/javascript" src="js/graph.js"></script>
+    <script language="javascript" type="text/javascript" src="{% path %}/js/init.js"></script>
+    <script language="javascript" type="text/javascript" src="{% path %}/js/index.js"></script>
+    <script language="javascript" type="text/javascript" src="{% path %}/js/graph.js"></script>
     <!-- chart.js -->
     <script src="/assets/js/chart.umd.min.js"></script>
     <!-- Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="style.css" rel="stylesheet">
+    <link href="{% path %}/style.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark">
@@ -26,7 +26,7 @@
         id="navBar">
         <div class="container-fluid">
             <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-            <span class="text-light fw-lighter">simulationTitle</span>
+            <span class="text-light fw-lighter">{% title %}</span>
         </div>
     </nav>
 
@@ -34,9 +34,9 @@
         <div id="p5Canvas">
         </div>
         <!-- Uncomment out if you are drawing a graph. -->
-        <div id="graph" class="rounded border border-1">
+        <!-- <div id="graph" class="rounded border border-1">
             <canvas id="graphCanvas"></canvas>
-        </div>
+        </div> -->
     </div>
 
     <!-- jQuery -->

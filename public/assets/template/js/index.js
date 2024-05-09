@@ -9,7 +9,7 @@ function setup() {
 function draw() {
   scale(width / 1000);
   background(0);
-  drawGraph();
+  // drawGraph();
   deviceJudge.rotateInstruction();
 }
 
