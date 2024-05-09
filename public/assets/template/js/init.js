@@ -1,11 +1,11 @@
 const fps = 30;
-let controller, deviceJudge;
+let canvasController, deviceJudge;
 function settingInit() {
   frameRate(fps);
   textAlign(CENTER, CENTER);
   textSize(16);
   deviceJudge = new DeviceJudge();
-  controller = new BicpemaCanvasController(true, false);
+  canvasController = new BicpemaCanvasController(true, false);
 }
 
 //   let graph, graphCanvas;
