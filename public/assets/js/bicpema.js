@@ -1,72 +1,102 @@
-// Responsive full screen function
-function fullScreen() {
-  let p5Canvas = select("#p5Canvas");
-  let navBar = select("#navBar");
-  let canvas = "";
-  let ratio = 9 / 16;
-  let w = windowWidth;
-  let h = w * ratio;
-  if (h > windowHeight - navBar.height) {
-    h = windowHeight - navBar.height;
-    w = h / ratio;
+class BicpemaCanvasController {
+  constructor(f = true, i = false) {
+    this.fixed = f;
+    this.is3D = i;
   }
-  canvas = createCanvas(w, h);
-  canvas.parent(p5Canvas).class("rounded border border-1");
+  fullScreen() {
+    const P5_CANVAS = select("#p5Canvas");
+    const NAV_BAR = select("#navBar");
+    let canvas, w, h;
+    if (this.fixed) {
+      const RATIO = 9 / 16;
+      w = windowWidth;
+      h = w * RATIO;
+      if (h > windowHeight - NAV_BAR.height) {
+        h = windowHeight - NAV_BAR.height;
+        w = h / RATIO;
+      }
+    } else {
+      w = windowWidth;
+      h = windowHeight - NAV_BAR.height;
+    }
+    if (this.is3D) {
+      canvas = createCanvas(w, h, WEBGL);
+    } else {
+      canvas = createCanvas(w, h);
+    }
+    canvas.parent(P5_CANVAS).class("rounded border border-1");
+  }
+  resizeScreen() {
+    const NAV_BAR = select("#navBar");
+    let w = 0;
+    let h = 0;
+    if (this.fixed) {
+      const RATIO = 9 / 16;
+      w = windowWidth;
+      h = w * RATIO;
+      if (h > windowHeight - NAV_BAR.height) {
+        h = windowHeight - NAV_BAR.height;
+        w = h / RATIO;
+      }
+    } else {
+      w = windowWidth;
+      h = windowHeight - NAV_BAR.height;
+    }
+    resizeCanvas(w, h);
+  }
 }
 
-function resizeFullScreen() {
-  let navBar = select("#navBar");
-  let ratio = 9 / 16;
-  let w = windowWidth;
-  let h = w * ratio;
-  if (h > windowHeight - navBar.height) {
-    h = windowHeight - navBar.height;
-    w = h / ratio;
+class DeviceJudge {
+  constructor() {
+    this.r = 0;
+    this.smartPhone;
+    this.deviceIs = false;
   }
-  resizeCanvas(w, h);
-}
-
-let smartPhone;
-function deviceJudge() {
-  let ua = navigator.userAgent;
-  if (ua.indexOf("iPhone") > 0 || ua.indexOf("iPad") > 0 || ua.indexOf("Android") > 0 || ua.indexOf("Mobile") > 0) {
-    smartPhone = loadImage("/assets/img/smartPhone.png");
-    return true;
-  } else {
-    // Reload function when the screen is rotated.
-    $(function () {
-      var timer = false;
-      var prewidth = $(window).width();
-      $(window).resize(function () {
-        if (timer !== false) {
-          clearTimeout(timer);
-        }
-        timer = setTimeout(function () {
-          var nowWidth = $(window).width();
-          if (prewidth !== nowWidth) {
-            location.reload();
+  judge() {
+    const U_A = navigator.userAgent;
+    if (
+      U_A.indexOf("iPhone") > 0 ||
+      U_A.indexOf("iPad") > 0 ||
+      U_A.indexOf("Android") > 0 ||
+      U_A.indexOf("Mobile") > 0
+    ) {
+      this.smartPhone = loadImage("/assets/img/smartPhone.png");
+      this.deviceIs = true;
+    } else {
+      $(function () {
+        let timer = false;
+        let prewidth = $(window).width();
+        $(window).resize(function () {
+          if (timer !== false) {
+            clearTimeout(timer);
           }
-          prewidth = nowWidth;
-        }, 200);
+          timer = setTimeout(function () {
+            let nowWidth = $(window).width();
+            if (prewidth !== nowWidth) {
+              location.reload();
+            }
+            prewidth = nowWidth;
+          }, 200);
+        });
       });
-    });
-    return false;
+      this.deviceIs = false;
+    }
   }
-}
-
-let r = 0;
-function rotateInstruction() {
-  if (windowWidth > windowHeight) {
-    r += 1.5;
-    if (r >= 90) r = 0;
-    let m = 1.4 * map(r, 0, 90, 0, 1);
-    t = 255 - 255 * abs(0.5 - m);
-    push();
-    translate(500, 562.5 / 2);
-    rotate((r * PI) / 180);
-    tint(255, t);
-    image(smartPhone, -smartPhone.width / 2, -smartPhone.height / 2);
-    pop();
+  rotateInstruction() {
+    if (this.deviceIs) {
+      if (windowWidth > windowHeight) {
+        this.r += 1.5;
+        if (this.r >= 90) this.r = 0;
+        let m = 1.4 * map(this.r, 0, 90, 0, 1);
+        let t = 255 - 255 * abs(0.5 - m);
+        push();
+        translate(500, 562.5 / 2);
+        rotate((this.r * PI) / 180);
+        tint(255, t);
+        image(this.smartPhone, -this.smartPhone.width / 2, -this.smartPhone.height / 2);
+        pop();
+      }
+    }
   }
 }
 
