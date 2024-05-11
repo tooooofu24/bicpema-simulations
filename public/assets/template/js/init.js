@@ -1,7 +1,7 @@
-const fps = 30;
+const FPS = 30;
 let canvasController, deviceJudge;
 function settingInit() {
-  frameRate(fps);
+  frameRate(FPS);
   textAlign(CENTER, CENTER);
   textSize(16);
   deviceJudge = new BicpemaDeviceJudge();
