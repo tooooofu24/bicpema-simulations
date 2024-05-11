@@ -1,9 +1,15 @@
+const FPS = 30;
+function settingInit() {
+  frameRate(FPS);
+  textAlign(CENTER, CENTER);
+  textSize(16);
+}
+
 let fbWeightSlider, fbWeightSliderLabel;
 let vbWeightSlider, vbWeightSliderLabel;
 let ibWeightSlider, ibWeightSliderLabel;
 let graph, graphCanvas;
-
-function elCreate() {
+function elementSelectInit() {
   fbWeightSlider = select("#fbWeightSlider");
   fbWeightSliderLabel = select("#fbWeightSliderLabel");
   vbWeightSlider = select("#vbWeightSlider");
@@ -14,35 +20,7 @@ function elCreate() {
   graphCanvas = select("#graphCanvas");
 }
 
-let count;
-let fps;
-let freeBall, viscosityBall, inertiaBall;
-let fbtrajectry, vbtrajectory, ibtrajectory;
-let countArray;
-
-function initValue() {
-  count = 0;
-  fps = 30;
-  freeBall = new FallBall((1 * 333.333) / 2, fbWeightSlider.value(), "free");
-  viscosityBall = new FallBall((3 * 333.333) / 2, vbWeightSlider.value(), "viscosity");
-  inertiaBall = new FallBall((5 * 333.333) / 2, ibWeightSlider.value(), "inertia");
-  fbtrajectry = [0];
-  vbtrajectory = [0];
-  ibtrajectory = [0];
-  countArray = [0];
-  frameRate(fps);
-  textAlign(CENTER, CENTER);
-  textSize(16);
-}
-
-function sliderInputFunc() {
-  fbWeightSliderLabel.html("抵抗なし玉の質量:" + fbWeightSlider.value());
-  vbWeightSliderLabel.html("粘性抵抗ありの玉の質量:" + vbWeightSlider.value());
-  ibWeightSliderLabel.html("慣性抵抗ありの玉の質量:" + ibWeightSlider.value());
-  initValue();
-}
-
-function elInit() {
+function elementInit() {
   elArr = [
     fbWeightSliderLabel,
     fbWeightSlider,
@@ -64,4 +42,19 @@ function elInit() {
     }
     graph.size(width / 2, width / 2).position(windowWidth / 2, 60 + height + 5);
   }
+}
+
+let count;
+let freeBall, viscosityBall, inertiaBall;
+let fbtrajectry, vbtrajectory, ibtrajectory;
+let countArray;
+function valueInit() {
+  count = 0;
+  freeBall = new FallBall((1 * 333.333) / 2, fbWeightSlider.value(), "free");
+  viscosityBall = new FallBall((3 * 333.333) / 2, vbWeightSlider.value(), "viscosity");
+  inertiaBall = new FallBall((5 * 333.333) / 2, ibWeightSlider.value(), "inertia");
+  fbtrajectry = [0];
+  vbtrajectory = [0];
+  ibtrajectory = [0];
+  countArray = [0];
 }

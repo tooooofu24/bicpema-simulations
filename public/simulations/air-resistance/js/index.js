@@ -6,9 +6,10 @@ function setup() {
   deviceJudge = new BicpemaDeviceJudge();
   canvasController.fullScreen();
   deviceJudge.judge();
-  elCreate();
-  initValue();
-  elInit();
+  settingInit();
+  elementSelectInit();
+  elementInit();
+  valueInit();
 }
 
 function draw() {
@@ -22,11 +23,11 @@ function draw() {
   viscosityBall.trajectoryDraw();
   inertiaBall.fallBallDraw();
   inertiaBall.trajectoryDraw();
-  if (count % fps == 0) {
+  if (count % FPS == 0) {
     fbtrajectry.push(freeBall.posY - 50);
     vbtrajectory.push(viscosityBall.posY - 50);
     ibtrajectory.push(inertiaBall.posY - 50);
-    if (count % fps == 0) countArray.push(count / fps);
+    if (count % FPS == 0) countArray.push(count / FPS);
   }
   graphDraw();
   deviceJudge.rotateInstruction();
@@ -34,6 +35,6 @@ function draw() {
 
 function windowResized() {
   canvasController.resizeScreen();
-  elInit();
-  initValue();
+  elementInit();
+  valueInit();
 }

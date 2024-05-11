@@ -14,29 +14,29 @@ class FallBall {
     switch (this.type) {
       case "free":
         text("抵抗なし", this.posX, width / 50);
-        this.velocity = (this.gravity * count) / fps;
+        this.velocity = (this.gravity * count) / FPS;
         this.posY += this.velocity;
         fill(255, 0, 0);
         break;
 
       case "viscosity":
         text("粘性抵抗あり", this.posX, width / 50);
-        this.velocity = (this.mass * this.gravity * (1 - exp(-count / this.mass))) / fps;
+        this.velocity = (this.mass * this.gravity * (1 - exp(-count / this.mass))) / FPS;
         this.posY += this.velocity;
         fill(0, 255, 0);
         break;
 
       case "inertia":
         text("慣性抵抗あり", this.posX, width / 50);
-        this.velocity = (sqrt(this.mass * this.gravity) * Math.tanh(sqrt(this.gravity / this.mass) * count)) / fps;
+        this.velocity = (sqrt(this.mass * this.gravity) * Math.tanh(sqrt(this.gravity / this.mass) * count)) / FPS;
         this.posY += this.velocity;
         fill(0, 0, 255);
         break;
 
       default:
         text("抵抗なし（無指定）", width / 12, width / 50);
-        this.velocity = (this.gravity * count) / fps;
-        this.posY = (1 / 2) * this.gravity * sq(count / fps);
+        this.velocity = (this.gravity * count) / FPS;
+        this.posY = (1 / 2) * this.gravity * sq(count / FPS);
         fill(255, 0, 0);
         break;
     }
