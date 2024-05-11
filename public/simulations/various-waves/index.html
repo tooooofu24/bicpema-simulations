@@ -10,15 +10,15 @@
     <!-- p5.dom.min.js -->
     <script language="javascript" type="text/javascript" src="/assets/js/p5.dom.min.js"></script>
     <!-- {simulation name}.js -->
-    <script language="javascript" type="text/javascript" src="/simulations/various-wave/js/function.js"></script>
-    <script language="javascript" type="text/javascript" src="/simulations/various-wave/js/init.js"></script>
-    <script language="javascript" type="text/javascript" src="/simulations/various-wave/js/class.js"></script>
-    <script language="javascript" type="text/javascript" src="/simulations/various-wave/js/index.js"></script>
+    <script language="javascript" type="text/javascript" src="/simulations/various-waves/js/function.js"></script>
+    <script language="javascript" type="text/javascript" src="/simulations/various-waves/js/class.js"></script>
+    <script language="javascript" type="text/javascript" src="/simulations/various-waves/js/init.js"></script>
+    <script language="javascript" type="text/javascript" src="/simulations/various-waves/js/index.js"></script>
     <!-- chart.js -->
     <script src="/assets/js/chart.umd.min.js"></script>
     <!-- Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="/simulations/various-wave/style.css" rel="stylesheet">
+    <link href="/simulations/various-waves/style.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark">
@@ -32,13 +32,16 @@
     </nav>
 
     <div class="container-fluid" id="p5Container">
-        <div class="position-absolute end-0 m-3">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#simulationSettingModal">
-                波の設定
-            </button>
-        </div>
         <div id="p5Canvas">
+        </div>
+        <div id="buttonsParent">
+            <a class="btn btn-primary me-1 mt-1" id="startButton">波の発射</a>
+            <a class="btn btn-secondary me-1 mt-1" id="stopButton">一時停止</a>
+            <a class="btn btn-secondary me-1 mt-1" id="restartButton">再開</a>
+            <a class="btn btn-danger me-1 mt-1" id="resetButton">リセット</a>
+            <a class="btn btn-primary me-1 mt-1" data-bs-toggle="modal"
+                data-bs-target="#simulationSettingModal">波の設定</a>
+            <a class="btn btn-primary me-1 mt-1" id="timer">00.00</a>
         </div>
         <div class="modal fade" id="simulationSettingModal" tabindex="-1" aria-labelledby="simulationSettingModalLabel"
             aria-hidden="true">
@@ -94,16 +97,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="text-center position-absolute fs-1 me-2 mb-2 end-0 bottom-0 pe-3 ps-3 bg-primary text-light rounded"
-            id="timer">
-            00.00
-        </div>
-        <div class="position-absolute bottom-0 m-2">
-            <a class="btn btn-primary m-1" id="startButton">波の発射</a>
-            <a class="btn btn-secondary m-1" id="stopButton">一時停止</a>
-            <a class="btn btn-secondary m-1" id="restartButton">再開</a>
-            <a class="btn btn-danger m-1" id="resetButton">リセット</a>
         </div>
     </div>
 

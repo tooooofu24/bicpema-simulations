@@ -2,14 +2,14 @@ function setup() {
   settingInit();
   deviceJudge.judge();
   canvasController.fullScreen();
-  elementInit();
+  elementSelectInit();
+  slementPositionInit();
   valueInit();
 }
 
 function draw() {
   scale(width / 1000);
   background(255);
-  deviceJudge.rotateInstruction("horizontal");
   if (moveIs) {
     // 波の数だけ繰り返す
     for (let num = 0; num < waveNum; num++) {
@@ -27,10 +27,11 @@ function draw() {
   timer.html(nf(time / 60, 2, 2));
   drawGrid();
   drawScale();
+  deviceJudge.rotateInstruction("horizontal");
 }
 
 function windowResized() {
   canvasController.resizeScreen();
-  elementInit();
+  slementPositionInit();
   valueInit();
 }

@@ -1,16 +1,23 @@
-const fps = 30;
+const FPS = 30;
 let canvasController, deviceJudge;
 function settingInit() {
-  frameRate(fps);
+  frameRate(FPS);
   textAlign(CENTER, CENTER);
   textSize(16);
   deviceJudge = new BicpemaDeviceJudge();
   canvasController = new BicpemaCanvasController(true, false);
 }
-
 // DOM要素を格納する変数
-let startButton, stopButton, restartButton, resetButton, waveColabAddButton, waveColabRemoveButton, timer;
-function elementInit() {
+let buttonsParent,
+  startButton,
+  stopButton,
+  restartButton,
+  resetButton,
+  waveColabAddButton,
+  waveColabRemoveButton,
+  timer;
+function elementSelectInit() {
+  buttonsParent = select("#buttonsParent");
   startButton = select("#startButton").mousePressed(startButtonFunction);
   stopButton = select("#stopButton").mousePressed(stopButtonFunction);
   restartButton = select("#restartButton").mousePressed(restartButtonFunction);
@@ -19,6 +26,11 @@ function elementInit() {
   waveColabRemoveButton = select("#waveColabRemoveButton").mousePressed(waveColabRemoveButtonFunction);
   timer = select("#timer");
 }
+
+function slementPositionInit() {
+  buttonsParent.position((windowWidth - width) / 2, height + 60);
+}
+
 // 初期値やシミュレーションの設定
 let waveArr;
 let waveNum;
