@@ -1,5 +1,9 @@
 const FPS = 30;
+let canvasController;
+let deviceJudge;
 function settingInit() {
+  canvasController = new BicpemaCanvasController(true, false);
+  deviceJudge = new BicpemaDeviceJudge();
   frameRate(FPS);
   textAlign(CENTER, CENTER);
   textSize(16);
@@ -20,7 +24,7 @@ function elementSelectInit() {
   graphCanvas = select("#graphCanvas");
 }
 
-function elementInit() {
+function elementPositionInit() {
   elArr = [
     fbWeightSliderLabel,
     fbWeightSlider,

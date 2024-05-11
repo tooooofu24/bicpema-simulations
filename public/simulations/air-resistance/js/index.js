@@ -1,14 +1,9 @@
-let canvasController;
-let deviceJudge;
-
 function setup() {
-  canvasController = new BicpemaCanvasController(true, false);
-  deviceJudge = new BicpemaDeviceJudge();
-  canvasController.fullScreen();
-  deviceJudge.judge();
   settingInit();
+  deviceJudge.judge();
+  canvasController.fullScreen();
   elementSelectInit();
-  elementInit();
+  elementPositionInit();
   valueInit();
 }
 
@@ -35,6 +30,5 @@ function draw() {
 
 function windowResized() {
   canvasController.resizeScreen();
-  elementInit();
-  valueInit();
+  elementPositionInit();
 }
