@@ -9,9 +9,11 @@ function settingInit() {
 }
 
 //   let graph, graphCanvas;
-function elementInit() {
+function elementSelectInit() {
   //   graph = select("#graph");
   //   graphCanvas = select("#graphCanvas");
 }
+
+function elementPositionInit() {}
 
 function valueInit() {}

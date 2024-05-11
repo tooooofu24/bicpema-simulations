@@ -2,7 +2,8 @@ function setup() {
   settingInit();
   deviceJudge.judge();
   canvasController.fullScreen();
-  elementInit();
+  elementSelectInit();
+  elementPositionInit();
   valueInit();
 }
 
@@ -15,6 +16,5 @@ function draw() {
 
 function windowResized() {
   canvasController.resizeScreen();
-  elementInit();
-  valueInit();
+  elementPositionInit();
 }
