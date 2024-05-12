@@ -1,3 +1,6 @@
+// BicpemaCanvasControllerクラス
+// Bicpemaの動的なキャンバスサイズをコントロールするオブジェクト
+// インスタンス名 = new BicpemaCanvasController();
 class BicpemaCanvasController {
   constructor(f = true, i = false) {
     this.fixed = f;
@@ -46,6 +49,9 @@ class BicpemaCanvasController {
   }
 }
 
+// BicpemaDeviceJudgeクラス
+// Bicpemaを利用しているデバイスを判定するオブジェクト
+// インスタンス名 = new BicpemaDeviceJudge();
 class BicpemaDeviceJudge {
   constructor() {
     this.r = 0;
@@ -114,11 +120,11 @@ class BicpemaDeviceJudge {
   }
 }
 
-// class for car images
-// instance name = new Car(x-coordinate, y-coordinate, x-speed, y-speed, car-color, car-width, x-acceleration, y-acceleration);
-// Default color of the car is red("r"), others are yellow("y").
-// The height of the car is automatically calculated according to its width.
-class Car {
+// BicpemaCarクラス
+// インスタンス名 = new BicpemaCar(x座標, y座標, x方向の速度, y方向の速度, 車の色, 車の幅, x方向の加速度, y方向の加速度);
+// デフォルトの車の色はred("r")であり、他にはyellow("y")が用意されている。
+// 車の原則として高さとの相対値で決定する。
+class BicpemaCar {
   constructor(x = 0, y = 0, vx = 0, vy = 0, k = "r", w = 100, ax = 0, ay = 0) {
     this.posX = x;
     this.posY = y;
