@@ -2,9 +2,11 @@
 // Bicpemaの動的なキャンバスサイズをコントロールするオブジェクト
 // インスタンス名 = new BicpemaCanvasController();
 class BicpemaCanvasController {
-  constructor(f = true, i = false) {
+  constructor(f = true, i = false, w_r = 1.0, h_r = 1.0) {
     this.fixed = f;
     this.is3D = i;
+    this.widthRatio = w_r;
+    this.heightRatio = h_r;
   }
   fullScreen() {
     const P5_CANVAS = select("#p5Canvas");
@@ -23,9 +25,9 @@ class BicpemaCanvasController {
       h = windowHeight - NAV_BAR.height;
     }
     if (this.is3D) {
-      canvas = createCanvas(w, h, WEBGL);
+      canvas = createCanvas(w * this.widthRatio, h * this.heightRatio, WEBGL);
     } else {
-      canvas = createCanvas(w, h);
+      canvas = createCanvas(w * this.widthRatio, h * this.heightRatio);
     }
     canvas.parent(P5_CANVAS).class("rounded border border-1");
   }
@@ -45,7 +47,7 @@ class BicpemaCanvasController {
       w = windowWidth;
       h = windowHeight - NAV_BAR.height;
     }
-    resizeCanvas(w, h);
+    resizeCanvas(w * this.widthRatio, h * this.heightRatio);
   }
 }
 
