@@ -20,11 +20,11 @@ function draw() {
       waveArr[num]._draw();
     }
     time += 1;
+    timer.html(nf(time / FPS, 2, 2));
   }
   for (let num = 0; num < waveNum; num++) {
     waveArr[num]._draw();
   }
-  timer.html(nf(time / 60, 2, 2));
   drawGrid();
   drawScale();
   deviceJudge.rotateInstruction("horizontal");

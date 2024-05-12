@@ -8,19 +8,11 @@ function settingInit() {
   canvasController = new BicpemaCanvasController(true, false);
 }
 // DOM要素を格納する変数
-let buttonsParent,
-  startButton,
-  stopButton,
-  restartButton,
-  resetButton,
-  waveColabAddButton,
-  waveColabRemoveButton,
-  timer;
+let buttonsParent, launchButton, controlButton, resetButton, waveColabAddButton, waveColabRemoveButton, timer;
 function elementSelectInit() {
   buttonsParent = select("#buttonsParent");
-  startButton = select("#startButton").mousePressed(startButtonFunction);
-  stopButton = select("#stopButton").mousePressed(stopButtonFunction);
-  restartButton = select("#restartButton").mousePressed(restartButtonFunction);
+  launchButton = select("#launchButton").mousePressed(launchButtonFunction);
+  controlButton = select("#controlButton").mousePressed(controlButtonFunction);
   resetButton = select("#resetButton").mousePressed(resetButtonFunction);
   waveColabAddButton = select("#waveColabAddButton").mousePressed(waveColabAddButtonFunction);
   waveColabRemoveButton = select("#waveColabRemoveButton").mousePressed(waveColabRemoveButtonFunction);
@@ -35,8 +27,8 @@ function slementPositionInit() {
 let waveArr;
 let waveNum;
 let moveIs;
-let waveColabNum;
-let waveColabArr;
+let waveColabNum = 0;
+let waveColabArr = [];
 let time;
 const canvasHeight = 562.5;
 const canvasWidth = 1000;
