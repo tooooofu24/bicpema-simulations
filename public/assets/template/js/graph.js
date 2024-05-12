@@ -1,4 +1,8 @@
-// Function to draw a graph.
+// graph.jsはグラフ描画専用のファイルです。
+// グラフを利用する際には以下のdrawGraphメソッドのコメントアウトを外し、メソッドを編集して利用してください。
+
+/////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
+
 // function drawGraph() {
 //   if (typeof graphChart !== "undefined" && graphChart) {
 //     graphChart.destroy();
