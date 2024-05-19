@@ -3,13 +3,11 @@ window.onload = function () {
   // 受け取った地点名入りURLから地点名を抽出
   placeName = decodeURI(location.search);
   placeName = placeName.substring(1, placeName.length);
-
   // 親ウィンドウがない場合の処理
   if (!window.opener || window.opener.closed) {
     window.alert("親ウィンドウがありません。");
     return false;
   }
-
   document.getElementById("place_name").innerHTML = placeName + "のデータを編集";
   document.title = placeName + "のデータを編集";
 
