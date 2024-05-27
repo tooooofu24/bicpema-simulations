@@ -32,7 +32,7 @@ function placeNameInputFunction() {
     }
     document.getElementById("placeDataInput" + str(i + 1)).onclick = function () {
       let win = window.open(
-        "/simulations/3d-strata-generic/child-window.html?" + placeName,
+        "/simulations/3d-strata-generic/childWindow.html?" + placeName,
         "window_name",
         "width=1000,height=500"
       );
@@ -44,6 +44,7 @@ function placeNameInputFunction() {
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
 }
+
 // 平面を構成する１つ目の地点のデータに関連する処理
 function firstPlaceSelectFunction() {
   let firstPlaceSelect = select("#firstPlaceSelect");

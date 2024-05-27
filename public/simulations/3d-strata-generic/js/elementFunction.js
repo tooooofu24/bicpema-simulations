@@ -2,31 +2,25 @@
 function placeAddButtonFunction() {
   // 地点データの数
   let placeNum = Object.keys(dataInputArr).length;
-
   // 新しく生成する地点データの番号
   let newPlaceNum = placeNum + 1;
-
   // 新しく生成する地点データ入力オブジェクト
   let newDom = new DOM(newPlaceNum);
-
   // 新しく生成する地点名
   let placeName = "地点" + str(newPlaceNum);
-
   // 生成したオブジェクトを連想配列に登録
   dataInputArr[placeName] = { name: newDom.placeNameInput, data: { x: "", y: "" }, edit: "", layer: "" };
   dataInputArr[placeName]["data"]["x"] = newDom.xInput;
   dataInputArr[placeName]["data"]["y"] = newDom.yInput;
   dataInputArr[placeName]["edit"] = newDom.placeDataInput;
-
   // サブウィンドウを開く機構の付与
   document.getElementById("placeDataInput" + str(newPlaceNum)).onclick = function () {
     let win = window.open(
-      "/simulations/3d-strata-generic/child-window.html?" + placeName,
+      "/simulations/3d-strata-generic/childWindow.html?" + placeName,
       "window_name",
       "width=1000,height=500"
     );
   };
-
   placeRefreshFunction();
 }
 
@@ -34,13 +28,11 @@ function placeAddButtonFunction() {
 function placeRemoveButtonFunction() {
   // 地点データの個数を取得
   let placeNum = Object.keys(dataInputArr).length;
-
   if (placeNum > 0) {
     select("#placeNameInput" + str(placeNum)).remove();
     select("#placeDataInput" + str(placeNum)).remove();
     delete dataInputArr["地点" + placeNum];
   }
-
   placeRefreshFunction();
 }
 

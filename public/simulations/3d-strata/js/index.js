@@ -92,7 +92,7 @@ function placeNameInputFunction() {
     }
     document.getElementById("placeDataInput" + str(i + 1)).onclick = function () {
       let win = window.open(
-        "/simulations/3d-strata/child-window.html?" + placeName,
+        "/simulations/3d-strata/childWindow.html?" + placeName,
         "window_name",
         "width=1000,height=500"
       );
@@ -129,7 +129,7 @@ function placeAddButtonFunction() {
   // サブウィンドウを開く機構の付与
   document.getElementById("placeDataInput" + str(newPlaceNum)).onclick = function () {
     let win = window.open(
-      "/simulations/3d-strata/child-window.html?" + placeName,
+      "/simulations/3d-strata/childWindow.html?" + placeName,
       "window_name",
       "width=1000,height=500"
     );

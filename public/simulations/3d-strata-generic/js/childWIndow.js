@@ -8,7 +8,7 @@ window.onload = function () {
     window.alert("親ウィンドウがありません。");
     return false;
   }
-  document.getElementById("place_name").innerHTML = placeName + "のデータを編集";
+  document.getElementById("placeName").innerHTML = placeName + "のデータを編集";
   document.title = placeName + "のデータを編集";
 
   // 入力済み地層データがあれば引き継ぎinputに入力
@@ -69,7 +69,7 @@ function draw() {
   }
 
   // ヘッダー部分のhtml要素から地点名を取得
-  let name = document.getElementById("place_name").innerHTML;
+  let name = document.getElementById("placeName").innerHTML;
   name = name.split("のデータを編集")[0];
 
   // 地点名と地層データが格納された配列を生成
@@ -134,7 +134,9 @@ class TR {
       "ローム層",
       "その他の層",
     ];
-    for (let i = 0; i < this.td3SelectOptionArr.length; i++) this.td3Select.option(this.td3SelectOptionArr[i]);
+    for (let i = 0; i < this.td3SelectOptionArr.length; i++) {
+      this.td3Select.option(this.td3SelectOptionArr[i]);
+    }
 
     // 削除ボタンを押した時の処理
     function _removeButtonFunction() {
@@ -149,13 +151,11 @@ class TR {
         select("#th" + idArr[i]).html(i + 1 + "層目");
       }
     }
-
     this.trRemoveButton = createButton("削除")
       .parent("td4" + num)
       .class("btn btn-outline-danger w-100")
       .id("trRemoveButton" + num)
       .mousePressed(_removeButtonFunction);
-
     idArr.push(str(num));
   }
 }
