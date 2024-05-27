@@ -2,27 +2,34 @@
   padding: 0px;
   margin-top: 60px;
 }
-#p5Canvas {
+#p5Container #p5Canvas {
   text-align: center;
 }
+
 .sandstone {
-  background-color: rgba(215, 205, 166, 200);
+  background-color: rgb(215, 205, 166);
 }
+
 .mudstone {
-  background-color: rgba(156, 154, 143, 200);
+  background-color: rgb(156, 154, 143);
 }
+
 .gravelstone {
-  background-color: rgba(252, 180, 172, 200);
+  background-color: rgb(252, 180, 172);
 }
+
 .limestone {
-  background-color: rgba(120, 170, 170, 200);
+  background-color: rgb(120, 170, 170);
 }
+
 .tuffstone {
-  background-color: rgba(200, 200, 200, 200);
+  background-color: rgb(200, 200, 200);
 }
+
 .loam {
-  background-color: rgba(112, 58, 21, 200);
+  background-color: rgb(112, 58, 21);
 }
+
 .other {
-  background-color: rgba(0, 0, 0, 200);
-}
+  background-color: rgb(0, 0, 0);
+} /*# sourceMappingURL=style.css.map */
