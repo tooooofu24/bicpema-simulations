@@ -7,11 +7,13 @@
 const FPS = 30;
 let canvasController, deviceJudge;
 function settingInit() {
+  deviceJudge = new BicpemaDeviceJudge();
+  canvasController = new BicpemaCanvasController(true, false);
+  deviceJudge.judge();
+  canvasController.fullScreen();
   frameRate(FPS);
   textAlign(CENTER, CENTER);
   textSize(16);
-  deviceJudge = new BicpemaDeviceJudge();
-  canvasController = new BicpemaCanvasController(true, false);
 }
 
 // elementSelectInit関数

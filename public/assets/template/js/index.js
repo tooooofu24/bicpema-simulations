@@ -6,8 +6,6 @@
 // シミュレーションを実行する際に１度だけ呼び出される。
 function setup() {
   settingInit();
-  deviceJudge.judge();
-  canvasController.fullScreen();
   elementSelectInit();
   elementPositionInit();
   valueInit();
