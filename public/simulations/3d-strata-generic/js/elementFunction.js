@@ -1,5 +1,5 @@
 // 地点データの追加ボタンを押した時に動く関数
-function placeAddButtonFunction() {
+placeAddButtonFunction = () => {
   // 地点データの数
   let placeNum = Object.keys(dataInputArr).length;
   // 新しく生成する地点データの番号
@@ -14,7 +14,7 @@ function placeAddButtonFunction() {
   dataInputArr[placeName]["data"]["y"] = newDom.yInput;
   dataInputArr[placeName]["edit"] = newDom.placeDataInput;
   // サブウィンドウを開く機構の付与
-  document.getElementById("placeDataInput" + str(newPlaceNum)).onclick = function () {
+  document.getElementById("placeDataInput" + str(newPlaceNum)).onclick = () => {
     let win = window.open(
       "/simulations/3d-strata-generic/childWindow.html?" + placeName,
       "window_name",
@@ -22,10 +22,10 @@ function placeAddButtonFunction() {
     );
   };
   placeRefreshFunction();
-}
+};
 
 // 地点データの削除ボタンを押した時に動く関数
-function placeRemoveButtonFunction() {
+placeRemoveButtonFunction = () => {
   // 地点データの個数を取得
   let placeNum = Object.keys(dataInputArr).length;
   if (placeNum > 0) {
@@ -34,10 +34,10 @@ function placeRemoveButtonFunction() {
     delete dataInputArr["地点" + placeNum];
   }
   placeRefreshFunction();
-}
+};
 
 // 平面を構成する地層の組を追加するボタンを押した時の処理
-function strataAddButtonFunction() {
+strataAddButtonFunction = () => {
   let NextTrNum = document.getElementById("strataSelect").childElementCount + 1;
   let tr = createElement("tr")
     .parent("strataSelect")
@@ -80,10 +80,10 @@ function strataAddButtonFunction() {
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
-}
+};
 
 // 平面を構成する地層の組を削除するボタンを押した時の処理
-function strataRemoveButtonFunction() {
+strataRemoveButtonFunction = () => {
   let strataSelect = document.getElementById("strataSelect");
   if (strataSelect.childElementCount > 0) strataSelect.removeChild(strataSelect.lastChild);
-}
+};

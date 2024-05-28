@@ -2,7 +2,7 @@
 // シミュレーションそのものの設定を行う関数
 const FPS = 60;
 let canvasController;
-function settingInit() {
+settingInit = () => {
   canvasController = new BicpemaCanvasController(false, true);
   canvasController.fullScreen();
   frameRate(FPS);
@@ -10,7 +10,7 @@ function settingInit() {
   textSize(20);
   textFont(font);
   camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
-}
+};
 
 // elementSelectInit関数
 // 仮想DOMを読み込むための関数
@@ -20,24 +20,24 @@ let screenshotButton;
 let placeAddButton, placeRemoveButton;
 // 平面を構成する地層の組を追加、削除するボタン
 let strataAddButton, strataRemoveButton;
-function elementSelectInit() {
+elementSelectInit = () => {
   buttonParent = select("#buttonParent");
   screenshotButton = select("#screenshotButton");
   placeAddButton = select("#placeAddButton");
   placeRemoveButton = select("#placeRemoveButton");
   strataAddButton = select("#strataAddButton");
   strataRemoveButton = select("#strataRemoveButton");
-}
+};
 
 // elementPositionInit関数
 // 仮想DOMの場所や実行関数を設定するための関数
-function elementPositionInit() {
+elementPositionInit = () => {
   buttonParent.position(5, 65);
   placeAddButton.mousePressed(placeAddButtonFunction);
   placeRemoveButton.mousePressed(placeRemoveButtonFunction);
   strataAddButton.mousePressed(strataAddButtonFunction);
   strataRemoveButton.mousePressed(strataRemoveButtonFunction);
-}
+};
 
 // 地点のデータを入力するインプットの連想配列
 let dataInputArr = {};
@@ -67,4 +67,4 @@ let dataInputArr = {};
 
 // valueInit関数
 // 初期値を設定するための関数
-function valueInit() {}
+valueInit = () => {};

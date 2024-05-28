@@ -1,5 +1,5 @@
 // html要素が全て読み込まれた後に読み込まれる
-window.onload = function () {
+window.onload = () => {
   // 受け取った地点名入りURLから地点名を抽出
   placeName = decodeURI(location.search);
   placeName = placeName.substring(1, placeName.length);
@@ -32,24 +32,24 @@ let idArr = [];
 let trArr = [];
 
 // tr要素を追加するボタンを押した時の処理
-function trAddButtonFunction() {
+trAddButtonFunction = () => {
   trNum += 1;
   trSum += 1;
   let tr = new TR(trSum);
   trArr.push(tr);
   return trSum;
-}
+};
 
 // DOM要素の生成
 let trAddButton;
-function elCreate() {
+elCreate = () => {
   trAddButton = select("#trAddButton");
-}
+};
 
 // DOM要素の設定
-function elInit() {
+elInit = () => {
   trAddButton.mousePressed(trAddButtonFunction);
-}
+};
 
 // setup関数
 function setup() {
@@ -139,7 +139,7 @@ class TR {
     }
 
     // 削除ボタンを押した時の処理
-    function _removeButtonFunction() {
+    _removeButtonFunction = () => {
       select("#tr" + str(num)).remove();
       trArr.pop(num);
       trNum -= 1;
@@ -150,7 +150,7 @@ class TR {
       for (let i = 0; i < idArr.length; i++) {
         select("#th" + idArr[i]).html(i + 1 + "層目");
       }
-    }
+    };
     this.trRemoveButton = createButton("削除")
       .parent("td4" + num)
       .class("btn btn-outline-danger w-100")

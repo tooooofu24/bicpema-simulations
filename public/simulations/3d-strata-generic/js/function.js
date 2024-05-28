@@ -1,23 +1,23 @@
 // 以下にその他のメソッドを定義してください。
 // html要素が全て読み込まれた後に読み込む
-window.onload = function () {
+window.onload = () => {
   // screenshotButtonの設定
   document.getElementById("screenshotButton").addEventListener("click", () => {
     html2canvas(document.body).then((canvas) => {
       downloadImage(canvas.toDataURL());
     });
   });
-  function downloadImage(dataUrl) {
+  downloadImage = (dataUrl) => {
     const name = "screenshot.png";
     const a = document.createElement("a");
     a.href = dataUrl;
     a.download = name;
     a.click();
-  }
+  };
 };
 
 // 地点データが入力された時に動く関数
-function placeNameInputFunction() {
+placeNameInputFunction = () => {
   // 地点データの数
   let placeNum = Object.keys(dataInputArr).length;
   // データを編集するボタンのhtml要素を書き換える繰り返し
@@ -30,7 +30,7 @@ function placeNameInputFunction() {
     } else {
       dataInputArr[place].edit.html(placeName + "のデータを編集");
     }
-    document.getElementById("placeDataInput" + str(i + 1)).onclick = function () {
+    document.getElementById("placeDataInput" + str(i + 1)).onclick = () => {
       let win = window.open(
         "/simulations/3d-strata-generic/childWindow.html?" + placeName,
         "window_name",
@@ -43,10 +43,10 @@ function placeNameInputFunction() {
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
-}
+};
 
 // 平面を構成する１つ目の地点のデータに関連する処理
-function firstPlaceSelectFunction() {
+firstPlaceSelectFunction = () => {
   let firstPlaceSelect = select("#firstPlaceSelect");
   let firstPlaceName = document.getElementById("firstPlaceName");
   firstPlaceName.innerHTML = firstPlaceSelect.value();
@@ -80,10 +80,10 @@ function firstPlaceSelectFunction() {
       }
     }
   }
-}
+};
 
 // 平面を構成する２つ目の地点のデータに関連する処理
-function secondPlaceSelectFunction() {
+secondPlaceSelectFunction = () => {
   let secondPlaceSelect = select("#secondPlaceSelect");
   let secondPlaceName = document.getElementById("secondPlaceName");
   secondPlaceName.innerHTML = secondPlaceSelect.value();
@@ -117,10 +117,10 @@ function secondPlaceSelectFunction() {
       }
     }
   }
-}
+};
 
 // 平面を構成する３つ目の地点のデータに関連する処理
-function thirdPlaceSelectFunction() {
+thirdPlaceSelectFunction = () => {
   let thirdPlaceSelect = select("#thirdPlaceSelect");
   let thirdPlaceName = document.getElementById("thirdPlaceName");
   thirdPlaceName.innerHTML = thirdPlaceSelect.value();
@@ -154,17 +154,17 @@ function thirdPlaceSelectFunction() {
       }
     }
   }
-}
+};
 
 // 平面を構成する地層の種類が変わったときの処理
-function strataSelectFunction() {
+strataSelectFunction = () => {
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
-}
+};
 
 // 平面を構成する地点を更新する処理
-function placeRefreshFunction() {
+placeRefreshFunction = () => {
   let firstPlaceSelect = select("#firstPlaceSelect");
   let secondPlaceSelect = select("#secondPlaceSelect");
   let thirdPlaceSelect = select("#thirdPlaceSelect");
@@ -201,10 +201,10 @@ function placeRefreshFunction() {
   firstPlaceSelectDoc.addEventListener("change", firstPlaceSelectFunction);
   secondPlaceSelectDoc.addEventListener("change", secondPlaceSelectFunction);
   thirdPlaceSelectDoc.addEventListener("change", thirdPlaceSelectFunction);
-}
+};
 
 // 緯度経度、深さの最小値と最大値を計算する関数
-function calculateValue() {
+calculateValue = () => {
   let latitudeArr = [];
   let longitudeArr = [];
   let depthArr = [];
@@ -266,10 +266,10 @@ function calculateValue() {
       max: zMax,
     },
   };
-}
+};
 
 //背景を設定する関数
-function backgroundSetting(coordinateData) {
+backgroundSetting = (coordinateData) => {
   let xMin = coordinateData.x.min;
   let xMax = coordinateData.x.max;
   let yMin = coordinateData.y.min;
@@ -347,29 +347,29 @@ function backgroundSetting(coordinateData) {
   translate(0, -50, 500);
   text("緯度", 0, -10);
   pop();
-}
+};
 
 // ３点を結び平面を生成する関数
-function createPlane1(x1, z1, y1, x2, z2, y2, x3, z3, y3) {
+createPlane1 = (x1, z1, y1, x2, z2, y2, x3, z3, y3) => {
   beginShape();
   vertex(x1, y1, z1);
   vertex(x2, y2, z2);
   vertex(x3, y3, z3);
   endShape(CLOSE);
-}
+};
 
 // ４点を結び平面を生成する関数
-function createPlane2(x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) {
+createPlane2 = (x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) => {
   beginShape();
   vertex(x1, y1, z1);
   vertex(x2, y2, z2);
   vertex(x3, y3, z3);
   vertex(x4, y4, z4);
   endShape(CLOSE);
-}
+};
 
 // 子ウィンドウからデータを取得するための関数
-function submit(arr) {
+submit = (arr) => {
   let name = arr[0];
   let dataArr = arr[1];
   for (let key in dataInputArr) {
@@ -379,10 +379,10 @@ function submit(arr) {
       dataInputArr[key].layer = dataArr;
     }
   }
-}
+};
 
 // input済みの地層データを引き継ぐ関数
-function loadLayers(placeName) {
+loadLayers = (placeName) => {
   let arrKey = placeName;
   for (let key in dataInputArr) {
     let a = dataInputArr[key].name.value();
@@ -393,10 +393,10 @@ function loadLayers(placeName) {
   let value = dataInputArr[arrKey];
   let layers = value.layer;
   return layers;
-}
+};
 
 // 方角を描画する関数
-function drawDirMark(x, y) {
+drawDirMark = (x, y) => {
   push();
   rotateX(PI / 2);
   strokeWeight(1);
@@ -410,10 +410,10 @@ function drawDirMark(x, y) {
   text("南", x, y + 70 + 60);
   text("北", x, y - 70 - 40);
   pop();
-}
+};
 
 // 地層の平面を描画する処理
-function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
+drawStrata = (key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) => {
   let name = dataInputArr[key].name.value();
   if (name == "") name = key;
   let data = dataInputArr[key].data;
@@ -464,9 +464,9 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
   fill(255, 0, 0);
   cone(10, 50, 10, 3, true);
   pop();
-}
+};
 
-function connectStrata() {
+connectStrata = () => {
   let trNum = document.getElementById("strataSelect").childElementCount;
   let p1Name = select("#firstPlaceSelect").value();
   let p2Name = select("#secondPlaceSelect").value();
@@ -532,4 +532,4 @@ function connectStrata() {
       createPlane2(p2[0], p2[1], p2Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p2[0], p2[1], p2Max);
     }
   }
-}
+};

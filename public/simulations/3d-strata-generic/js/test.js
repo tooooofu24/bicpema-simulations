@@ -1,4 +1,4 @@
-function loadTestDataButtonFunction() {
+loadTestDataButtonFunction = () => {
   if (Object.keys(dataInputArr).length == 0) {
     let name_arr = ["南白糸台小", "警察学校", "府中第六中", "府中第四小", "飛田給小", "府中第二中", "石原小"];
     let place_arr = [
@@ -68,4 +68,4 @@ function loadTestDataButtonFunction() {
     }
     placeNameInputFunction();
   }
-}
+};
