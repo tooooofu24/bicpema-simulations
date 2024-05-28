@@ -1,12 +1,15 @@
 // settingInit関数
 // シミュレーションそのものの設定を行う関数
-const FPS = 30;
+const FPS = 60;
 let canvasController;
 function settingInit() {
-  frameRate(FPS);
-  textAlign(CENTER);
-  textSize(16);
   canvasController = new BicpemaCanvasController(false, true);
+  canvasController.fullScreen();
+  frameRate(FPS);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  textFont(font);
+  camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
 }
 
 // elementSelectInit関数
@@ -39,28 +42,27 @@ function elementPositionInit() {
 // 地点のデータを入力するインプットの連想配列
 let dataInputArr = {};
 // データ構造
-// dataInputArr {地点+地点番号:
-// {
-// name: 地点の名前,
-// data:
-//     {
-//         x: 経度,
-//         y: 緯度
+// dataInputArr = {
+//   地点+地点番号:{
+//     name: 地点の名前,
+//     data:{
+//       x: 経度,
+//       y: 緯度
 //     },
-// edit: データを編集するボタン,
-// layer:
-//      [
-//          [
-//              1層目の浅い方の深さ,
-//              1層目の深い方の深さ,
-//              岩層の種類,
-//          ],
-//          [
-//              2層目の浅い方の深さ,
-//              2層目の深い方の深さ,
-//              岩層の種類,
-//          ]
-//      ]
+//     edit: データを編集するボタン,
+//     layer:[
+//       [
+//         1層目の浅い方の深さ,
+//         1層目の深い方の深さ,
+//         岩層の種類,
+//       ],
+//       [
+//         2層目の浅い方の深さ,
+//         2層目の深い方の深さ,
+//         岩層の種類,
+//       ]
+//     ]
+//   }
 // }
 
 // valueInit関数

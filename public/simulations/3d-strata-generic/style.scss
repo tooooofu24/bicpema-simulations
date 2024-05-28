@@ -1,31 +1,39 @@
 @charset "utf-8";
+
+// それぞれの凡例の色
+$sandstone-color: #d7cda6;
+$mudstone-color: #9c9a8f;
+$gravelstone-color: #fcb4ac;
+$limestone-color: #78aaaa;
+$tuffstone-color: #c8c8c8;
+$loam-color: #703a15;
+$other-color: #000000;
+
 #p5Container {
-    padding: 0px;
-    margin-top: 60px;
-    #p5Canvas {
-        text-align: center;
-      }  
-}
-  
+  padding: 0px;
+  margin-top: 60px;
+  #p5Canvas {
+    text-align: center;
+  }
   .sandstone {
-    background-color: rgba(215, 205, 166, 200);
+    background-color: $sandstone-color;
   }
   .mudstone {
-    background-color: rgba(156, 154, 143, 200);
+    background-color: $mudstone-color;
   }
   .gravelstone {
-    background-color: rgba(252, 180, 172, 200);
+    background-color: $gravelstone-color;
   }
   .limestone {
-    background-color: rgba(120, 170, 170, 200);
+    background-color: $limestone-color;
   }
   .tuffstone {
-    background-color: rgba(200, 200, 200, 200);
+    background-color: $tuffstone-color;
   }
   .loam {
-    background-color: rgba(112, 58, 21, 200);
+    background-color: $loam-color;
   }
   .other {
-    background-color: rgba(0, 0, 0, 200);
+    background-color: $other-color;
   }
-  
+}
