@@ -139,7 +139,7 @@ class TR {
     }
 
     // 削除ボタンを押した時の処理
-    _removeButtonFunction = () => {
+    function _removeButtonFunction() {
       select("#tr" + str(num)).remove();
       trArr.pop(num);
       trNum -= 1;
@@ -150,7 +150,7 @@ class TR {
       for (let i = 0; i < idArr.length; i++) {
         select("#th" + idArr[i]).html(i + 1 + "層目");
       }
-    };
+    }
     this.trRemoveButton = createButton("削除")
       .parent("td4" + num)
       .class("btn btn-outline-danger w-100")
