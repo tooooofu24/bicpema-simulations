@@ -27,6 +27,20 @@ elementSelectInit = () => {
   placeRemoveButton = select("#placeRemoveButton");
   strataAddButton = select("#strataAddButton");
   strataRemoveButton = select("#strataRemoveButton");
+
+  const distanceRadioParent = select("#distanceRadioParent");
+  distanceRadioButton = createRadio().parent(distanceRadioParent);
+  distanceRadioButton.option("緯度・経度", "latlng");
+  distanceRadioButton.option("メートル", "meter");
+  distanceRadioButton.value("latlng");
+  distanceRadioButton.changed(distanceRadioButtonFunction);
+
+  const setRadioParent = select("#setRadioParent");
+  setRadioButton = createRadio().parent(setRadioParent);
+  setRadioButton.option("自動", "auto");
+  setRadioButton.option("手動", "manual");
+  setRadioButton.value("auto");
+  setRadioButton.changed(setRadioButtonFunction);
 };
 
 // elementPositionInit関数
@@ -67,4 +81,7 @@ let dataInputArr = {};
 
 // valueInit関数
 // 初期値を設定するための関数
-valueInit = () => {};
+let rotateTime;
+valueInit = () => {
+  rotateTime = 0;
+};

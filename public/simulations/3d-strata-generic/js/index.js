@@ -1,8 +1,7 @@
 function preload() {
   font = loadFont("../../assets/fonts/ZenMaruGothic-Regular.ttf");
 }
-// setup関数
-// シミュレーションを実行する際に１度だけ呼び出される。
+
 function setup() {
   settingInit();
   elementSelectInit();
@@ -11,30 +10,46 @@ function setup() {
   loadTestDataButtonFunction();
 }
 
-let rotateTime = 0;
-// draw関数
-// シミュレーションを実行した後、繰り返し呼び出され続ける
+let coordinateData;
 function draw() {
   background(255);
+
   // データ登録モーダルを開いている時にオービットコントロールを無効化
-  let modalIs = $("#dataRegisterModal").is(":hidden");
-  if (modalIs) {
+  let dataRegisterModalIs = $("#dataRegisterModal").is(":hidden");
+  if (dataRegisterModalIs) {
     orbitControl();
   }
-  let coordinateData = calculateValue();
-  // 緊急的な措置としての変数の代入
-  // 今後軸ラベルの最小値と最大値をスライダーで変更できる仕様に変える必要がある
-  backgroundSetting(coordinateData);
-  drawDirMark(-600, -600);
-  rotateTime += 3;
-  for (let key in dataInputArr) {
-    drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax);
+  // 緯度や経度、深さに応じてスケールを計算する
+  if (setRadioButton.value() === "auto") {
+    coordinateData = calculateValue();
+  } else {
+    let ele1 = select("#widthDirectionInput");
+    let ele2 = select("#depthDirectionMaxInput");
+    let ele3 = select("#depthDirectionMinInput");
+    coordinateData.x.max = coordinateData.x.min + ele1.value() * 20;
+    coordinateData.y.max = coordinateData.y.min + ele1.value() * 20;
+    coordinateData.z.max = int(ele2.value());
+    coordinateData.z.min = int(ele3.value());
   }
+
+  // 計算したスケールを実際に適応
+  backgroundSetting(coordinateData);
+
+  // 方位の描画
+  drawDirMark(-600, -600);
+
+  // 地点名の回転
+  rotateTime += 3;
+
+  // それぞれの地点のボーリングデータの描画
+  for (let key in dataInputArr) {
+    drawStrata(key, rotateTime, coordinateData);
+  }
+
+  // それぞれの地層をつなぐ
   connectStrata();
 }
 
-// windowResized関数
-// シミュレーションを利用しているデバイスの画面サイズが変わった際に呼び出される。
 function windowResized() {
   canvasController.resizeScreen();
   elementPositionInit();

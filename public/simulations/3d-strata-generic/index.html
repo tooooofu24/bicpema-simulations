@@ -18,10 +18,9 @@
     <script language="javascript" type="text/javascript" src="/simulations/3d-strata-generic/js/index.js"></script>
     <script language="javascript" type="text/javascript" src="/simulations/3d-strata-generic/js/test.js"></script>
     <script language="javascript" type="text/javascript" src="/assets/js/html2canvas.min.js"></script>
-    <!-- chart.js -->
-    <script src="/assets/js/chart.umd.min.js"></script>
     <!-- Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- style.css -->
     <link href="/simulations/3d-strata-generic/style.css" rel="stylesheet">
 </head>
 
@@ -55,7 +54,7 @@
         </div>
 
         <!-- 凡例の表示のオフキャンバス -->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="legendOffCanvas"
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="legendOffCanvas" data-bs-backdrop="static"
             aria-labelledby="legendOffCanvasLabel">
             <div class="offcanvas-header">
                 <p class="offcanvas-title" id="legendOffCanvasLabel">凡例</p>
@@ -63,47 +62,33 @@
             </div>
             <div class="offcanvas-body border">
                 <ul class="list-group list-group-flush border border-0">
-                    <li class="list-group-item container border-0">
-                        <div class="row">
-                            <div class="col-10">砂岩層</div>
-                            <div class="p-2 sandstone col-2"></div>
-                        </div>
+                    <li>
+                        <div>砂岩層</div>
+                        <div class="sandstone">　</div>
                     </li>
-                    <li class="list-group-item container border-0">
-                        <div class="row">
-                            <div class="col-10">泥岩層</div>
-                            <div class="p-2 mudstone col-2"></div>
-                        </div>
+                    <li>
+                        <div>泥岩層</div>
+                        <div class="mudstone">　</div>
                     </li>
-                    <li class="list-group-item container border-0">
-                        <div class="row">
-                            <div class="col-10">れき岩層</div>
-                            <div class="p-2 gravelstone col-2"></div>
-                        </div>
+                    <li>
+                        <div>れき岩層</div>
+                        <div class="gravelstone">　</div>
                     </li>
-                    <li class="list-group-item container border-0">
-                        <div class="row">
-                            <div class="col-10">石灰岩層</div>
-                            <div class="p-2 limestone col-2"></div>
-                        </div>
+                    <li>
+                        <div>石灰岩層</div>
+                        <div class="limestone">　</div>
                     </li>
-                    <li class="list-group-item container border-0">
-                        <div class="row">
-                            <div class="col-10">凝灰岩層・火山灰層</div>
-                            <div class="p-2 tuffstone col-2"></div>
-                        </div>
+                    <li>
+                        <div>凝灰岩層・火山灰層</div>
+                        <div class="tuffstone">　</div>
                     </li>
-                    <li class="list-group-item container border-0">
-                        <div class="row">
-                            <div class="col-10">ローム層</div>
-                            <div class="p-2 loam col-2"></div>
-                        </div>
+                    <li>
+                        <div>ローム層</div>
+                        <div class="loam">　</div>
                     </li>
-                    <li class="list-group-item container border-0">
-                        <div class="row">
-                            <div class="col-10">その他の層</div>
-                            <div class="p-2 other col-2"></div>
-                        </div>
+                    <li>
+                        <div>その他の層</div>
+                        <div class="other">　</div>
                     </li>
                 </ul>
             </div>
@@ -120,11 +105,14 @@
                     </div>
                     <div class="modal-body container">
                         <div class="alert alert-primary d-flex align-items-center" role="alert">
-                            <div>地点データ、地層データ、表示する平面の順に登録してください。</div>
+                            <div>スケール、地点データ、地層データ、表示する平面の順に登録してください。</div>
                         </div>
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#placePointNameRegister"
+                                <a class="nav-link active" href="#scaleSetting" data-bs-toggle="tab">スケールの設定</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="#placePointNameRegister"
                                     data-bs-toggle="tab">地点データの登録</a>
                             </li>
                             <li class="nav-item">
@@ -135,11 +123,27 @@
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane active" id="placePointNameRegister">
+                            <div class="tab-pane active" id="scaleSetting">
                                 <div class="container">
-                                    <h2 class="mt-3">
-                                        地点データの登録
-                                    </h2>
+                                    <h3 class="mt-3">幅方向スケールの表し方</h3>
+                                    <div id="distanceRadioParent"></div>
+                                    <h3 class="mt-3">設定方法</h3>
+                                    <div id="setRadioParent"></div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">幅方向の１メモリあたりの長さ</span>
+                                        <input type="number" class="form-control" id="widthDirectionInput" disabled>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">深さ(下方向が正)</span>
+                                        <span class="input-group-text">最大値</span>
+                                        <input type="number" class="form-control" id="depthDirectionMaxInput" disabled>
+                                        <span class="input-group-text">最小値</span>
+                                        <input type="number" class="form-control" id="depthDirectionMinInput" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="placePointNameRegister">
+                                <div class="container mt-3">
                                     <button class="btn btn-outline-primary mb-2" id="placeAddButton">
                                         追加
                                     </button>
@@ -150,20 +154,14 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="placePointDataRegister">
-                                <div class="container">
-                                    <h2 class="mt-3">
-                                        地層データの登録
-                                    </h2>
+                                <div class="container mt-3">
                                     <p>※地層データ登録用のサブウィンドウが開きます。</p>
                                     <div class="row" id="placePointDataInput"></div>
                                 </div>
                             </div>
                             <div class="tab-pane" id="planeDataRegister">
-                                <div class="container">
+                                <div class="container mt-3">
                                     <div class="container">
-                                        <h2 class="mt-2">
-                                            平面を構成する地点の組み合わせ
-                                        </h2>
                                         <table class="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
@@ -215,6 +213,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">

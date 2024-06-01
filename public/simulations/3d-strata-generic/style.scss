@@ -15,6 +15,23 @@ $other-color: #000000;
   #p5Canvas {
     text-align: center;
   }
+  #legendOffCanvas {
+    ul {
+      list-style: none;
+      li {
+        padding: 5px 0;
+        div {
+          float: left;
+          &:nth-child(1) {
+            width: 80%;
+          }
+          &:nth-child(2) {
+            width: 20%;
+          }
+        }
+      }
+    }
+  }
   .sandstone {
     background-color: $sandstone-color;
   }

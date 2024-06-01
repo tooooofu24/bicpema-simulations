@@ -5,6 +5,21 @@
 #p5Container #p5Canvas {
   text-align: center;
 }
+#p5Container #legendOffCanvas ul {
+  list-style: none;
+}
+#p5Container #legendOffCanvas ul li {
+  padding: 5px 0;
+}
+#p5Container #legendOffCanvas ul li div {
+  float: left;
+}
+#p5Container #legendOffCanvas ul li div:nth-child(1) {
+  width: 80%;
+}
+#p5Container #legendOffCanvas ul li div:nth-child(2) {
+  width: 20%;
+}
 #p5Container .sandstone {
   background-color: #d7cda6;
 }
