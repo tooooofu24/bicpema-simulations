@@ -6,7 +6,7 @@ settingInit = () => {
   canvasController = new BicpemaCanvasController(false, true);
   canvasController.fullScreen();
   frameRate(FPS);
-  textAlign(CENTER, CENTER);
+  textAlign(CENTER);
   textSize(20);
   textFont(font);
   camera(800, -500, 800, 0, 0, 0, 0, 1, 0);

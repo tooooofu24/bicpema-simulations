@@ -272,9 +272,8 @@ drawStrata = (key, rotateTime, coordinateData) => {
   push();
   translate(x, 0, y);
   rotateY(radians(rotateTime));
-  if (min(zArr) < 0) {
-    translate(0, map(min(zArr), zMin, zMax, 0, 500) - 25, 0);
-  } else {
+  translate(0, map(min(zArr), zMin, zMax, 0, 500) - 25, 0);
+  if (min(zArr) > 0) {
     translate(0, -25, 0);
   }
   text(name, 0, -55);
