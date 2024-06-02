@@ -19,24 +19,10 @@ function draw() {
   if (dataRegisterModalIs) {
     orbitControl();
   }
+
   // 緯度や経度、深さに応じてスケールを計算する
-  if (setRadioButton.value() === "auto") {
-    coordinateData = calculateValue();
-    coordinateData.x.min = 0;
-    coordinateData.x.max = (int(coordinateData.x.max / 10) + 1) * 10;
-    coordinateData.y.min = 0;
-    coordinateData.y.max = (int(coordinateData.y.max / 10) + 1) * 10;
-  } else {
-    let ele1 = select("#widthDirectionInput");
-    let ele2 = select("#depthDirectionMaxInput");
-    let ele3 = select("#depthDirectionMinInput");
-    coordinateData.x.min = 0;
-    coordinateData.x.max = ele1.value();
-    coordinateData.y.min = 0;
-    coordinateData.y.max = ele1.value();
-    coordinateData.z.max = int(ele2.value());
-    coordinateData.z.min = int(ele3.value());
-  }
+  coordinateData = calculateValue(setRadioButton.value());
+
   // 計算したスケールを実際に適応
   backgroundSetting(coordinateData);
 

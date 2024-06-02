@@ -1,11 +1,10 @@
 // settingInit関数
 // シミュレーションそのものの設定を行う関数
-const FPS = 60;
 let canvasController;
 settingInit = () => {
   canvasController = new BicpemaCanvasController(false, true);
   canvasController.fullScreen();
-  frameRate(FPS);
+  frameRate(60);
   textAlign(CENTER);
   textSize(20);
   textFont(font);
@@ -20,6 +19,7 @@ let screenshotButton;
 let placeAddButton, placeRemoveButton;
 // 平面を構成する地層の組を追加、削除するボタン
 let strataAddButton, strataRemoveButton;
+let setRadioParent;
 elementSelectInit = () => {
   buttonParent = select("#buttonParent");
   screenshotButton = select("#screenshotButton");
@@ -27,23 +27,20 @@ elementSelectInit = () => {
   placeRemoveButton = select("#placeRemoveButton");
   strataAddButton = select("#strataAddButton");
   strataRemoveButton = select("#strataRemoveButton");
-
-  const setRadioParent = select("#setRadioParent");
-  setRadioButton = createRadio().parent(setRadioParent);
-  setRadioButton.option("自動", "auto");
-  setRadioButton.option("手動", "manual");
-  setRadioButton.value("auto");
-  setRadioButton.changed(setRadioButtonFunction);
+  setRadioParent = select("#setRadioParent");
 };
 
-// elementPositionInit関数
-// 仮想DOMの場所や実行関数を設定するための関数
 elementPositionInit = () => {
   buttonParent.position(5, 65);
   placeAddButton.mousePressed(placeAddButtonFunction);
   placeRemoveButton.mousePressed(placeRemoveButtonFunction);
   strataAddButton.mousePressed(strataAddButtonFunction);
   strataRemoveButton.mousePressed(strataRemoveButtonFunction);
+  setRadioButton = createRadio().parent(setRadioParent);
+  setRadioButton.option("自動", "auto");
+  setRadioButton.option("手動", "manual");
+  setRadioButton.value("auto");
+  setRadioButton.changed(setRadioButtonFunction);
 };
 
 // 地点のデータを入力するインプットの連想配列
@@ -72,8 +69,6 @@ let dataInputArr = {};
 //   }
 // }
 
-// valueInit関数
-// 初期値を設定するための関数
 let rotateTime;
 valueInit = () => {
   rotateTime = 0;

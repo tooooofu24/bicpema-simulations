@@ -16,53 +16,65 @@ window.onload = () => {
 };
 
 // 緯度経度、深さの最小値と最大値を計算する関数
-calculateValue = () => {
-  let latitudeArr = [];
-  let longitudeArr = [];
-  let depthArr = [];
-  for (let key in dataInputArr) {
-    let value = dataInputArr[key];
-    let data = value.data;
-    let latitude = data.y.value();
-    let longitude = data.x.value();
-    if (latitude !== "") {
-      latitudeArr.push(latitude);
+calculateValue = (setRadioButtonValue) => {
+  if (setRadioButtonValue === "auto") {
+    let latitudeArr = [];
+    let longitudeArr = [];
+    let depthArr = [];
+    for (let key in dataInputArr) {
+      let value = dataInputArr[key];
+      let data = value.data;
+      let latitude = data.y.value();
+      let longitude = data.x.value();
+      if (latitude !== "") {
+        latitudeArr.push(latitude);
+      } else {
+        latitudeArr.push(0);
+      }
+      if (longitude !== "") {
+        longitudeArr.push(longitude);
+      } else {
+        longitudeArr.push(0);
+      }
+      let layer = value.layer;
+      for (let i = 0; i < layer.length; i++) {
+        depthArr.push(layer[i][0], layer[i][1]);
+      }
+    }
+    xMin = min(longitudeArr);
+    xMax = max(longitudeArr);
+    if (xMin === Infinity) xMin = 0;
+    if (xMax === -Infinity) xMax = 0;
+    yMin = min(latitudeArr);
+    yMax = max(latitudeArr);
+    if (yMin === Infinity) yMin = 0;
+    if (yMax === -Infinity) yMax = 0;
+    zMin = min(depthArr);
+    zMax = max(depthArr);
+    if (zMin == Infinity) zMin = 0;
+    if (zMax == -Infinity) zMax = 0;
+    let xLen = xMax - xMin;
+    let yLen = yMax - yMin;
+    let unitLen = max([xLen, yLen]);
+    if (xLen <= yLen) {
+      let addLenValue = (unitLen - xLen) / 2;
+      xMin -= addLenValue;
+      xMax += addLenValue;
     } else {
-      latitudeArr.push(0);
+      let addLenValue = (unitLen - yLen) / 2;
+      yMin -= addLenValue;
+      yMax += addLenValue;
     }
-    if (longitude !== "") {
-      longitudeArr.push(longitude);
-    } else {
-      longitudeArr.push(0);
-    }
-    let layer = value.layer;
-    for (let i = 0; i < layer.length; i++) {
-      depthArr.push(layer[i][0], layer[i][1]);
-    }
-  }
-  xMin = min(longitudeArr);
-  xMax = max(longitudeArr);
-  if (xMin === Infinity) xMin = 0;
-  if (xMax === -Infinity) xMax = 0;
-  yMin = min(latitudeArr);
-  yMax = max(latitudeArr);
-  if (yMin === Infinity) yMin = 0;
-  if (yMax === -Infinity) yMax = 0;
-  zMin = min(depthArr);
-  zMax = max(depthArr);
-  if (zMin == Infinity) zMin = 0;
-  if (zMax == -Infinity) zMax = 0;
-  let xLen = xMax - xMin;
-  let yLen = yMax - yMin;
-  let unitLen = max([xLen, yLen]);
-  if (xLen <= yLen) {
-    let addLenValue = (unitLen - xLen) / 2;
-    xMin -= addLenValue;
-    xMax += addLenValue;
-  } else {
-    let addLenValue = (unitLen - yLen) / 2;
-    yMin -= addLenValue;
-    yMax += addLenValue;
+  } else if (setRadioButtonValue === "manual") {
+    let ele1 = select("#widthDirectionInput");
+    let ele2 = select("#depthDirectionMaxInput");
+    let ele3 = select("#depthDirectionMinInput");
+    xMin = 0;
+    xMax = ele1.value();
+    yMin = 0;
+    yMax = ele1.value();
+    zMax = int(ele2.value());
+    zMin = int(ele3.value());
   }
   return {
     x: {
