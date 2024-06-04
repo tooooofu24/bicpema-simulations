@@ -16,7 +16,7 @@ placeAddButtonFunction = () => {
   // サブウィンドウを開く機構の付与
   document.getElementById("placeDataInput" + str(newPlaceNum)).onclick = () => {
     let win = window.open(
-      "/simulations/3d-strata-generic/childWindow.html?" + placeName,
+      "/simulations/3d-strata-generic/setWindow.html?" + placeName,
       "window_name",
       "width=1000,height=500"
     );
@@ -104,7 +104,7 @@ placeNameInputFunction = () => {
     }
     document.getElementById("placeDataInput" + str(i + 1)).onclick = () => {
       let win = window.open(
-        "/simulations/3d-strata-generic/childWindow.html?" + placeName,
+        "/simulations/3d-strata-generic/setWindow.html?" + placeName,
         "window_name",
         "width=1000,height=500"
       );
