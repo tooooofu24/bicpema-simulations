@@ -191,7 +191,7 @@ backgroundSetting = (coordinateData) => {
 };
 
 // 子ウィンドウからデータを取得するための関数
-submit = (arr) => {
+function submit(arr) {
   let name = arr[0];
   let dataArr = arr[1];
   for (let key in dataInputArr) {
@@ -201,10 +201,10 @@ submit = (arr) => {
       dataInputArr[key].layer = dataArr;
     }
   }
-};
+}
 
 // input済みの地層データを引き継ぐ関数
-loadLayers = (placeName) => {
+function loadLayers(placeName) {
   let arrKey = placeName;
   for (let key in dataInputArr) {
     let a = dataInputArr[key].name.value();
@@ -215,7 +215,7 @@ loadLayers = (placeName) => {
   let value = dataInputArr[arrKey];
   let layers = value.layer;
   return layers;
-};
+}
 
 // 方角を描画する関数
 drawDirMark = (x, y) => {

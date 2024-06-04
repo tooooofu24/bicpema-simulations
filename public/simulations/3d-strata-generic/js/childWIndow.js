@@ -32,24 +32,24 @@ let idArr = [];
 let trArr = [];
 
 // tr要素を追加するボタンを押した時の処理
-trAddButtonFunction = () => {
+function trAddButtonFunction() {
   trNum += 1;
   trSum += 1;
   let tr = new TR(trSum);
   trArr.push(tr);
   return trSum;
-};
+}
 
 // DOM要素の生成
 let trAddButton;
-elCreate = () => {
+function elCreate() {
   trAddButton = select("#trAddButton");
-};
+}
 
 // DOM要素の設定
-elInit = () => {
+function elInit() {
   trAddButton.mousePressed(trAddButtonFunction);
-};
+}
 
 // setup関数
 function setup() {
