@@ -275,28 +275,6 @@ placeRefreshFunction = () => {
   thirdPlaceSelectDoc.addEventListener("change", thirdPlaceSelectFunction);
 };
 
-distanceRadioButtonFunction = () => {
-  if (distanceRadioButton.value() === "latlng") {
-    for (let i = 1; i <= Object.keys(dataInputArr).length; i++) {
-      const PARENT_ID = "placeNameInput" + i;
-      const PARENT = document.getElementById(PARENT_ID);
-      const CHILDREN = PARENT.children;
-      CHILDREN[1].children[0].innerHTML = "緯度";
-      CHILDREN[1].children[2].innerHTML = "経度";
-      CHILDREN[2].innerHTML = "地点" + i + "の名前、緯度、経度を入力してください。";
-    }
-  } else if (distanceRadioButton.value() === "meter") {
-    for (let i = 1; i <= Object.keys(dataInputArr).length; i++) {
-      const PARENT_ID = "placeNameInput" + i;
-      const PARENT = document.getElementById(PARENT_ID);
-      const CHILDREN = PARENT.children;
-      CHILDREN[1].children[0].innerHTML = "y方向";
-      CHILDREN[1].children[2].innerHTML = "x方向";
-      CHILDREN[2].innerHTML = "地点" + i + "の名前、y方向、x方向を入力してください。";
-    }
-  }
-};
-
 setRadioButtonFunction = () => {
   let ele1 = document.getElementById("widthDirectionInput");
   let ele2 = document.getElementById("depthDirectionMaxInput");
@@ -310,14 +288,21 @@ setRadioButtonFunction = () => {
     ele3.disabled = true;
   } else if (setRadioButton.value() === "manual") {
     let xMax = coordinateData.x.max;
-    let xMin = coordinateData.x.min;
     let zMax = coordinateData.z.max;
     let zMin = coordinateData.z.min;
-    ele1.value = (xMax - xMin) / 20;
+    ele1.value = xMax;
     ele2.value = zMax;
     ele3.value = zMin;
     ele1.disabled = false;
     ele2.disabled = false;
     ele3.disabled = false;
+  }
+};
+
+unitSelectFunction = () => {
+  if (unitSelect.value() === "latlng") {
+    document.getElementById("setWidthParent").hidden = true;
+  } else if (unitSelect.value() === "meter") {
+    document.getElementById("setWidthParent").hidden = false;
   }
 };

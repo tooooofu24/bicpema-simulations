@@ -14,11 +14,11 @@ class DOM {
       .class("input-group-text");
     this.placeNameInput = createInput().parent(this.inputGroup1).class("form-control").input(placeNameInputFunction);
     // input要素の下の部分
-    createElement("span", "緯度").parent(this.inputGroup2).class("input-group-text");
+    createElement("span", "y方向").parent(this.inputGroup2).class("input-group-text");
     this.yInput = createInput(0, "number").parent(this.inputGroup2).class("form-control");
-    createElement("span", "経度").parent(this.inputGroup2).class("input-group-text");
+    createElement("span", "x方向").parent(this.inputGroup2).class("input-group-text");
     this.xInput = createInput(0, "number").parent(this.inputGroup2).class("form-control");
-    createDiv("地点" + str(this.n) + "の名前、緯度、経度を入力してください。")
+    createDiv("地点" + str(this.n) + "の名前、y方向、x方向を入力してください。")
       .parent(this.parentDiv)
       .class("form-text");
     // サブウィンドウ生成用のDOM

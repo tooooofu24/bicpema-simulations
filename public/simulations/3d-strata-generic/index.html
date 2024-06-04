@@ -125,20 +125,28 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="scaleSetting">
                                 <div class="container">
-                                    <h3 class="mt-3">幅方向スケールの表し方</h3>
-                                    <div id="distanceRadioParent"></div>
-                                    <h3 class="mt-3">設定方法</h3>
-                                    <div id="setRadioParent"></div>
-                                    <div class="input-group">
-                                        <span class="input-group-text">幅方向の１メモリあたりの長さ</span>
-                                        <input type="number" class="form-control" id="widthDirectionInput" disabled>
+                                    <h3 class="mt-3">単位</h3>
+                                    <div>
+                                        <select id="unitSelect"></select>
                                     </div>
-                                    <div class="input-group">
-                                        <span class="input-group-text">深さ(下方向が正)</span>
-                                        <span class="input-group-text">最大値</span>
-                                        <input type="number" class="form-control" id="depthDirectionMaxInput" disabled>
-                                        <span class="input-group-text">最小値</span>
-                                        <input type="number" class="form-control" id="depthDirectionMinInput" disabled>
+                                    <div id="setRadioParent"></div>
+                                    <div id="setDepthParent">
+                                        <h3 class="mt-3">深さ方向(下方向が正)</h3>
+                                        <div class="input-group">
+                                            <span class="input-group-text">最大値</span>
+                                            <input type="number" class="form-control" id="depthDirectionMaxInput"
+                                                disabled>
+                                            <span class="input-group-text">最小値</span>
+                                            <input type="number" class="form-control" id="depthDirectionMinInput"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                    <div id="setWidthParent" hidden>
+                                        <h3 class="mt-3">幅方向</h3>
+                                        <div class="input-group">
+                                            <span class="input-group-text">幅方向の長さ</span>
+                                            <input type="number" class="form-control" id="widthDirectionInput" disabled>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

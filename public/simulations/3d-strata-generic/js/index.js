@@ -19,18 +19,9 @@ function draw() {
   if (dataRegisterModalIs) {
     orbitControl();
   }
+
   // 緯度や経度、深さに応じてスケールを計算する
-  if (setRadioButton.value() === "auto") {
-    coordinateData = calculateValue();
-  } else {
-    let ele1 = select("#widthDirectionInput");
-    let ele2 = select("#depthDirectionMaxInput");
-    let ele3 = select("#depthDirectionMinInput");
-    coordinateData.x.max = coordinateData.x.min + ele1.value() * 20;
-    coordinateData.y.max = coordinateData.y.min + ele1.value() * 20;
-    coordinateData.z.max = int(ele2.value());
-    coordinateData.z.min = int(ele3.value());
-  }
+  coordinateData = calculateValue(setRadioButton.value(), unitSelect.value());
 
   // 計算したスケールを実際に適応
   backgroundSetting(coordinateData);
@@ -52,5 +43,4 @@ function draw() {
 
 function windowResized() {
   canvasController.resizeScreen();
-  elementPositionInit();
 }
