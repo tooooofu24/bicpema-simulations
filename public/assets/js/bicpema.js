@@ -162,3 +162,61 @@ class BicpemaCar {
     image(img, this.posX - this.carWidth / 2, this.posY - this.carHeight / 2, this.carWidth, this.carHeight);
   }
 }
+
+// 3Dの座標系クラス
+class CoordinateSystem {
+  constructor(x = 500, y = 500, z = 500) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+  }
+
+  // x,y,z軸を描画するメソッド
+  line() {
+    stroke(255, 0, 0);
+    line(this.x, 0, 0, 0, 0, 0);
+    stroke(0, 255, 0);
+    line(0, this.y, 0, 0, 0, 0);
+    stroke(0, 0, 255);
+    line(0, 0, this.z, 0, 0, 0);
+  }
+
+  // x,y,z方向のスケールを描画するメソッド
+  scale() {
+    stroke(100, 100);
+    for (let x = 50; x <= this.x; x += 50) {
+      line(x, 0, 0, x, this.y, 0);
+      line(x, 0, 0, x, 0, this.z);
+    }
+    for (let y = 50; y <= this.y; y += 50) {
+      line(0, y, 0, this.x, y, 0);
+      line(0, y, 0, 0, y, this.z);
+    }
+    for (let z = 50; z <= this.z; z += 50) {
+      line(0, 0, z, this.x, 0, z);
+      line(0, 0, z, 0, this.y, z);
+    }
+  }
+
+  // x,y,z方向の軸ラベルを描画するメソッド
+  axisLabel(xLabel, yLabel, zLabel, size) {
+    fill(0);
+    textSize(size);
+
+    push();
+    translate(0, -size, 0);
+    text(xLabel, this.x / 2, 0);
+    pop();
+
+    push();
+    translate(-size, 0, 0);
+    text(yLabel, 0, this.y / 2);
+    pop();
+
+    push();
+    rotateY(PI / 2);
+    translate(0, -size, 0);
+    text(zLabel, -this.z / 2, 0);
+    pop();
+  }
+}
