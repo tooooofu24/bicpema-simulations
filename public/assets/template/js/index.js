@@ -2,6 +2,12 @@
 
 /////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
 
+// preload関数
+// setup関数よりも前に一度だけ呼び出される。
+function preload() {
+  font = loadFont("../../assets/fonts/ZenMaruGothic-Regular.ttf");
+}
+
 // setup関数
 // シミュレーションを実行する際に１度だけ呼び出される。
 function setup() {
