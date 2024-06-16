@@ -102,7 +102,7 @@ calculateValue = (setRadioButtonValue, unitSelectValue) => {
 };
 
 //背景を設定する関数
-backgroundSetting = (coordinateData) => {
+function backgroundSetting(coordinateData) {
   let xMin = coordinateData.x.min;
   let xMax = coordinateData.x.max;
   let yMin = coordinateData.y.min;
@@ -188,7 +188,7 @@ backgroundSetting = (coordinateData) => {
   translate(0, -50, 500);
   text(y, 0, -10);
   pop();
-};
+}
 
 // 子ウィンドウからデータを取得するための関数
 function submit(arr) {
@@ -311,7 +311,7 @@ drawStrata = (key, rotateTime, coordinateData) => {
   pop();
 };
 
-connectStrata = () => {
+function connectStrata() {
   let trNum = document.getElementById("strataSelect").childElementCount;
   let p1Name = select("#firstPlaceSelect").value();
   let p2Name = select("#secondPlaceSelect").value();
@@ -414,4 +414,4 @@ connectStrata = () => {
       createPlane2(p2[0], p2[1], p2Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p2[0], p2[1], p2Max);
     }
   }
-};
+}

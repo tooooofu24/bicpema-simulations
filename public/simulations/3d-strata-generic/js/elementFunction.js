@@ -1,5 +1,5 @@
 // 地点データの追加ボタンを押した時に動く関数
-placeAddButtonFunction = () => {
+function placeAddButtonFunction() {
   // 地点データの数を取得
   let placeNum = Object.keys(dataInputArr).length;
   // 新しく生成する地点データの番号
@@ -22,10 +22,10 @@ placeAddButtonFunction = () => {
     );
   };
   placeRefreshFunction();
-};
+}
 
 // 地点データの削除ボタンを押した時に動く関数
-placeRemoveButtonFunction = () => {
+function placeRemoveButtonFunction() {
   // 地点データの個数を取得
   let placeNum = Object.keys(dataInputArr).length;
   if (placeNum > 0) {
@@ -34,10 +34,10 @@ placeRemoveButtonFunction = () => {
     delete dataInputArr["地点" + placeNum];
   }
   placeRefreshFunction();
-};
+}
 
 // 平面を構成する地層の組を追加するボタンを押した時の処理
-strataAddButtonFunction = () => {
+function strataAddButtonFunction() {
   let NextTrNum = document.getElementById("strataSelect").childElementCount + 1;
   let tr = createElement("tr")
     .parent("strataSelect")
@@ -80,16 +80,16 @@ strataAddButtonFunction = () => {
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
-};
+}
 
 // 平面を構成する地層の組を削除するボタンを押した時の処理
-strataRemoveButtonFunction = () => {
+function strataRemoveButtonFunction() {
   let strataSelect = document.getElementById("strataSelect");
   if (strataSelect.childElementCount > 0) strataSelect.removeChild(strataSelect.lastChild);
-};
+}
 
 // 地点データが入力された時に動く関数
-placeNameInputFunction = () => {
+function placeNameInputFunction() {
   // 地点データの数
   let placeNum = Object.keys(dataInputArr).length;
   // データを編集するボタンのhtml要素を書き換える繰り返し
@@ -115,10 +115,10 @@ placeNameInputFunction = () => {
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
-};
+}
 
 // 平面を構成する１つ目の地点のデータに関連する処理
-firstPlaceSelectFunction = () => {
+function firstPlaceSelectFunction() {
   let firstPlaceSelect = select("#firstPlaceSelect");
   let firstPlaceName = document.getElementById("firstPlaceName");
   firstPlaceName.innerHTML = firstPlaceSelect.value();
@@ -152,10 +152,10 @@ firstPlaceSelectFunction = () => {
       }
     }
   }
-};
+}
 
 // 平面を構成する２つ目の地点のデータに関連する処理
-secondPlaceSelectFunction = () => {
+function secondPlaceSelectFunction() {
   let secondPlaceSelect = select("#secondPlaceSelect");
   let secondPlaceName = document.getElementById("secondPlaceName");
   secondPlaceName.innerHTML = secondPlaceSelect.value();
@@ -189,10 +189,10 @@ secondPlaceSelectFunction = () => {
       }
     }
   }
-};
+}
 
 // 平面を構成する３つ目の地点のデータに関連する処理
-thirdPlaceSelectFunction = () => {
+function thirdPlaceSelectFunction() {
   let thirdPlaceSelect = select("#thirdPlaceSelect");
   let thirdPlaceName = document.getElementById("thirdPlaceName");
   thirdPlaceName.innerHTML = thirdPlaceSelect.value();
@@ -226,17 +226,17 @@ thirdPlaceSelectFunction = () => {
       }
     }
   }
-};
+}
 
 // 平面を構成する地層の種類が変わったときの処理
-strataSelectFunction = () => {
+function strataSelectFunction() {
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
-};
+}
 
 // 平面を構成する地点を更新する処理
-placeRefreshFunction = () => {
+function placeRefreshFunction() {
   let firstPlaceSelect = select("#firstPlaceSelect");
   let secondPlaceSelect = select("#secondPlaceSelect");
   let thirdPlaceSelect = select("#thirdPlaceSelect");
@@ -273,9 +273,9 @@ placeRefreshFunction = () => {
   firstPlaceSelectDoc.addEventListener("change", firstPlaceSelectFunction);
   secondPlaceSelectDoc.addEventListener("change", secondPlaceSelectFunction);
   thirdPlaceSelectDoc.addEventListener("change", thirdPlaceSelectFunction);
-};
+}
 
-setRadioButtonFunction = () => {
+function setRadioButtonFunction() {
   let ele1 = document.getElementById("widthDirectionInput");
   let ele2 = document.getElementById("depthDirectionMaxInput");
   let ele3 = document.getElementById("depthDirectionMinInput");
@@ -297,12 +297,12 @@ setRadioButtonFunction = () => {
     ele2.disabled = false;
     ele3.disabled = false;
   }
-};
+}
 
-unitSelectFunction = () => {
+function unitSelectFunction() {
   if (unitSelect.value() === "latlng") {
     document.getElementById("setWidthParent").hidden = true;
   } else if (unitSelect.value() === "meter") {
     document.getElementById("setWidthParent").hidden = false;
   }
-};
+}

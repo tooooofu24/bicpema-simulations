@@ -1,15 +1,17 @@
 // settingInit関数
 // シミュレーションそのものの設定を行う関数
 let canvasController;
-settingInit = () => {
+let coordinateSystem;
+function settingInit() {
   canvasController = new BicpemaCanvasController(false, true);
+  coordinateSystem = new CoordinateSystem(1000, 1000, 1000);
   canvasController.fullScreen();
   frameRate(60);
   textAlign(CENTER);
   textSize(20);
   textFont(font);
   camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
-};
+}
 
 // elementSelectInit関数
 // 仮想DOMを読み込むための関数
@@ -20,7 +22,7 @@ let placeAddButton, placeRemoveButton;
 // 平面を構成する地層の組を追加、削除するボタン
 let strataAddButton, strataRemoveButton;
 let setRadioParent;
-elementSelectInit = () => {
+function elementSelectInit() {
   buttonParent = select("#buttonParent");
   screenshotButton = select("#screenshotButton");
   placeAddButton = select("#placeAddButton");
@@ -32,9 +34,9 @@ elementSelectInit = () => {
   setRadioButton = createRadio().parent(setRadioParent);
 
   unitSelect = select("#unitSelect");
-};
+}
 
-elementPositionInit = () => {
+function elementPositionInit() {
   buttonParent.position(5, 65);
   placeAddButton.mousePressed(placeAddButtonFunction);
   placeRemoveButton.mousePressed(placeRemoveButtonFunction);
@@ -47,7 +49,7 @@ elementPositionInit = () => {
   unitSelect.option("緯度・経度", "latlng");
   unitSelect.option("メートル", "meter");
   unitSelect.changed(unitSelectFunction);
-};
+}
 
 // 地点のデータを入力するインプットの連想配列
 let dataInputArr = {};
@@ -76,6 +78,6 @@ let dataInputArr = {};
 // }
 
 let rotateTime;
-valueInit = () => {
+function valueInit() {
   rotateTime = 0;
-};
+}

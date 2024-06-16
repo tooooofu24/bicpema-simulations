@@ -25,7 +25,8 @@ function draw() {
 
   // 計算したスケールを実際に適応
   backgroundSetting(coordinateData);
-
+  coordinateSystem.line();
+  coordinateSystem.scale();
   // 方位の描画
   drawDirMark(-600, -600);
 

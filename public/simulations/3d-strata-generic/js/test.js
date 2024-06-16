@@ -1,4 +1,4 @@
-loadTestDataButtonFunction = () => {
+function loadTestDataButtonFunction() {
   if (Object.keys(dataInputArr).length == 0) {
     let name_arr = ["南白糸台小", "警察学校", "府中第六中", "府中第四小", "飛田給小", "府中第二中", "石原小"];
     // let place_arr = [
@@ -14,10 +14,10 @@ loadTestDataButtonFunction = () => {
       // のいずれかから選択
       地点1: [
         // [-53, -36, "その他の層"],
-        [36, 35, "その他の層"],
-        [35, 34, "ローム層"],
-        [34, 29, "れき岩層"],
-        [29, 25, "砂岩層"],
+        [-36, -35, "その他の層"],
+        [-35, -34, "ローム層"],
+        [-34, -29, "れき岩層"],
+        [-29, -25, "砂岩層"],
       ],
       地点2: [
         // [-53, -46, "その他の層"],
@@ -72,4 +72,4 @@ loadTestDataButtonFunction = () => {
     }
     placeNameInputFunction();
   }
-};
+}
