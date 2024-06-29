@@ -65,8 +65,8 @@ let slider_b_denominator;
 
 //画像のダウンロード
 function preload() {
-  img = loadImage("earth_north_arrow.png");
-  img_2 = loadImage("arrow_sun.png");
+  img = loadImage("/simulations/sunset/earth_north_arrow.png");
+  img_2 = loadImage("/simulations/sunset/arrow_sun.png");
 }
 
 
