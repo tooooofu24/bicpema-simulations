@@ -29,9 +29,8 @@
     <div class="container-fluid" id="p5Container">
         <div id="p5Canvas">
         </div>
-        <div id="graphButton">
-            <button type="button" class="btn btn-secondary" id="graphButtonX_T">x-tグラフ</button>
-            <button type="button" class="btn btn-secondary" id="graphButtonV_T">v-tグラフ</button>
+        <div id="graphButtonParent">
+            <button type="button" class="btn btn-secondary" id="graphButton">グラフの切り替え</button>
         </div>
         <div id="graph" class="rounded border border-1">
             <canvas id="graphCanvas"></canvas>
@@ -48,7 +47,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-check" id="scaleCheckBoxParent">
-                            <input class="form-check-input" type="checkbox" value="" id="scaleCheckBox">
+                            <input class="form-check-input" type="checkbox" id="scaleCheckBox" checked>
                             <label class="form-check-label" for="scaleCheckBox">
                                 スケールの表示・非表示
                             </label>
