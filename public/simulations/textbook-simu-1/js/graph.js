@@ -1,0 +1,106 @@
+/**
+ * グラフを描画する。
+ */
+const graphDraw = () => {
+  let yCarData, rCarData;
+  let title, verticalAxisLabel, yMax;
+  if (graphData) {
+    yCarData = YELLOW_CAR.xarr;
+    rCarData = RED_CAR.xarr;
+    title = "x-tグラフ";
+    verticalAxisLabel = "移動距離 x [cm]";
+    yMax = 30;
+  } else {
+    yCarData = YELLOW_CAR.varr;
+    rCarData = RED_CAR.varr;
+    title = "v-tグラフ";
+    verticalAxisLabel = "速度 v [cm/s]";
+    yMax = 10;
+  }
+
+  if (typeof graphChart !== "undefined" && graphChart) {
+    graphChart.destroy();
+  }
+  let ctx = document.getElementById("graphCanvas").getContext("2d");
+  let data = {
+    datasets: [
+      {
+        label: "黄色い車のデータ",
+        showLine: true,
+        data: yCarData,
+        pointRadius: 0,
+        fill: true,
+        borderColor: "rgb(200, 200, 50)",
+      },
+      {
+        label: "赤い車のデータ",
+        data: rCarData,
+        showLine: true,
+        pointRadius: 0,
+        fill: true,
+        borderColor: "rgb(255, 0, 0)",
+      },
+    ],
+  };
+  let options = {
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        font: {
+          size: 20,
+        },
+      },
+      legend: {
+        labels: {
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        min: 0,
+        max: 10,
+        ticks: {
+          display: true,
+          font: {
+            size: 14,
+          },
+        },
+        title: {
+          display: true,
+          text: "経過時間 t [s]",
+          font: {
+            size: 16,
+          },
+        },
+      },
+      y: {
+        min: 0,
+        max: yMax,
+        ticks: {
+          display: true,
+          font: {
+            size: 14,
+          },
+        },
+        title: {
+          display: true,
+          text: verticalAxisLabel,
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+    animation: false,
+    maintainAspectRatio: false,
+  };
+  graphChart = new Chart(ctx, {
+    type: "scatter",
+    data: data,
+    options: options,
+  });
+};
