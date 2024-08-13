@@ -35,6 +35,8 @@ function setup() {
   textSize(14);
   textAlign(CENTER);
   frameRate(60);
+
+  graphData = true;
 }
 
 function draw() {

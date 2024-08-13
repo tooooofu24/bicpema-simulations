@@ -4,18 +4,23 @@
 const graphDraw = () => {
   let yCarData, rCarData;
   let title, verticalAxisLabel, yMax;
+
+  const YELLOW_CAR_SPEED = select("#yellowCarSpeedInput").value();
+  const RED_CAR_SPEED = select("#redCarSpeedInput").value();
+
+  yMax = max([YELLOW_CAR_SPEED, RED_CAR_SPEED]);
+
   if (graphData) {
     yCarData = YELLOW_CAR.xarr;
     rCarData = RED_CAR.xarr;
     title = "x-tグラフ";
     verticalAxisLabel = "移動距離 x [cm]";
-    yMax = 30;
+    yMax *= 10;
   } else {
     yCarData = YELLOW_CAR.varr;
     rCarData = RED_CAR.varr;
     title = "v-tグラフ";
     verticalAxisLabel = "速度 v [cm/s]";
-    yMax = 10;
   }
 
   if (typeof graphChart !== "undefined" && graphChart) {

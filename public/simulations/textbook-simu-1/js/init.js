@@ -46,6 +46,16 @@ const elInit = () => {
                 <input class="form-check-input" type="checkbox" id="scaleCheckBox" checked>
                 <label class="form-check-label" for="scaleCheckBox">スケールの表示・非表示</label>
               </div>
+              <div class="input-group mb-3 mt-3">
+                <span class="input-group-text" id="yellowCarSpeedLabel">黄色い車の速度</span>
+                <input type="number" min="1" class="form-control" placeholder="cm/s" aria-describedby="yellowCarSpeedLabel" id="yellowCarSpeedInput" value="3"/>
+                <span class="input-group-text">cm/s</span>
+              </div>
+              <div class="input-group mb-3 mt-3">
+                <span class="input-group-text" id="redCarSpeedLabel">赤い車の速度</span>
+                <input type="number" min="1" class="form-control" placeholder="cm/s" aria-describedby="redCarSpeedLabel" id="redCarSpeedInput" value="2"/>
+                <span class="input-group-text">cm/s</span>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
@@ -60,6 +70,9 @@ const elInit = () => {
     .attribute("tabindex", "-1")
     .attribute("aria-labelledby", "modalLabel")
     .attribute("aria-hidden", "true");
+
+  const YELLOW_CAR_SPEED_INPUT = select("#yellowCarSpeedInput").changed(initValue);
+  const RED_CAR_SPEED_INPUT = select("#redCarSpeedInput").changed(initValue);
 };
 
 const elSetting = () => {
@@ -91,14 +104,18 @@ let RED_CAR;
  * 変数やオブジェクトの初期化を行う。
  */
 const initValue = () => {
-  YELLOW_CAR = new CAR(0, CANVAS_HEIGHT / 2 - YELLOW_CAR_IMG.height - 50, YELLOW_CAR_IMG, 3, [], []);
-  RED_CAR = new CAR(0, CANVAS_HEIGHT - RED_CAR_IMAGE.height - 50, RED_CAR_IMAGE, 2, [], []);
-  graphData = true;
-  YELLOW_CAR.xarr = [];
-  RED_CAR.xarr = [];
-  YELLOW_CAR.varr = [];
-  RED_CAR.varr = [];
-  for (let i = 0; i <= 10; i++) {
+  const YELLOW_CAR_SPEED = select("#yellowCarSpeedInput").value();
+  const RED_CAR_SPEED = select("#redCarSpeedInput").value();
+  const yMin = min([YELLOW_CAR_SPEED, RED_CAR_SPEED]);
+  let carNum = 10;
+  if (Math.floor(20 / yMin) > 10) {
+    carNum = Math.floor(20 / yMin);
+  }
+
+  YELLOW_CAR = new CAR(0, CANVAS_HEIGHT / 2 - YELLOW_CAR_IMG.height - 50, YELLOW_CAR_IMG, YELLOW_CAR_SPEED, [], []);
+  RED_CAR = new CAR(0, CANVAS_HEIGHT - RED_CAR_IMAGE.height - 50, RED_CAR_IMAGE, RED_CAR_SPEED, [], []);
+
+  for (let i = 0; i <= carNum; i++) {
     YELLOW_CAR.xarr.push({ x: i, y: YELLOW_CAR.speed * i });
     RED_CAR.xarr.push({ x: i, y: RED_CAR.speed * i });
     YELLOW_CAR.varr.push({ x: i, y: YELLOW_CAR.speed });

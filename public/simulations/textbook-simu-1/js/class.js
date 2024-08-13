@@ -28,13 +28,15 @@ class CAR {
     stroke(255, 0, 0);
     strokeWeight(3);
     for (let i = 0; i < this.xarr.length; i++) {
-      image(this.img, (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 - this.img.width / 2, this.posy);
-      line(
-        (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
-        this.posy + this.img.height - 10,
-        (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
-        this.posy + this.img.height + 10
-      );
+      if ((this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 < this.posx) {
+        image(this.img, (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 - this.img.width / 2, this.posy);
+        line(
+          (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
+          this.posy + this.img.height - 10,
+          (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
+          this.posy + this.img.height + 10
+        );
+      }
     }
     this.posx += (50 * this.speed) / 60;
     tint(255);
