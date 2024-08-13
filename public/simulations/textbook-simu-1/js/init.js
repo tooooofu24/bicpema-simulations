@@ -1,5 +1,5 @@
 /**
- * HTML要素の位置の調整や、関数との紐付けを行う。
+ * DOM要素の静的な設定を行う。
  */
 const elInit = () => {
   /** グラフを描画するdiv要素 */
@@ -75,6 +75,9 @@ const elInit = () => {
   const RED_CAR_SPEED_INPUT = select("#redCarSpeedInput").changed(initValue);
 };
 
+/**
+ * DOM要素の動的に変化する設定を行う。
+ */
 const elSetting = () => {
   const GRAPH = select("#graph");
   const GRAPH_BUTTON_PARENT = select("#graphButtonParent");

@@ -56,11 +56,19 @@ function draw() {
    * @type p5.Element
    */
   const SCALE_CHECK_BOX = select("#scaleCheckBox");
+
   if (SCALE_CHECK_BOX.checked()) {
-    drawScale();
+    drawScale(0, CANVAS_HEIGHT / 2, CANVAS_WIDTH, 50);
+    drawScale(0, CANVAS_HEIGHT, CANVAS_WIDTH, 50);
   }
-  RED_CAR._draw();
-  YELLOW_CAR._draw();
+
+  RED_CAR.update();
+  YELLOW_CAR.update();
+  RED_CAR.drawTrajectory();
+  YELLOW_CAR.drawTrajectory();
+  RED_CAR.drawCar();
+  YELLOW_CAR.drawCar();
+
   graphDraw();
 }
 

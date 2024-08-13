@@ -1,22 +1,23 @@
 /**
  * スケールの表示をする。
+ *
+ * @param {*} x スケールのx座標
+ * @param {*} y スケールのy座標
+ * @param {number} w スケールの幅
+ * @param {number} h スケールの高さ
  */
-const drawScale = () => {
+const drawScale = (x, y, w, h) => {
   fill(255);
-  rect(0, CANVAS_HEIGHT / 2 - 50, CANVAS_WIDTH, 50);
-  rect(0, CANVAS_HEIGHT - 50, CANVAS_WIDTH, 50);
+  rect(x, y - h, w, h);
   fill(0);
   stroke(0);
   strokeWeight(1);
-  for (let x = 0; x <= CANVAS_WIDTH; x += 5) {
-    if (x % 50 == 0) {
-      line(x, CANVAS_HEIGHT / 2 - 50, x, CANVAS_HEIGHT / 2 - 30);
-      text(x / 50, x, CANVAS_HEIGHT / 2 - 10);
-      line(x, CANVAS_HEIGHT - 50, x, CANVAS_HEIGHT - 30);
-      text(x / 50, x, CANVAS_HEIGHT - 10);
+  for (let i = 0; i <= w; i += 5) {
+    if (i % 50 == 0) {
+      line(i, y - h, i, y - 30);
+      text(i / 50, i, y - 10);
     } else {
-      line(x, CANVAS_HEIGHT / 2 - 50, x, CANVAS_HEIGHT / 2 - 40);
-      line(x, CANVAS_HEIGHT - 50, x, CANVAS_HEIGHT - 40);
+      line(i, y - h, i, y - 40);
     }
   }
 };

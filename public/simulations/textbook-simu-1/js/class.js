@@ -21,9 +21,16 @@ class CAR {
   }
 
   /**
-   * 車の動きを更新し描画する。
+   * 座標をアップデートする。
    */
-  _draw() {
+  update = () => {
+    this.posx += (50 * this.speed) / 60;
+  };
+
+  /**
+   * 軌跡の描画を行う。
+   */
+  drawTrajectory = () => {
     tint(255, 150);
     stroke(255, 0, 0);
     strokeWeight(3);
@@ -38,8 +45,13 @@ class CAR {
         );
       }
     }
-    this.posx += (50 * this.speed) / 60;
+  };
+
+  /**
+   * 車の描画を行う。
+   */
+  drawCar = () => {
     tint(255);
     image(this.img, this.posx - this.img.width / 2, this.posy);
-  }
+  };
 }

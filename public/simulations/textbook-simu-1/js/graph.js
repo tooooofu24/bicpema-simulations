@@ -2,7 +2,7 @@
  * グラフを描画する。
  */
 const graphDraw = () => {
-  let yCarData, rCarData;
+  let yellowCarData, redCarData;
   let title, verticalAxisLabel, yMax;
 
   const YELLOW_CAR_SPEED = select("#yellowCarSpeedInput").value();
@@ -11,14 +11,14 @@ const graphDraw = () => {
   yMax = max([YELLOW_CAR_SPEED, RED_CAR_SPEED]);
 
   if (graphData) {
-    yCarData = YELLOW_CAR.xarr;
-    rCarData = RED_CAR.xarr;
+    yellowCarData = YELLOW_CAR.xarr;
+    redCarData = RED_CAR.xarr;
     title = "x-tグラフ";
     verticalAxisLabel = "移動距離 x [cm]";
     yMax *= 10;
   } else {
-    yCarData = YELLOW_CAR.varr;
-    rCarData = RED_CAR.varr;
+    yellowCarData = YELLOW_CAR.varr;
+    redCarData = RED_CAR.varr;
     title = "v-tグラフ";
     verticalAxisLabel = "速度 v [cm/s]";
   }
@@ -32,14 +32,14 @@ const graphDraw = () => {
       {
         label: "黄色い車のデータ",
         showLine: true,
-        data: yCarData,
+        data: yellowCarData,
         pointRadius: 0,
         fill: true,
         borderColor: "rgb(200, 200, 50)",
       },
       {
         label: "赤い車のデータ",
-        data: rCarData,
+        data: redCarData,
         showLine: true,
         pointRadius: 0,
         fill: true,
