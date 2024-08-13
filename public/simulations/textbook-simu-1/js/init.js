@@ -86,8 +86,7 @@ const elSetting = () => {
     GRAPH.position(windowWidth / 2 - width / 4, height + 125).size(width / 2, width / 2);
     GRAPH_BUTTON_PARENT.position(windowWidth / 2 - width / 4, height + width / 2 + 140);
   }
-  const MODAL_BUTTON = select("#modalButton");
-  MODAL_BUTTON.position(windowWidth / 2 + width / 2 - MODAL_BUTTON.width, 60 + height + 10);
+  const MODAL_BUTTON = select("#modalButton").position(windowWidth / 2 - width / 2, 60 + height + 10);
 };
 
 /**
