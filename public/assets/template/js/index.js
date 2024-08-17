@@ -5,7 +5,7 @@
 // preload関数
 // setup関数よりも前に一度だけ呼び出される。
 function preload() {
-  font = loadFont("../../assets/fonts/ZenMaruGothic-Regular.ttf");
+  font = loadFont("/assets/fonts/ZenMaruGothic-Regular.ttf");
 }
 
 // setup関数
