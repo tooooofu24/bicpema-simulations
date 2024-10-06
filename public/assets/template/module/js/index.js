@@ -4,7 +4,7 @@
 
 import p5 from "https://cdn.jsdelivr.net/npm/p5@1.11.0/+esm";
 import { elementPositionInit, elementSelectInit, settingInit, valueInit } from "./init.js";
-import { BicpemaCanvasController } from "../../../assets/js/bicpema/canvas/CanvasController.js";
+import { CanvasController } from "../../../assets/js/bicpema/canvas/CanvasController.js";
 const sketch = (p) => {
   let font;
   p.preload = function () {
@@ -13,7 +13,7 @@ const sketch = (p) => {
 
   let canvasController;
   p.setup = function () {
-    canvasController = new BicpemaCanvasController(p);
+    canvasController = new CanvasController(p);
     canvasController.fullScreen();
     settingInit(p, font);
     elementSelectInit();
