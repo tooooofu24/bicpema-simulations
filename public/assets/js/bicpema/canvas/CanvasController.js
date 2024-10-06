@@ -1,4 +1,4 @@
-import { ObjectByIdNotFoundError } from "../Error/ObjectByIdNotFoundError.js";
+import { ObjectByIdNotFoundError } from "../error/ObjectByIdNotFoundError.js";
 /**
  * BicpemaCanvasControllerクラス
  *
