@@ -1,10 +1,10 @@
-import { ObjectByIdNotFoundError } from "../Error/ObjectNotFoundError.js";
+import { ObjectByIdNotFoundError } from "../Error/ObjectByIdNotFoundError.js";
 /**
  * BicpemaCanvasControllerクラス
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-export class BicpemaCanvasController {
+export class CanvasController {
   /**
    * @constructor
    * @param {p5instance} p p5.jsのインスタンス
