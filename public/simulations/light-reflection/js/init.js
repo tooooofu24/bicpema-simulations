@@ -76,16 +76,16 @@ function valueInit() {
   resetbutton.position((windowWidth - width) / 2, height + 70)
   //円の大きさを変えるボタン
   ellipseButton = createButton("円を大きく");
-  ellipseButton.size(width / 16, 30)
+  ellipseButton.size(width / 13, 30)
   ellipseButton.mousePressed(ellipseChange)
-  ellipseButton.position((windowWidth - width) / 2 + 100, height + 70)
+  ellipseButton.position((windowWidth - width) / 2 + 105, height + 70)
 
   //入力フィールド
   input = createInput()
   input.size(1.2 * width / 16, 25);
   input.position((windowWidth - width) / 2 + 150, height + 102)
   let suuzibutton = createButton("決定")
-  suuzibutton.size(width / 32, 30)
+  suuzibutton.size(width / 20, 30)
   suuzibutton.position((windowWidth - width) / 2 + 270, height + 100)
   suuzibutton.mousePressed(clicked);
   let labelDiv = createDiv('');
@@ -97,9 +97,9 @@ function valueInit() {
 
   //マウス操作に戻るボタン
   let mouse_button = createButton("スライダー操作に戻る");
-  mouse_button.size(1.5 * width / 16, 30);
+  mouse_button.size(width / 7, 30);
   mouse_button.mousePressed(modoru)
-  mouse_button.position((windowWidth - width) / 2 + 200, height + 70)
+  mouse_button.position((windowWidth - width) / 2 + 230, height + 70)
 
   //angleのスライダー
   angleslider = createSlider(-90, 90, 0, 0.1)
@@ -108,11 +108,11 @@ function valueInit() {
 
   //強度の表示
   myDiv = createDiv('')
-  myDiv.position((windowWidth - width) / 2 + 400, height + 60);
+  myDiv.position((windowWidth - width) / 2 + 470, height + 60);
   myDiv.style('font-size', '28px');
   myDiv.style('color', 'white')
   yourDiv = createDiv('')
-  yourDiv.position((windowWidth - width) / 2 + 400, height + 95)
+  yourDiv.position((windowWidth - width) / 2 + 470, height + 95)
   yourDiv.style('font-size', '28px');
   yourDiv.style('color', 'white');
 
