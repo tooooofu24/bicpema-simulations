@@ -67,18 +67,18 @@ function valueInit() {
   changebutton = createButton(" 空気中から媒質中に変える");
   //radio.position(0,windowHeight)
   changebutton.size(190, 30);
-  changebutton.position(windowWidth / 2 + 300, height + 20)
+  changebutton.position(windowWidth / 2 + (windowWidth - width) / 2, height + 20)
   changebutton.mousePressed(changemuki)
   //リセットボタン
   resetbutton = createButton("リセット")
-  resetbutton.size(width / 16, 30);
+  resetbutton.size(width / 13, 30);
   resetbutton.mousePressed(resetAngle);
   resetbutton.position((windowWidth - width) / 2, height + 70)
   //円の大きさを変えるボタン
   ellipseButton = createButton("円を大きく");
-  ellipseButton.size(width / 13, 30)
+  ellipseButton.size(width / 11, 30)
   ellipseButton.mousePressed(ellipseChange)
-  ellipseButton.position((windowWidth - width) / 2 + 105, height + 70)
+  ellipseButton.position((windowWidth - width) / 2 + 125, height + 70)
 
   //入力フィールド
   input = createInput()
@@ -97,9 +97,9 @@ function valueInit() {
 
   //マウス操作に戻るボタン
   let mouse_button = createButton("スライダー操作に戻る");
-  mouse_button.size(width / 7, 30);
+  mouse_button.size(width / 6, 30);
   mouse_button.mousePressed(modoru)
-  mouse_button.position((windowWidth - width) / 2 + 230, height + 70)
+  mouse_button.position((windowWidth - width) / 2 + 280, height + 70)
 
   //angleのスライダー
   angleslider = createSlider(-90, 90, 0, 0.1)
@@ -108,11 +108,11 @@ function valueInit() {
 
   //強度の表示
   myDiv = createDiv('')
-  myDiv.position((windowWidth - width) / 2 + 470, height + 60);
+  myDiv.position(windowWidth / 2, height + 60);
   myDiv.style('font-size', '28px');
   myDiv.style('color', 'white')
   yourDiv = createDiv('')
-  yourDiv.position((windowWidth - width) / 2 + 470, height + 95)
+  yourDiv.position(windowWidth / 2, height + 95)
   yourDiv.style('font-size', '28px');
   yourDiv.style('color', 'white');
 
