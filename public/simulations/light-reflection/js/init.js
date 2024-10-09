@@ -54,7 +54,11 @@ let reflactivenumberDiv
 let chanmuki = true
 let isRadioChanged = true
 let angle
-
+let changebuttontext = "空気中から媒質中に変える"
+let resetbuttontext = "リセット"
+let ellipseButtontext = "円を大きく"
+let suuzibuttontext = "決定"
+let mouse_buttontext = "スライダー操作に戻る"
 
 
 
@@ -62,31 +66,36 @@ function valueInit() {
   //angles.push(0); //初期角度の設定(０度から)
   let centerX = 500;
   let centerY = 500 * 9 / 16;
+  textSize(32)
 
   //切り替え
-  changebutton = createButton(" 空気中から媒質中に変える");
+  changebutton = createButton("空気中から媒質中に変える");
   //radio.position(0,windowHeight)
-  changebutton.size(190, 30);
+  let changebuttontextwidth = textWidth(changebuttontext)
+  changebutton.size(changebuttontextwidth + 10, 30);
   changebutton.position(windowWidth / 2 + (windowWidth - width) / 2, height + 20)
   changebutton.mousePressed(changemuki)
   //リセットボタン
-  resetbutton = createButton("リセット")
-  resetbutton.size(width / 13, 30);
+  resetbutton = createButton(resetbuttontext)
+  let resetbuttontextwidth = textWidth(resetbuttontext)
+  resetbutton.size(resetbuttontextwidth + 10, 30);
   resetbutton.mousePressed(resetAngle);
   resetbutton.position((windowWidth - width) / 2, height + 70)
   //円の大きさを変えるボタン
-  ellipseButton = createButton("円を大きく");
-  ellipseButton.size(width / 11, 30)
+  ellipseButton = createButton(ellipseButtontext);
+  let ellipsebuttontextwidth = textWidth(ellipseButtontext)
+  ellipseButton.size(ellipsebuttontextwidth + 10, 30)
   ellipseButton.mousePressed(ellipseChange)
-  ellipseButton.position((windowWidth - width) / 2 + 125, height + 70)
+  ellipseButton.position(resetbutton.x + resetbutton.width, height + 70)
 
   //入力フィールド
   input = createInput()
   input.size(1.2 * width / 16, 25);
   input.position((windowWidth - width) / 2 + 150, height + 102)
   let suuzibutton = createButton("決定")
-  suuzibutton.size(width / 20, 30)
-  suuzibutton.position((windowWidth - width) / 2 + 270, height + 100)
+  let suuzibuttontextwidth = textWidth(suuzibuttontext)
+  suuzibutton.size(suuzibuttontextwidth + 10, 30)
+  suuzibutton.position(input.width + input.x, height + 100)
   suuzibutton.mousePressed(clicked);
   let labelDiv = createDiv('');
   labelDiv.html('<span>入射光の角度(0～90)</span>');  // ボタンの横にテキスト
@@ -95,11 +104,12 @@ function valueInit() {
   input.input(handleInputChange)
 
 
-  //マウス操作に戻るボタン
+  //スライダー操作に戻るボタン
   let mouse_button = createButton("スライダー操作に戻る");
-  mouse_button.size(width / 6, 30);
+  let mouse_buttontextwidth = textWidth(mouse_buttontext)
+  mouse_button.size(mouse_buttontextwidth + 10, 30);
   mouse_button.mousePressed(modoru)
-  mouse_button.position((windowWidth - width) / 2 + 280, height + 70)
+  mouse_button.position(ellipseButton.x + ellipseButton.width, height + 70)
 
   //angleのスライダー
   angleslider = createSlider(-90, 90, 0, 0.1)
