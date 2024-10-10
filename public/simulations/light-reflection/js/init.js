@@ -72,8 +72,8 @@ function valueInit() {
   changebutton = createButton("空気中から媒質中に変える");
   //radio.position(0,windowHeight)
   let changebuttontextwidth = textWidth(changebuttontext)
-  changebutton.size(changebuttontextwidth + 10, 30);
-  changebutton.position(windowWidth / 2 + (windowWidth - width) / 2, height + 20)
+  changebutton.size(changebuttontextwidth + 2, 30);
+  changebutton.position(windowWidth * 9 / 16, height + 20)
   changebutton.mousePressed(changemuki)
   //リセットボタン
   resetbutton = createButton(resetbuttontext)
@@ -107,22 +107,22 @@ function valueInit() {
   //スライダー操作に戻るボタン
   let mouse_button = createButton("スライダー操作に戻る");
   let mouse_buttontextwidth = textWidth(mouse_buttontext)
-  mouse_button.size(mouse_buttontextwidth + 10, 30);
+  mouse_button.size(mouse_buttontextwidth + 2, 30);
   mouse_button.mousePressed(modoru)
   mouse_button.position(ellipseButton.x + ellipseButton.width, height + 70)
 
   //angleのスライダー
   angleslider = createSlider(-90, 90, 0, 0.1)
-  angleslider.position((windowWidth - width) / 2 + 270, height + 25)
+  angleslider.position((windowWidth - width) / 2 + width * 3 / 50 + textWidth("分度器の回転"), height + 25)
   angleslider.style('width', '200px')
 
   //強度の表示
   myDiv = createDiv('')
-  myDiv.position(windowWidth / 2, height + 60);
+  myDiv.position(windowWidth / 2, height + 115);
   myDiv.style('font-size', '28px');
   myDiv.style('color', 'white')
   yourDiv = createDiv('')
-  yourDiv.position(windowWidth / 2, height + 95)
+  yourDiv.position(windowWidth / 2, height + 145)
   yourDiv.style('font-size', '28px');
   yourDiv.style('color', 'white');
 
