@@ -159,3 +159,7 @@ function valueInit() {
   //p5Canvas.style('border', '10px solid #9E9E9E')
 
 }
+
+function windowResized() {
+  valueInit()
+}

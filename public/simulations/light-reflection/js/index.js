@@ -32,6 +32,11 @@ function changemuki() {
   }
 }
 
+function windowResized() {
+  canvasController.resizeScreen();
+}
+
+
 
 // draw関数
 // シミュレーションを実行した後、繰り返し呼び出され続ける
