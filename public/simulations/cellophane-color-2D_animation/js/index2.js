@@ -29,7 +29,7 @@ function preload() {
     cmfTable = loadTable("/simulations/cellophane-color-2D_animation/data/cmf.csv", "csv", "header") // 等色関数のデータ
     osTable = loadTable("/simulations/cellophane-color-2D_animation/data/os_PC.csv", "csv", "header") // 偏光板を一枚通したときの波長毎の強度分布
     dTable = loadTable("/simulations/cellophane-color-2D_animation/data/data_d_100.csv", "csv", "header")//光路差の分散特性(380nmで100に規格化)
-    img = loadImage("white.png");
+    img = loadImage("/simulations/cellophane-color-2D_animation/white.png");
 }
 
 
