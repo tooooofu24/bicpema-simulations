@@ -7,7 +7,7 @@
 let img
 function preload() {
   font = loadFont("/assets/fonts/ZenMaruGothic-Regular.ttf");
-  img = loadImage("/simulations/raman/炭酸塩鉱物.jpg")
+  img = loadImage("/simulations/carbonate_mineral/炭酸塩鉱物.jpg")
 }
 
 // setup関数
