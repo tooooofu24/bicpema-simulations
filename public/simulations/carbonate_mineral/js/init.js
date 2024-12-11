@@ -28,8 +28,30 @@ function elementSelectInit() {
 
 // elementPositionInit関数
 // 仮想DOMの場所や実行関数を設定するための関数
-function elementPositionInit() {}
+function elementPositionInit() { }
 
 // valueInit関数
 // 初期値を設定するための関数
-function valueInit() {}
+let radio;
+function valueInit() {
+  background(255);
+  radio = createRadio()
+  radio.option("a.");
+  radio.option("b.");
+  radio.option("c.");
+  radio.option("d.");
+  radio.position(width * 3.15 / 4, height * 6.95 / 7);
+  // すべてのラジオボタンを取得してサイズ変更
+  // すべてのラジオボタンを取得してサイズ変更
+  let inputs = radio.elt.querySelectorAll('input[type="radio"]');
+  inputs.forEach(input => {
+    input.style.transform = 'scale(1.5)'; // サイズ変更
+    input.style.marginRight = '5px';     // ラベルとの間隔
+  });
+
+  // ラジオボタンを囲む親要素（<div>）に間隔を追加
+  let divs = radio.elt.querySelectorAll('div');
+  divs.forEach(div => {
+    div.style.marginBottom = '40px'; // ボタン同士の間隔を設定
+  });
+}
